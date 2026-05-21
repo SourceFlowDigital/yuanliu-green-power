@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <title>源流绿电直连自测工具</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #1a7c6e;
+      --pass: #1a7c6e;
+      --warn: #d97706;
+      --deny: #dc2626;
+      --bg: #f5f7f6;
+      --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      --radius: 12px;
+      --text: #1a1a1a;
+      --text-secondary: #666;
+      --text-muted: #999;
+      --border: #e0e4e2;
+    }
+
+    html { -webkit-text-size-adjust: 100%; }
+
+    body {
+      font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .app {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 16px;
+      padding-bottom: 32px;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      padding: 20px 0 12px;
+    }
+
+    .header h1 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: 0.5px;
+    }
+
+    .header p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 16px;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 12px 6px;
+      background: none;
+      border: none;
+      font-size: 14px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      position: relative;
+      font-family: inherit;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .tab-btn.active {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 15%;
+      right: 15%;
+      height: 2px;
+      background: var(--primary);
+      border-radius: 1px;
+    }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* Cards */
+    .card {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--card-shadow);
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+
+    .step-label {
+      display: inline-block;
+      font-size: 12px;
+      color: var(--primary);
+      background: rgba(26, 124, 110, 0.1);
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+
+    .step { display: none; }
+    .step.visible { display: block; }
+
+    /* Option cards (radio) */
+    .option-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .option-card {
+      display: block;
+      padding: 12px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .option-card input {
+      display: none;
+    }
+
+    .option-card .option-title {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .option-card .option-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    .option-card.selected {
+      border-color: var(--primary);
+      background: rgba(26, 124, 110, 0.06);
+    }
+
+    .option-card.selected .option-title {
+      color: var(--primary);
+    }
+
+    /* Checkbox items */
+    .checkbox-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid #f0f0f0;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .checkbox-item:last-child { border-bottom: none; }
+
+    .checkbox-item input {
+      margin-top: 3px;
+      flex-shrink: 0;
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary);
+    }
+
+    .checkbox-item label {
+      font-size: 14px;
+      cursor: pointer;
+      flex: 1;
+    }
+
+    .sub-group {
+      margin: 8px 0 8px 28px;
+      padding: 12px;
+      background: #f9faf9;
+      border-radius: 8px;
+      border-left: 3px solid var(--primary);
+    }
+
+    .sub-group p {
+      font-size: 13px;
+      margin-bottom: 8px;
+      color: var(--text-secondary);
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .btn:active { opacity: 0.85; }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      width: 100%;
+      margin-top: 12px;
+    }
+
+    .btn-secondary {
+      background: #fff;
+      color: var(--primary);
+      border: 1px solid var(--primary);
+      flex: 1;
+    }
+
+    .btn-outline {
+      background: #fff;
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+      flex: 1;
+    }
+
+    .hint {
+      font-size: 12px;
+      color: var(--warn);
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    .error-hint {
+      font-size: 12px;
+      color: var(--deny);
+      margin-top: 4px;
+    }
+
+    /* Input fields */
+    .field-row {
+      margin-bottom: 14px;
+    }
+
+    .field-row label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    .field-row .unit {
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-weight: 400;
+    }
+
+    .input-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .input-wrap input[type="number"] {
+      flex: 1;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 16px;
+      font-family: inherit;
+      background: #fff;
+      -webkit-appearance: none;
+    }
+
+    .input-wrap input[type="number"]:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .input-wrap .suffix {
+      font-size: 13px;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+
+    .year-options {
+      display: flex;
+      gap: 10px;
+    }
+
+    .year-option {
+      flex: 1;
+      padding: 10px 6px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      text-align: center;
+      font-size: 13px;
+      cursor: pointer;
+      background: #fff;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .year-option.selected {
+      border-color: var(--primary);
+      background: rgba(26, 124, 110, 0.08);
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    /* Output */
+    .output-area {
+      display: none;
+      margin-top: 16px;
+    }
+
+    .output-area.visible { display: block; }
+
+    .result-card {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--card-shadow);
+      overflow: hidden;
+      border: 1px solid #eee;
+    }
+
+    .result-header {
+      padding: 16px;
+      text-align: center;
+    }
+
+    .result-header.pass { background: rgba(26, 124, 110, 0.08); }
+    .result-header.warn { background: rgba(217, 119, 6, 0.08); }
+    .result-header.deny { background: rgba(220, 38, 38, 0.08); }
+
+    .result-icon {
+      font-size: 32px;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .result-title {
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .result-header.pass .result-title { color: var(--pass); }
+    .result-header.warn .result-title { color: var(--warn); }
+    .result-header.deny .result-title { color: var(--deny); }
+
+    .result-subtitle {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-top: 6px;
+      line-height: 1.6;
+      text-align: left;
+    }
+
+    .result-body { padding: 16px; }
+
+    .result-section {
+      margin-bottom: 14px;
+    }
+
+    .result-section:last-child { margin-bottom: 0; }
+
+    .result-section h4 {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .result-section ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .result-section li {
+      font-size: 14px;
+      padding: 6px 0;
+      border-bottom: 1px solid #f5f5f5;
+      line-height: 1.5;
+    }
+
+    .result-section li:last-child { border-bottom: none; }
+
+    .star-badge {
+      display: inline-block;
+      background: rgba(26, 124, 110, 0.12);
+      color: var(--primary);
+      font-size: 12px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-left: 4px;
+    }
+
+    .metric-card {
+      background: #fff;
+      border: 1px solid #eee;
+      border-radius: var(--radius);
+      padding: 14px;
+      margin: 0 16px 10px;
+    }
+
+    .metric-card:first-child { margin-top: 16px; }
+
+    .metric-name {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .metric-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .metric-conclusion {
+      font-size: 14px;
+      margin-top: 8px;
+      font-weight: 500;
+    }
+
+    .metric-fix {
+      font-size: 12px;
+      color: var(--deny);
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+
+    .metric-card.pass { border-left: 3px solid var(--pass); }
+    .metric-card.fail { border-left: 3px solid var(--deny); }
+
+    .notice-box {
+      margin: 0 16px 16px;
+      padding: 12px;
+      background: #f9faf9;
+      border-radius: 8px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .result-footer {
+      padding: 12px 16px;
+      border-top: 1px solid #f0f0f0;
+      text-align: center;
+    }
+
+    .btn-reset {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      padding: 8px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-muted);
+      padding: 24px 0 8px;
+      line-height: 1.8;
+    }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1>源流绿电直连自测工具</h1>
+      <p>绿电直连政策适用性与合规比例测算</p>
+    </header>
+
+    <nav class="tabs">
+      <button class="tab-btn active" data-tab="module1">模块一 · 适用性判断</button>
+      <button class="tab-btn" data-tab="module2">模块二 · 合规计算</button>
+    </nav>
+
+    <!-- ========== 模块一 ========== -->
+    <div id="module1" class="tab-panel active">
+
+      <!-- Step 0 -->
+      <div id="step0" class="step visible card">
+        <span class="step-label">Step 0</span>
+        <div class="card-title">请先确认以下情况均不涉及您的项目</div>
+        <div class="form-group">
+          <div class="checkbox-item">
+            <input type="checkbox" id="pre0">
+            <label for="pre0">项目用户含居民或农业用户</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="pre1">
+            <label for="pre1">项目用户不是多个不同法人实体</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="pre2">
+            <label for="pre2">园区项目拟由公共电网企业担任主责单位</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="pre3">
+            <label for="pre3">项目不符合国家产业政策或存在违法违规情形</label>
+          </div>
+        </div>
+        <button type="button" id="step0-continue" class="btn btn-primary hidden">继续判断</button>
+      </div>
+
+      <!-- Step 1 -->
+      <div id="step1" class="step card">
+        <span class="step-label">Step 1</span>
+        <div class="card-title">电源类型</div>
+        <div class="option-cards" id="source-cards">
+          <label class="option-card" data-value="wind">
+            <input type="radio" name="sourceType" value="wind">
+            <div class="option-title">风电</div>
+          </label>
+          <label class="option-card" data-value="solar">
+            <input type="radio" name="sourceType" value="solar">
+            <div class="option-title">光伏（太阳能发电）</div>
+          </label>
+          <label class="option-card" data-value="biomass">
+            <input type="radio" name="sourceType" value="biomass">
+            <div class="option-title">生物质发电</div>
+          </label>
+          <label class="option-card" data-value="combo">
+            <input type="radio" name="sourceType" value="combo">
+            <div class="option-title">组合（含两种及以上）</div>
+          </label>
+          <label class="option-card" data-value="other">
+            <input type="radio" name="sourceType" value="other">
+            <div class="option-title">其他新能源</div>
+          </label>
+          <label class="option-card" data-value="non-renewable">
+            <input type="radio" name="sourceType" value="non-renewable">
+            <div class="option-title">非新能源电源</div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div id="step2" class="step card">
+        <span class="step-label">Step 2</span>
+        <div class="card-title">适用场景（可多选）</div>
+        <div class="form-group">
+          <div class="checkbox-item">
+            <input type="checkbox" id="sceneA" value="A">
+            <label for="sceneA">A. 新建负荷</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="sceneB" value="B">
+            <label for="sceneB">B. 存量单用户绿电直连项目扩建</label>
+          </div>
+          <div id="subB" class="sub-group hidden">
+            <p>是否已有单用户绿电直连项目基础？</p>
+            <div class="btn-row">
+              <button type="button" class="btn btn-secondary" id="btnB-yes">有</button>
+              <button type="button" class="btn btn-outline" id="btnB-no">没有</button>
+            </div>
+            <p id="subB-hint" class="hint hidden"></p>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="sceneC" value="C">
+            <label for="sceneC">C. 有绿色电力消费需求的用户</label>
+          </div>
+          <div id="subC" class="sub-group hidden">
+            <div class="checkbox-item">
+              <input type="checkbox" id="c1" value="c-ratio">
+              <label for="c1">有绿色电力消费比例要求的企业</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="c2" value="c-energy">
+              <label for="c2">重点用能企业</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="c3" value="c-carbon">
+              <label for="c3">碳排放企业</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="c4" value="c-export">
+              <label for="c4">出口外向型企业及其上下游</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="c5" value="c-datacenter" data-star="true">
+              <label for="c5">算力设施（数据中心）⭐</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="c6" value="c-hydrogen" data-star="true">
+              <label for="c6">绿色氢氨醇生产⭐</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="c7" value="c-other">
+              <label for="c7">其他有绿电消费需求的工商业用户</label>
+            </div>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="sceneD" value="D">
+            <label for="sceneD">D. 工业园区 / 零碳园区</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="sceneE" value="E">
+            <label for="sceneE">E. 增量配电网</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="sceneF" value="F">
+            <label for="sceneF">F. 存量新能源项目转型</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="sceneG" value="G">
+            <label for="sceneG">G. 分布式光伏集中汇流</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div id="step3" class="step card">
+        <span class="step-label">Step 3</span>
+        <div class="card-title">项目类型</div>
+        <div class="option-cards" id="type-cards">
+          <label class="option-card" data-value="grid">
+            <input type="radio" name="projectType" value="grid">
+            <div class="option-title">并网型</div>
+            <div class="option-desc">整体接入公共电网</div>
+          </label>
+          <label class="option-card" data-value="offgrid">
+            <input type="radio" name="projectType" value="offgrid">
+            <div class="option-title">离网型</div>
+            <div class="option-desc">不接入公共电网</div>
+          </label>
+        </div>
+        <button type="button" id="btn-judge" class="btn btn-primary hidden">生成判断结果</button>
+      </div>
+
+      <!-- 模块一输出 -->
+      <div id="output1" class="output-area">
+        <div class="result-card">
+          <div class="result-header" id="result1-header">
+            <div class="result-icon" id="result1-icon"></div>
+            <div class="result-title" id="result1-title"></div>
+            <div class="result-subtitle" id="result1-subtitle"></div>
+          </div>
+          <div class="result-body" id="result1-body"></div>
+          <div class="result-footer">
+            <button type="button" class="btn-reset" id="reset1">重新判断</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== 模块二 ========== -->
+    <div id="module2" class="tab-panel">
+      <div class="card">
+        <div class="card-title">合规比例计算</div>
+
+        <div class="field-row">
+          <label>年总可用发电量 <span class="unit">（万kWh）</span></label>
+          <div class="input-wrap">
+            <input type="number" id="totalGen" min="0" step="any" placeholder="请输入">
+            <span class="suffix">万kWh</span>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <label>年自发自用电量 <span class="unit">（万kWh）</span></label>
+          <div class="input-wrap">
+            <input type="number" id="selfUse" min="0" step="any" placeholder="请输入">
+            <span class="suffix">万kWh</span>
+          </div>
+          <p id="selfUse-error" class="error-hint hidden">自发自用电量不能超过总可用发电量</p>
+        </div>
+
+        <div class="field-row">
+          <label>年总用电量 <span class="unit">（万kWh）</span></label>
+          <div class="input-wrap">
+            <input type="number" id="totalLoad" min="0" step="any" placeholder="请输入">
+            <span class="suffix">万kWh</span>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <label>年上网电量 <span class="unit">（万kWh）</span></label>
+          <div class="input-wrap">
+            <input type="number" id="gridFeed" min="0" step="any" placeholder="请输入">
+            <span class="suffix">万kWh</span>
+          </div>
+          <p id="gridFeed-error" class="error-hint hidden">上网电量不能超过总可用发电量</p>
+        </div>
+
+        <div class="field-row">
+          <label>目标年份</label>
+          <div class="year-options">
+            <div class="year-option selected" data-year="before2030">2030年前（含）</div>
+            <div class="year-option" data-year="after2030">2030年后</div>
+          </div>
+        </div>
+
+        <button type="button" id="btn-calc" class="btn btn-primary">开始计算</button>
+      </div>
+
+      <!-- 模块二输出 -->
+      <div id="output2" class="output-area">
+        <div class="result-card">
+          <div id="metrics-container"></div>
+          <div class="result-header" id="result2-header">
+            <div class="result-icon" id="result2-icon"></div>
+            <div class="result-title" id="result2-title"></div>
+          </div>
+          <div class="notice-box">
+            以上计算基于发改能源〔2026〕688号第二条规划指标。<br>
+            上网电量比例为原则性要求，各省可结合实际调整。
+          </div>
+          <div class="result-footer">
+            <button type="button" class="btn-reset" id="reset2">重新计算</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      源流 · 基于发改能源〔2026〕688号 · 仅供参考，不构成法律意见
+    </footer>
+  </div>
+
+  <script>
+  (function () {
+    'use strict';
+
+    function $(id) { return document.getElementById(id); }
+    function show(el) { el.classList.remove('hidden'); }
+    function hide(el) { el.classList.add('hidden'); }
+    function pct(n) { return (n * 100).toFixed(1) + '%'; }
+
+    /* ===== Tab 切换 ===== */
+    var tabBtns = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < tabBtns.length; i++) {
+      tabBtns[i].addEventListener('click', function () {
+        var target = this.getAttribute('data-tab');
+        var btns = document.querySelectorAll('.tab-btn');
+        var panels = document.querySelectorAll('.tab-panel');
+        for (var j = 0; j < btns.length; j++) {
+          btns[j].classList.toggle('active', btns[j].getAttribute('data-tab') === target);
+        }
+        for (var k = 0; k < panels.length; k++) {
+          panels[k].classList.toggle('active', panels[k].id === target);
+        }
+      });
+    }
+
+    /* ===== 选项卡片高亮 ===== */
+    function bindOptionCards(containerId, name, onSelect) {
+      var container = $(containerId);
+      var cards = container.querySelectorAll('.option-card');
+      for (var i = 0; i < cards.length; i++) {
+        cards[i].addEventListener('click', function () {
+          var all = container.querySelectorAll('.option-card');
+          for (var j = 0; j < all.length; j++) all[j].classList.remove('selected');
+          this.classList.add('selected');
+          var radio = this.querySelector('input[type="radio"]');
+          radio.checked = true;
+          if (onSelect) onSelect(radio.value);
+        });
+      }
+    }
+
+    /* ===== 模块一状态 ===== */
+    var m1State = {
+      step0Passed: false,
+      hasSingleBase: null,
+      autoSwitchedToC: false,
+      sourceType: '',
+      projectType: ''
+    };
+
+    var preChecks = [$('pre0'), $('pre1'), $('pre2'), $('pre3')];
+
+    var DENY_TEXT = {
+      title: '不符合多用户绿电直连政策基本准入条件',
+      basis: '政策依据：发改能源〔2026〕688号第一条',
+      suggest: '建议：核查上述情形后重新评估，或参考单用户绿电直连政策（发改能源〔2025〕650号）'
+    };
+
+    function handlePreCheck() {
+      var anyChecked = false;
+      for (var i = 0; i < preChecks.length; i++) {
+        if (preChecks[i].checked) { anyChecked = true; break; }
+      }
+
+      if (anyChecked) {
+        hide($('step0-continue'));
+        hideStepsAfter0();
+        showDenyOutput();
+        return;
+      }
+
+      hideOutput1();
+      show($('step0-continue'));
+    }
+
+    for (var p = 0; p < preChecks.length; p++) {
+      preChecks[p].addEventListener('change', handlePreCheck);
+    }
+
+    $('step0-continue').addEventListener('click', function () {
+      m1State.step0Passed = true;
+      $('step1').classList.add('visible');
+      hide($('step0-continue'));
+      hideOutput1();
+    });
+
+    function hideStepsAfter0() {
+      ['step1', 'step2', 'step3'].forEach(function (id) {
+        $(id).classList.remove('visible');
+      });
+    }
+
+    function showDenyOutput() {
+      var header = $('result1-header');
+      header.className = 'result-header deny';
+      $('result1-icon').textContent = '❌';
+      $('result1-title').textContent = DENY_TEXT.title;
+      $('result1-subtitle').innerHTML =
+        DENY_TEXT.basis + '<br>' + DENY_TEXT.suggest;
+      $('result1-body').innerHTML = '';
+      $('output1').classList.add('visible');
+      scrollToEl($('output1'));
+    }
+
+    function hideOutput1() {
+      $('output1').classList.remove('visible');
+    }
+
+    function scrollToEl(el) {
+      setTimeout(function () {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 80);
+    }
+
+    /* Step 1 */
+    bindOptionCards('source-cards', 'sourceType', function (value) {
+      if (!m1State.step0Passed) return;
+      m1State.sourceType = value;
+      hideOutput1();
+
+      if (value === 'non-renewable') {
+        var header = $('result1-header');
+        header.className = 'result-header deny';
+        $('result1-icon').textContent = '❌';
+        $('result1-title').textContent = '非新能源电源不在政策适用范围内';
+        $('result1-subtitle').textContent = '';
+        $('result1-body').innerHTML = '';
+        $('output1').classList.add('visible');
+        scrollToEl($('output1'));
+        return;
+      }
+
+      $('step2').classList.add('visible');
+    });
+
+    /* Step 2 */
+    var sceneIds = ['sceneA', 'sceneB', 'sceneC', 'sceneD', 'sceneE', 'sceneF', 'sceneG'];
+
+    $('sceneB').addEventListener('change', function () {
+      if (this.checked) {
+        show($('subB'));
+        m1State.hasSingleBase = null;
+      } else {
+        hide($('subB'));
+        hide($('subB-hint'));
+        m1State.hasSingleBase = null;
+      }
+      checkStep2();
+    });
+
+    $('sceneC').addEventListener('change', function () {
+      if (this.checked) show($('subC'));
+      else hide($('subC'));
+      checkStep2();
+    });
+
+    for (var s = 0; s < sceneIds.length; s++) {
+      (function (id) {
+        $(id).addEventListener('change', function () {
+          checkStep2();
+          hideOutput1();
+        });
+      })(sceneIds[s]);
+    }
+
+    $('btnB-yes').addEventListener('click', function () {
+      m1State.hasSingleBase = true;
+      hide($('subB-hint'));
+      checkStep2();
+    });
+
+    $('btnB-no').addEventListener('click', function () {
+      m1State.hasSingleBase = false;
+      m1State.autoSwitchedToC = true;
+      $('sceneB').checked = false;
+      hide($('subB'));
+      $('sceneC').checked = true;
+      show($('subC'));
+      var hint = $('subB-hint');
+      hint.textContent = '存量负荷无单用户直连基础，已自动引导至C路径（有绿色电力消费需求的用户）';
+      show(hint);
+      checkStep2();
+    });
+
+    function checkStep2() {
+      var any = false;
+      for (var i = 0; i < sceneIds.length; i++) {
+        if ($(sceneIds[i]).checked) { any = true; break; }
+      }
+      if (any) $('step3').classList.add('visible');
+    }
+
+    /* Step 3 */
+    bindOptionCards('type-cards', 'projectType', function (value) {
+      m1State.projectType = value;
+      hideOutput1();
+      show($('btn-judge'));
+    });
+
+    function collectM1Inputs() {
+      var selectedScenes = [];
+      for (var i = 0; i < sceneIds.length; i++) {
+        if ($(sceneIds[i]).checked) {
+          selectedScenes.push($(sceneIds[i]).value);
+        }
+      }
+
+      var starSubScenes = [];
+      var starLabels = {
+        'c-datacenter': '算力设施（数据中心）',
+        'c-hydrogen': '绿色氢氨醇生产'
+      };
+      var cChecks = $('subC').querySelectorAll('input[type="checkbox"]');
+      for (var c = 0; c < cChecks.length; c++) {
+        if (cChecks[c].checked && cChecks[c].getAttribute('data-star') === 'true') {
+          starSubScenes.push(starLabels[cChecks[c].value] || cChecks[c].value);
+        }
+      }
+
+      return {
+        sourceType: m1State.sourceType,
+        selectedScenes: selectedScenes,
+        starSubScenes: starSubScenes,
+        projectType: m1State.projectType
+      };
+    }
+
+    function judgeApplicability(inputs) {
+      var level = 'pass';
+      var warns = [];
+      var notices = [];
+      var stars = false;
+      var scenes = [];
+
+      if (inputs.sourceType === 'non-renewable') {
+        return { level: 'deny', reason: '非新能源电源不在政策适用范围内' };
+      }
+      if (inputs.sourceType === 'other') {
+        warns.push('电源类型存疑：政策列举风电、太阳能发电、生物质发电，其他新能源类型需结合具体产业政策判断，建议咨询省级能源主管部门');
+        level = 'warn';
+      }
+
+      if (inputs.selectedScenes.length === 0) {
+        warns.push('未选择适用场景，政策依据不足，建议人工判断');
+        level = 'warn';
+      }
+
+      var sceneMap = {
+        A: '新建负荷：可直接配套建设新能源组成多用户直连项目',
+        B: '存量单用户直连扩建：可在原项目基础上吸纳新建负荷，需办理变更手续',
+        C: '有绿色电力消费需求的用户：可利用周边新能源资源独立探索开展',
+        D: '工业园区/零碳园区：全部或部分负荷均可开展，主责单位可由管委会或第三方投资组建',
+        E: '增量配电网：负荷可就近接入新能源，主责单位需具备法人资格',
+        F: '存量新能源项目转型：在履行变更手续后可开展，需重新履行系统接入评估',
+        G: '分布式光伏集中汇流：可通过集中汇流方式参与，需注意计量装置合规配置'
+      };
+
+      for (var i = 0; i < inputs.selectedScenes.length; i++) {
+        var key = inputs.selectedScenes[i];
+        if (sceneMap[key]) scenes.push(sceneMap[key]);
+      }
+
+      if (inputs.starSubScenes && inputs.starSubScenes.length > 0) {
+        stars = true;
+      }
+
+      if (inputs.projectType === 'grid') {
+        notices = [
+          '年上网电量原则上不超过总可用发电量的20%，具体比例由省级能源主管部门确定',
+          '在省级能源主管部门明确的消纳困难时段，不得向公共电网反送电',
+          '须自主合理确定接网容量，与公共电网交换功率不得超过接网容量',
+          '以新型经营主体身份进行市场注册，不得由电网企业代理购电',
+          '各关口须安装双向分时计量装置，禁止绕越计量装置用电'
+        ];
+      } else {
+        notices = [
+          '自行承担项目范围内全部安全风险管控责任',
+          '不适用并网型上网电量比例和反送电规则',
+          '仍须按现行政策缴纳政府性基金及附加'
+        ];
+      }
+
+      return { level: level, warns: warns, notices: notices, scenes: scenes, stars: stars, starSubScenes: inputs.starSubScenes };
+    }
+
+    function renderM1Output(result) {
+      var header = $('result1-header');
+      var icon = $('result1-icon');
+      var title = $('result1-title');
+      var subtitle = $('result1-subtitle');
+      var body = $('result1-body');
+
+      header.className = 'result-header ' + result.level;
+      subtitle.textContent = '';
+
+      if (result.level === 'deny') {
+        icon.textContent = '❌';
+        title.textContent = result.reason || DENY_TEXT.title;
+      } else if (result.level === 'pass') {
+        icon.textContent = '✅';
+        title.textContent = '初步判断适用绿电直连政策';
+      } else {
+        icon.textContent = '⚠️';
+        title.textContent = '存在存疑项，建议人工判断或咨询主管部门';
+      }
+
+      var html = '';
+
+      if (result.scenes && result.scenes.length > 0) {
+        html += '<div class="result-section"><h4>适用场景</h4><ul>';
+        for (var i = 0; i < result.scenes.length; i++) {
+          html += '<li>' + result.scenes[i] + '</li>';
+        }
+        html += '</ul></div>';
+      }
+
+      if (result.stars && result.starSubScenes && result.starSubScenes.length > 0) {
+        html += '<div class="result-section"><h4>⭐ 政策优先支持产业</h4><ul>';
+        for (var s = 0; s < result.starSubScenes.length; s++) {
+          html += '<li>' + result.starSubScenes[s] + '<span class="star-badge">优先支持</span></li>';
+        }
+        html += '</ul></div>';
+      }
+
+      if (m1State.autoSwitchedToC) {
+        html += '<div class="result-section"><h4>路径提示</h4><ul><li>存量负荷无单用户直连基础，已自动引导至C路径（有绿色电力消费需求的用户）</li></ul></div>';
+      }
+
+      if (result.warns && result.warns.length > 0) {
+        html += '<div class="result-section"><h4>存疑提示</h4><ul>';
+        for (var w = 0; w < result.warns.length; w++) {
+          html += '<li>⚠️ ' + result.warns[w] + '</li>';
+        }
+        html += '</ul></div>';
+      }
+
+      if (result.notices && result.notices.length > 0) {
+        html += '<div class="result-section"><h4>关键注意事项</h4><ul>';
+        for (var n = 0; n < result.notices.length; n++) {
+          html += '<li>' + result.notices[n] + '</li>';
+        }
+        html += '</ul></div>';
+      }
+
+      body.innerHTML = html;
+      $('output1').classList.add('visible');
+      scrollToEl($('output1'));
+    }
+
+    $('btn-judge').addEventListener('click', function () {
+      if (!m1State.projectType) {
+        alert('请选择项目类型');
+        return;
+      }
+      var inputs = collectM1Inputs();
+      var result = judgeApplicability(inputs);
+      renderM1Output(result);
+    });
+
+    $('reset1').addEventListener('click', function () {
+      hideOutput1();
+      m1State.step0Passed = false;
+      m1State.hasSingleBase = null;
+      m1State.autoSwitchedToC = false;
+      m1State.sourceType = '';
+      m1State.projectType = '';
+
+      for (var i = 0; i < preChecks.length; i++) preChecks[i].checked = false;
+      hide($('step0-continue'));
+
+      var sourceCards = $('source-cards').querySelectorAll('.option-card');
+      for (var sc = 0; sc < sourceCards.length; sc++) {
+        sourceCards[sc].classList.remove('selected');
+        sourceCards[sc].querySelector('input').checked = false;
+      }
+
+      for (var si = 0; si < sceneIds.length; si++) $(sceneIds[si]).checked = false;
+
+      var cChecks = $('subC').querySelectorAll('input[type="checkbox"]');
+      for (var c = 0; c < cChecks.length; c++) cChecks[c].checked = false;
+
+      var typeCards = $('type-cards').querySelectorAll('.option-card');
+      for (var tc = 0; tc < typeCards.length; tc++) {
+        typeCards[tc].classList.remove('selected');
+        typeCards[tc].querySelector('input').checked = false;
+      }
+
+      hide($('subB'));
+      hide($('subC'));
+      hide($('subB-hint'));
+      hide($('btn-judge'));
+      hideStepsAfter0();
+      scrollToEl($('step0'));
+    });
+
+    /* ===== 模块二 ===== */
+    var calcYear = 'before2030';
+
+    var yearOptions = document.querySelectorAll('.year-option');
+    for (var y = 0; y < yearOptions.length; y++) {
+      yearOptions[y].addEventListener('click', function () {
+        for (var yo = 0; yo < yearOptions.length; yo++) {
+          yearOptions[yo].classList.remove('selected');
+        }
+        this.classList.add('selected');
+        calcYear = this.getAttribute('data-year');
+        hideOutput2();
+      });
+    }
+
+    function validateSelfUse() {
+      var totalGen = parseFloat($('totalGen').value) || 0;
+      var selfUse = parseFloat($('selfUse').value) || 0;
+      var err = $('selfUse-error');
+      if (selfUse > totalGen && totalGen > 0) { show(err); return false; }
+      hide(err);
+      return true;
+    }
+
+    function validateGridFeed() {
+      var totalGen = parseFloat($('totalGen').value) || 0;
+      var gridFeed = parseFloat($('gridFeed').value) || 0;
+      var err = $('gridFeed-error');
+      if (gridFeed > totalGen && totalGen > 0) { show(err); return false; }
+      hide(err);
+      return true;
+    }
+
+    $('totalGen').addEventListener('input', function () {
+      validateSelfUse();
+      validateGridFeed();
+      hideOutput2();
+    });
+    $('selfUse').addEventListener('input', function () {
+      validateSelfUse();
+      hideOutput2();
+    });
+    $('gridFeed').addEventListener('input', function () {
+      validateGridFeed();
+      hideOutput2();
+    });
+    $('totalLoad').addEventListener('input', hideOutput2);
+
+    function calculate(inputs) {
+      var totalGen = inputs.totalGen;
+      var selfUse = inputs.selfUse;
+      var totalLoad = inputs.totalLoad;
+      var gridFeed = inputs.gridFeed;
+      var year = inputs.year;
+
+      var r1 = selfUse / totalGen;
+      var r2 = selfUse / totalLoad;
+      var r2threshold = year === 'before2030' ? 0.35 : 0.30;
+      var r3 = gridFeed / totalGen;
+
+      var p1 = r1 >= 0.60;
+      var p2 = r2 >= r2threshold;
+      var p3 = r3 <= 0.20;
+
+      var need1 = p1 ? 0 : parseFloat(((0.60 - r1) * totalGen).toFixed(2));
+      var need2 = p2 ? 0 : parseFloat(((r2threshold - r2) * totalLoad).toFixed(2));
+      var needSelfUse = Math.max(need1, need2);
+      var needReduce = p3 ? 0 : parseFloat(((r3 - 0.20) * totalGen).toFixed(2));
+
+      return {
+        r1: r1, r2: r2, r3: r3,
+        p1: p1, p2: p2, p3: p3,
+        r2threshold: r2threshold,
+        needSelfUse: needSelfUse,
+        needReduce: needReduce,
+        allPass: p1 && p2 && p3,
+        failCount: [p1, p2, p3].filter(function (x) { return !x; }).length
+      };
+    }
+
+    function hideOutput2() {
+      $('output2').classList.remove('visible');
+    }
+
+    function renderM2Output(result, year) {
+      var r2Label = year === 'before2030' ? '≥35%（2030年前）' : '≥30%（2030年后）';
+
+      var metrics = [
+        {
+          name: '自发自用 / 总可用发电量',
+          value: result.r1,
+          threshold: '≥60%',
+          pass: result.p1,
+          gap: result.p1 ? '' : pct(0.60 - result.r1),
+          fix: result.p1 ? '' : '需增加自发自用电量约 ' + result.needSelfUse + ' 万kWh'
+        },
+        {
+          name: '自发自用 / 总用电量',
+          value: result.r2,
+          threshold: r2Label,
+          pass: result.p2,
+          gap: result.p2 ? '' : pct(result.r2threshold - result.r2),
+          fix: result.p2 ? '' : '需增加自发自用电量约 ' + result.needSelfUse + ' 万kWh'
+        },
+        {
+          name: '上网电量 / 总可用发电量',
+          value: result.r3,
+          threshold: '原则上≤20%',
+          pass: result.p3,
+          gap: result.p3 ? '' : pct(result.r3 - 0.20),
+          fix: result.p3 ? '' : '需减少上网电量约 ' + result.needReduce + ' 万kWh'
+        }
+      ];
+
+      var html = '';
+      for (var m = 0; m < metrics.length; m++) {
+        var met = metrics[m];
+        html += '<div class="metric-card ' + (met.pass ? 'pass' : 'fail') + '">';
+        html += '<div class="metric-name">' + met.name + '</div>';
+        html += '<div class="metric-row"><span>计算值：' + pct(met.value) + '</span><span>门槛：' + met.threshold + '</span></div>';
+        html += '<div class="metric-conclusion">' + (met.pass ? '✅ 达标' : '❌ 未达标，差 ' + met.gap) + '</div>';
+        if (!met.pass && met.fix) {
+          html += '<div class="metric-fix">整改：' + met.fix + '</div>';
+        }
+        html += '</div>';
+      }
+      $('metrics-container').innerHTML = html;
+
+      var header = $('result2-header');
+      var icon = $('result2-icon');
+      var title = $('result2-title');
+
+      if (result.allPass) {
+        header.className = 'result-header pass';
+        icon.textContent = '✅';
+        title.textContent = '三项指标均符合政策规划要求';
+      } else if (result.failCount === 3) {
+        header.className = 'result-header deny';
+        icon.textContent = '❌';
+        title.textContent = '三项指标均未达标';
+      } else {
+        header.className = 'result-header warn';
+        icon.textContent = '⚠️';
+        title.textContent = result.failCount + '项指标未达标，请参考整改建议';
+      }
+
+      $('output2').classList.add('visible');
+      scrollToEl($('output2'));
+    }
+
+    $('btn-calc').addEventListener('click', function () {
+      var totalGen = parseFloat($('totalGen').value);
+      var selfUse = parseFloat($('selfUse').value);
+      var totalLoad = parseFloat($('totalLoad').value);
+      var gridFeed = parseFloat($('gridFeed').value);
+
+      if (!totalGen || totalGen <= 0) { alert('请输入有效的年总可用发电量'); return; }
+      if (isNaN(selfUse) || selfUse < 0) { alert('请输入有效的年自发自用电量'); return; }
+      if (!totalLoad || totalLoad <= 0) { alert('请输入有效的年总用电量'); return; }
+      if (isNaN(gridFeed) || gridFeed < 0) { alert('请输入有效的年上网电量'); return; }
+      if (!validateSelfUse() || !validateGridFeed()) return;
+      if (selfUse > totalGen) { alert('自发自用电量不能超过总可用发电量'); return; }
+      if (gridFeed > totalGen) { alert('上网电量不能超过总可用发电量'); return; }
+
+      var result = calculate({
+        totalGen: totalGen,
+        selfUse: selfUse,
+        totalLoad: totalLoad,
+        gridFeed: gridFeed,
+        year: calcYear
+      });
+      renderM2Output(result, calcYear);
+    });
+
+    $('reset2').addEventListener('click', function () {
+      hideOutput2();
+      $('totalGen').value = '';
+      $('selfUse').value = '';
+      $('totalLoad').value = '';
+      $('gridFeed').value = '';
+      hide($('selfUse-error'));
+      hide($('gridFeed-error'));
+      calcYear = 'before2030';
+      for (var yo = 0; yo < yearOptions.length; yo++) {
+        yearOptions[yo].classList.toggle('selected', yearOptions[yo].getAttribute('data-year') === 'before2030');
+      }
+      scrollToEl($('module2'));
+    });
+
+  })();
+  </script>
+</body>
+</html>

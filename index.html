@@ -494,6 +494,279 @@
     }
 
     .hidden { display: none !important; }
+
+    /* ===== 模块二专用样式 ===== */
+    .m2-step { display: none; }
+    .m2-step.active { display: block; }
+
+    .text-input, .select-input, .input-wrap input[type="text"],
+    .input-wrap input[type="date"] {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 16px;
+      font-family: inherit;
+      background: #fff;
+    }
+
+    .text-input:focus, .select-input:focus,
+    .input-wrap input[type="text"]:focus,
+    .input-wrap input[type="date"]:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .survey-group { margin-bottom: 16px; }
+    .survey-group-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 8px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid rgba(26,124,110,0.2);
+    }
+    .survey-item {
+      padding: 10px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .survey-item-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .survey-item-head input[type="checkbox"] {
+      margin-top: 3px;
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary);
+      flex-shrink: 0;
+    }
+    .survey-item-head label { font-size: 14px; flex: 1; }
+    .survey-item-extra { margin: 8px 0 0 28px; }
+
+    .progress-wrap { margin: 12px 0; }
+    .progress-text { font-size: 13px; color: var(--text-secondary); margin-bottom: 6px; }
+    .progress-bar {
+      height: 8px;
+      background: #e8ecea;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--primary);
+      border-radius: 4px;
+      transition: width 0.3s;
+    }
+
+    .calc-box {
+      background: #f9faf9;
+      border-radius: 8px;
+      padding: 12px;
+      margin-top: 8px;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+    .calc-box .calc-highlight { color: var(--primary); font-weight: 600; }
+
+    .roof-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 12px;
+      background: #fafbfb;
+    }
+    .roof-card-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .ref-tag {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+    .mini-cards { display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; }
+    .mini-card {
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 13px;
+      cursor: pointer;
+      background: #fff;
+    }
+    .mini-card.selected {
+      border-color: var(--primary);
+      background: rgba(26,124,110,0.06);
+      color: var(--primary);
+    }
+    .shading-ref {
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin: 8px 0;
+      padding: 8px;
+      background: #fff;
+      border-radius: 6px;
+    }
+
+    .user-table { width: 100%; font-size: 13px; margin-top: 8px; }
+    .user-table th {
+      text-align: left;
+      font-weight: 500;
+      color: var(--text-secondary);
+      padding: 6px 4px;
+      font-size: 12px;
+    }
+    .user-table td { padding: 4px; }
+    .user-table input {
+      width: 100%;
+      padding: 6px 8px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 14px;
+      font-family: inherit;
+    }
+    .user-table .auto-val { color: var(--primary); font-weight: 500; }
+    .total-row {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .flex-options { display: flex; gap: 8px; }
+    .flex-option {
+      flex: 1;
+      padding: 10px 6px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      text-align: center;
+      font-size: 13px;
+      cursor: pointer;
+      background: #fff;
+    }
+    .flex-option.selected {
+      border-color: var(--primary);
+      background: rgba(26,124,110,0.08);
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .imported-badge {
+      display: inline-block;
+      font-size: 11px;
+      color: var(--primary);
+      background: rgba(26,124,110,0.12);
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-left: 6px;
+      font-weight: 400;
+    }
+    .input-highlight { border-color: var(--primary) !important; background: rgba(26,124,110,0.04) !important; }
+
+    .source-tag {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+    .emission-card {
+      background: rgba(26,124,110,0.06);
+      border-radius: 8px;
+      padding: 14px;
+      margin-top: 12px;
+    }
+    .emission-row { font-size: 15px; padding: 6px 0; }
+
+    .report-card { background: #fff; }
+    .report-title {
+      text-align: center;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--primary);
+      padding: 16px;
+      border-bottom: 1px solid #eee;
+    }
+    .report-meta {
+      padding: 12px 16px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .report-section {
+      padding: 12px 16px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .report-section h3 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+    .report-section p, .report-section li {
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .report-section ul { list-style: none; padding: 0; }
+    .report-section li { padding: 3px 0; }
+    .report-footer-note {
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-muted);
+      padding: 16px;
+      line-height: 1.8;
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .btn-add {
+      background: none;
+      border: 1px dashed var(--primary);
+      color: var(--primary);
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      margin-top: 8px;
+      font-family: inherit;
+    }
+
+    .optional-tag {
+      font-size: 12px;
+      color: var(--warn);
+      background: rgba(217,119,6,0.1);
+      padding: 4px 10px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+      display: inline-block;
+    }
+
+    .m2-nav { display: flex; gap: 8px; margin-top: 12px; }
+    .m2-nav .btn-primary { margin-top: 0; flex: 1; }
+
+    @media print {
+      body { background: #fff; }
+      .header, .tabs, .footer, .m2-step, .m2-nav, .btn-reset, .btn-add, #m2-report-actions { display: none !important; }
+      .app { max-width: none; padding: 0; }
+      #m2-report { display: block !important; }
+      .report-card { box-shadow: none; border: none; }
+      .result-card { box-shadow: none; }
+    }
   </style>
 </head>
 <body>
@@ -505,7 +778,7 @@
 
     <nav class="tabs">
       <button class="tab-btn active" data-tab="module1">模块一 · 适用性判断</button>
-      <button class="tab-btn" data-tab="module2">模块二 · 合规计算</button>
+      <button class="tab-btn" data-tab="module2">模块二 · 现场踏勘</button>
     </nav>
 
     <!-- ========== 模块一 ========== -->
@@ -679,69 +952,223 @@
 
     <!-- ========== 模块二 ========== -->
     <div id="module2" class="tab-panel">
-      <div class="card">
-        <div class="card-title">合规比例计算</div>
 
+      <!-- Step 1 基本信息 -->
+      <div id="m2s1" class="m2-step active card">
+        <span class="step-label">Step 1</span>
+        <div class="card-title">基本信息</div>
         <div class="field-row">
-          <label>年总可用发电量 <span class="unit">（万kWh）</span></label>
-          <div class="input-wrap">
-            <input type="number" id="totalGen" min="0" step="any" placeholder="请输入">
-            <span class="suffix">万kWh</span>
+          <label>项目名称</label>
+          <input type="text" class="text-input" id="m2-projectName" placeholder="请输入项目名称">
+        </div>
+        <div class="field-row">
+          <label>所在省份/城市</label>
+          <input type="text" class="text-input" id="m2-location" placeholder="如：江苏省南京市">
+        </div>
+        <div class="field-row">
+          <label>踏勘日期</label>
+          <input type="date" class="text-input" id="m2-surveyDate">
+        </div>
+        <div class="field-row">
+          <label>填报人</label>
+          <input type="text" class="text-input" id="m2-reporter" placeholder="请输入填报人">
+        </div>
+        <div class="field-row">
+          <label>项目类型</label>
+          <div class="option-cards" id="m2-type-cards">
+            <label class="option-card" data-value="grid">
+              <input type="radio" name="m2projectType" value="grid">
+              <div class="option-title">并网型</div>
+              <div class="option-desc">整体接入公共电网</div>
+            </label>
+            <label class="option-card" data-value="offgrid">
+              <input type="radio" name="m2projectType" value="offgrid">
+              <div class="option-title">离网型</div>
+              <div class="option-desc">不接入公共电网</div>
+            </label>
           </div>
         </div>
-
         <div class="field-row">
-          <label>年自发自用电量 <span class="unit">（万kWh）</span></label>
-          <div class="input-wrap">
-            <input type="number" id="selfUse" min="0" step="any" placeholder="请输入">
-            <span class="suffix">万kWh</span>
-          </div>
-          <p id="selfUse-error" class="error-hint hidden">自发自用电量不能超过总可用发电量</p>
+          <label>新能源类型（可多选）</label>
+          <div class="checkbox-item"><input type="checkbox" id="m2-en-solar" value="solar"><label for="m2-en-solar">光伏</label></div>
+          <div class="checkbox-item"><input type="checkbox" id="m2-en-wind" value="wind"><label for="m2-en-wind">风电</label></div>
+          <div class="checkbox-item"><input type="checkbox" id="m2-en-biomass" value="biomass"><label for="m2-en-biomass">生物质</label></div>
+          <div class="checkbox-item"><input type="checkbox" id="m2-en-combo" value="combo"><label for="m2-en-combo">组合</label></div>
         </div>
+        <button type="button" class="btn btn-primary" id="m2-to-s2">下一步</button>
+      </div>
 
+      <!-- Step 2 现场踏勘清单 -->
+      <div id="m2s2" class="m2-step card">
+        <span class="step-label">Step 2</span>
+        <div class="card-title">现场踏勘清单</div>
+        <div class="progress-wrap">
+          <div class="progress-text" id="m2-progress-text">已完成 0 / 0 项</div>
+          <div class="progress-bar"><div class="progress-fill" id="m2-progress-fill" style="width:0%"></div></div>
+        </div>
+        <div id="m2-survey-list"></div>
+        <div id="m2-custom-list"></div>
+        <button type="button" class="btn-add" id="m2-add-survey">+ 新增踏勘项目</button>
+        <div id="m2-add-form" class="hidden sub-group" style="margin-top:12px;">
+          <input type="text" class="text-input" id="m2-custom-input" placeholder="输入自定义踏勘项">
+          <button type="button" class="btn btn-secondary" id="m2-save-custom" style="margin-top:8px;width:100%;">保存</button>
+        </div>
+        <button type="button" class="btn btn-primary" id="m2-to-next">下一步</button>
+      </div>
+
+      <!-- Step 2.5 屋顶装机估算 -->
+      <div id="m2s25" class="m2-step card">
+        <span class="step-label">Step 2.5</span>
+        <div class="card-title">屋顶装机规模估算</div>
+        <span class="optional-tag">可选模块，如无屋顶光伏可跳过</span>
+        <div id="m2-roofs-container"></div>
+        <button type="button" class="btn-add" id="m2-add-roof">+ 添加屋顶</button>
+        <div class="calc-box" id="m2-roof-total">
+          多栋合计：总装机 <span class="calc-highlight" id="m2-total-kwp">0</span> kWp /
+          总年发电量 <span class="calc-highlight" id="m2-total-gen">0</span> 万kWh
+        </div>
+        <p class="hint" style="color:var(--text-muted);">本估算为初步参考，误差范围约±15%，实际以专业勘测为准。</p>
+        <div class="m2-nav">
+          <button type="button" class="btn btn-secondary" id="m2-import-s3">带入 Step 3</button>
+          <button type="button" class="btn btn-outline" id="m2-skip-s25">跳过此步</button>
+        </div>
+      </div>
+
+      <!-- Step 3 资源与负荷 -->
+      <div id="m2s3" class="m2-step card">
+        <span class="step-label">Step 3</span>
+        <div class="card-title">资源与负荷数据录入</div>
+        <p style="font-size:13px;font-weight:600;color:var(--primary);margin-bottom:10px;">发电侧</p>
         <div class="field-row">
-          <label>年总用电量 <span class="unit">（万kWh）</span></label>
+          <label>拟装机容量 <span class="unit">（MW）</span><span id="m2-cap-badge" class="imported-badge hidden">已由屋顶估算带入</span></label>
           <div class="input-wrap">
-            <input type="number" id="totalLoad" min="0" step="any" placeholder="请输入">
-            <span class="suffix">万kWh</span>
+            <input type="number" id="m2-capacity" min="0" step="any" placeholder="请输入">
+            <span class="suffix">MW</span>
           </div>
         </div>
-
         <div class="field-row">
-          <label>年上网电量 <span class="unit">（万kWh）</span></label>
+          <label>年利用小时数 <span class="unit">（h）</span></label>
           <div class="input-wrap">
-            <input type="number" id="gridFeed" min="0" step="any" placeholder="请输入">
-            <span class="suffix">万kWh</span>
+            <input type="number" id="m2-hours" min="0" step="any" placeholder="请输入">
+            <span class="suffix">h</span>
           </div>
-          <p id="gridFeed-error" class="error-hint hidden">上网电量不能超过总可用发电量</p>
         </div>
+        <div class="field-row">
+          <label>厂用电率 <span class="unit">（%）</span></label>
+          <div class="input-wrap">
+            <input type="number" id="m2-auxRate" min="0" max="100" step="any" value="5">
+            <span class="suffix">%</span>
+          </div>
+        </div>
+        <div class="field-row">
+          <label>储能装机 <span class="unit">（MWh，选填）</span></label>
+          <div class="input-wrap">
+            <input type="number" id="m2-storage" min="0" step="any" placeholder="选填">
+            <span class="suffix">MWh</span>
+          </div>
+        </div>
+        <div class="calc-box">
+          年可用发电量：<span class="calc-highlight" id="m2-annualGen">—</span> 万kWh
+          <br><span style="font-size:11px;color:var(--text-muted);">= 装机(MW)×1000×利用小时×(1-厂用电率%) / 10000</span>
+        </div>
+        <p style="font-size:13px;font-weight:600;color:var(--primary);margin:16px 0 10px;">用电侧</p>
+        <table class="user-table" id="m2-user-table">
+          <thead><tr><th>用户名称</th><th>功率(MW)</th><th>运行小时</th><th>年用电量</th></tr></thead>
+          <tbody id="m2-user-body"></tbody>
+        </table>
+        <button type="button" class="btn-add" id="m2-add-user">+ 添加用户</button>
+        <div class="total-row">年总用电量合计：<span id="m2-totalLoad" class="calc-highlight">0</span> 万kWh</div>
+        <p style="font-size:13px;font-weight:600;color:var(--primary);margin:16px 0 10px;">自发自用估算</p>
+        <div class="field-row">
+          <label>负荷灵活性</label>
+          <div class="flex-options" id="m2-flex-options">
+            <div class="flex-option selected" data-coef="0.85">高（0.85）</div>
+            <div class="flex-option" data-coef="0.75">中（0.75）</div>
+            <div class="flex-option" data-coef="0.65">低（0.65）</div>
+          </div>
+        </div>
+        <div class="calc-box">
+          自发自用电量：<span class="calc-highlight" id="m2-selfUse">—</span> 万kWh<br>
+          上网电量估算：<span class="calc-highlight" id="m2-gridFeed">—</span> 万kWh
+        </div>
+        <button type="button" class="btn btn-primary" id="m2-to-s4">下一步</button>
+      </div>
 
+      <!-- Step 4 合规比例 -->
+      <div id="m2s4" class="m2-step card">
+        <span class="step-label">Step 4</span>
+        <div class="card-title">合规比例测算</div>
+        <p class="source-tag">数据来自 Step 3 自动带入</p>
+        <div class="calc-box" style="margin-bottom:14px;">
+          年可用发电量 <span id="m2s4-gen">—</span> 万kWh ·
+          自发自用 <span id="m2s4-self">—</span> 万kWh ·
+          总用电量 <span id="m2s4-load">—</span> 万kWh ·
+          上网电量 <span id="m2s4-feed">—</span> 万kWh
+        </div>
         <div class="field-row">
           <label>目标年份</label>
-          <div class="year-options">
+          <div class="year-options" id="m2-year-options">
             <div class="year-option selected" data-year="before2030">2030年前（含）</div>
             <div class="year-option" data-year="after2030">2030年后</div>
           </div>
         </div>
-
-        <button type="button" id="btn-calc" class="btn btn-primary">开始计算</button>
+        <div id="m2-metrics-container"></div>
+        <div class="result-header pass" id="m2-compliance-header" style="border-radius:8px;margin-top:12px;">
+          <div class="result-icon" id="m2-compliance-icon">✅</div>
+          <div class="result-title" id="m2-compliance-title">—</div>
+        </div>
+        <div class="notice-box" style="margin:12px 0 0;">
+          以上计算基于发改能源〔2026〕688号第二条规划指标。<br>
+          上网电量比例为原则性要求，各省可结合实际调整。
+        </div>
+        <button type="button" class="btn btn-primary" id="m2-to-s5">下一步</button>
       </div>
 
-      <!-- 模块二输出 -->
-      <div id="output2" class="output-area">
-        <div class="result-card">
-          <div id="metrics-container"></div>
-          <div class="result-header" id="result2-header">
-            <div class="result-icon" id="result2-icon"></div>
-            <div class="result-title" id="result2-title"></div>
+      <!-- Step 5 减排量 -->
+      <div id="m2s5" class="m2-step card">
+        <span class="step-label">Step 5</span>
+        <div class="card-title">减排量计算</div>
+        <div class="field-row">
+          <label>自发自用电量 <span class="unit">（万kWh，自动带入）</span></label>
+          <div class="input-wrap">
+            <input type="number" id="m2-emi-selfUse" readonly style="background:#f5f7f6;">
+            <span class="suffix">万kWh</span>
           </div>
-          <div class="notice-box">
-            以上计算基于发改能源〔2026〕688号第二条规划指标。<br>
-            上网电量比例为原则性要求，各省可结合实际调整。
+        </div>
+        <div class="field-row">
+          <label>电网排放因子 <span class="unit">（kgCO₂/kWh）</span></label>
+          <div class="input-wrap">
+            <input type="number" id="m2-emissionFactor" min="0" step="any" value="0.5703">
+            <span class="suffix">kg/kWh</span>
           </div>
-          <div class="result-footer">
-            <button type="button" class="btn-reset" id="reset2">重新计算</button>
+          <p class="hint" style="color:var(--text-muted);">全国均值参考 0.5703，可查省级因子</p>
+        </div>
+        <div class="field-row">
+          <label>项目运营年限 <span class="unit">（年）</span></label>
+          <div class="input-wrap">
+            <input type="number" id="m2-opYears" min="1" step="1" value="25">
+            <span class="suffix">年</span>
           </div>
+        </div>
+        <div class="emission-card">
+          <div class="emission-row">🌱 年减排量：<strong id="m2-annualEmission">—</strong> 吨CO₂/年</div>
+          <div class="emission-row">🌳 等效植树：<strong id="m2-trees">—</strong> 万棵/年</div>
+          <div class="emission-row">⚡ 全周期减排：<strong id="m2-lifecycleEmission">—</strong> 万吨CO₂（<span id="m2-lifecycleYears">25</span>年）</div>
+        </div>
+        <button type="button" class="btn btn-primary" id="m2-gen-report">生成评估报告</button>
+      </div>
+
+      <!-- 综合评估报告 -->
+      <div id="m2-report" class="output-area">
+        <div class="result-card report-card" id="m2-report-print">
+          <div class="report-title">源流绿电直连项目评估报告</div>
+          <div class="report-meta" id="m2-report-meta"></div>
+          <div id="m2-report-body"></div>
+          <div class="report-footer-note">源流 · 基于发改能源〔2026〕688号 · 仅供参考，不构成法律意见</div>
+        </div>
+        <div class="m2-nav" id="m2-report-actions" style="margin-top:12px;">
+          <button type="button" class="btn btn-secondary" id="m2-export-pdf">导出 PDF</button>
+          <button type="button" class="btn btn-outline" id="m2-reset-calc">重新测算</button>
         </div>
       </div>
     </div>
@@ -1146,54 +1573,499 @@
       scrollToEl($('step0'));
     });
 
-    /* ===== 模块二 ===== */
-    var calcYear = 'before2030';
+    /* ===== 模块二：现场踏勘与综合评估 ===== */
+    var m2State = {
+      projectType: '',
+      energyTypes: [],
+      customSurveys: [],
+      roofs: [],
+      users: [{ name: '', power: 0, hours: 0 }],
+      flexCoef: 0.85,
+      calcYear: 'before2030',
+      fromRoof: false,
+      roofAnnualGen: 0,
+      complianceResult: null,
+      emissionResult: null
+    };
 
-    var yearOptions = document.querySelectorAll('.year-option');
-    for (var y = 0; y < yearOptions.length; y++) {
-      yearOptions[y].addEventListener('click', function () {
-        for (var yo = 0; yo < yearOptions.length; yo++) {
-          yearOptions[yo].classList.remove('selected');
+    var ROOF_TYPES = [
+      { id: 'flat', label: '平屋顶', ref: '0.65～0.75', defaultCoef: 0.70 },
+      { id: 'slope', label: '坡屋顶（朝南）', ref: '0.80～0.90', defaultCoef: 0.85 },
+      { id: 'saw', label: '锯齿形厂房', ref: '0.55～0.65', defaultCoef: 0.60 },
+      { id: 'steel', label: '彩钢瓦屋顶', ref: '0.75～0.85', defaultCoef: 0.80 }
+    ];
+
+    var ORIENTATIONS = [
+      { id: 'south', label: '正南', ref: '1.00', defaultCoef: 1.00 },
+      { id: 'se15', label: '南偏东15°', ref: '0.97～0.99', defaultCoef: 0.98 },
+      { id: 'sw15', label: '南偏西15°', ref: '0.97～0.99', defaultCoef: 0.98 },
+      { id: 'se30', label: '南偏东30°', ref: '0.92～0.95', defaultCoef: 0.93 },
+      { id: 'sw30', label: '南偏西30°', ref: '0.92～0.95', defaultCoef: 0.93 },
+      { id: 'east', label: '东向', ref: '0.82～0.88', defaultCoef: 0.85 },
+      { id: 'west', label: '西向', ref: '0.82～0.88', defaultCoef: 0.85 },
+      { id: 'north', label: '北向', ref: '0.65～0.75', defaultCoef: 0.70 }
+    ];
+
+    var SURVEY_GROUPS = [
+      { name: '场地条件类', items: [
+        { id: 'sv_area', label: '场地面积测量', type: 'number', unit: 'm²' },
+        { id: 'sv_type', label: '场地类型确认', type: 'select', options: ['屋顶','地面','荒地','鱼塘','农业大棚'] },
+        { id: 'sv_terrain', label: '地形地貌记录', type: 'text' },
+        { id: 'sv_obstacle', label: '周边障碍物遮挡评估', type: 'text' },
+        { id: 'sv_land', label: '土地权属确认', type: 'none' }
+      ]},
+      { name: '电力设施类', items: [
+        { id: 'sv_power', label: '现有配电设施情况', type: 'text' },
+        { id: 'sv_voltage', label: '并网点电压等级', type: 'number', unit: 'kV' },
+        { id: 'sv_grid', label: '周边电网接入条件', type: 'text' },
+        { id: 'sv_meter', label: '计量装置现状', type: 'text' },
+        { id: 'sv_storage', label: '储能配置空间评估', type: 'none' }
+      ]},
+      { name: '负荷侧类', items: [
+        { id: 'sv_users', label: '用户数量确认', type: 'number', unit: '个' },
+        { id: 'sv_qualify', label: '各用户法人资质核查', type: 'none' },
+        { id: 'sv_load', label: '各用户用电负荷测量', type: 'number', unit: 'MW' },
+        { id: 'sv_schedule', label: '用电时段分布记录', type: 'none' },
+        { id: 'sv_flex', label: '负荷灵活性评估', type: 'none' }
+      ]},
+      { name: '合规类', items: [
+        { id: 'sv_usertype', label: '用户类型确认（非居民/非农业）', type: 'none' },
+        { id: 'sv_policy', label: '产业政策合规性核查', type: 'none' },
+        { id: 'sv_entity', label: '主责单位法人资格确认', type: 'none' },
+        { id: 'sv_province', label: '省级能源主管部门沟通情况', type: 'none' }
+      ]}
+    ];
+
+    function m2ShowStep(stepId) {
+      var steps = document.querySelectorAll('#module2 .m2-step');
+      for (var i = 0; i < steps.length; i++) steps[i].classList.remove('active');
+      $(stepId).classList.add('active');
+      scrollToEl($(stepId));
+    }
+
+    function hasSolarOrCombo() {
+      return $('m2-en-solar').checked || $('m2-en-combo').checked;
+    }
+
+    function collectEnergyTypes() {
+      var types = [];
+      if ($('m2-en-solar').checked) types.push('solar');
+      if ($('m2-en-wind').checked) types.push('wind');
+      if ($('m2-en-biomass').checked) types.push('biomass');
+      if ($('m2-en-combo').checked) types.push('combo');
+      return types;
+    }
+
+    /* Step 1 */
+    bindOptionCards('m2-type-cards', 'm2projectType', function (v) {
+      m2State.projectType = v;
+    });
+
+    $('m2-to-s2').addEventListener('click', function () {
+      if (!$('m2-projectName').value.trim()) { alert('请输入项目名称'); return; }
+      m2State.energyTypes = collectEnergyTypes();
+      m2ShowStep('m2s2');
+    });
+
+    /* Step 2 踏勘清单渲染 */
+    function renderSurveyList() {
+      var html = '';
+      for (var g = 0; g < SURVEY_GROUPS.length; g++) {
+        var group = SURVEY_GROUPS[g];
+        html += '<div class="survey-group"><div class="survey-group-title">' + group.name + '</div>';
+        for (var j = 0; j < group.items.length; j++) {
+          var item = group.items[j];
+          html += '<div class="survey-item" data-id="' + item.id + '">';
+          html += '<div class="survey-item-head"><input type="checkbox" id="' + item.id + '" class="sv-check"><label for="' + item.id + '">' + item.label + '</label></div>';
+          if (item.type !== 'none') {
+            html += '<div class="survey-item-extra">';
+            if (item.type === 'number') {
+              html += '<div class="input-wrap"><input type="number" id="' + item.id + '-val" step="any" placeholder="请输入"><span class="suffix">' + (item.unit || '') + '</span></div>';
+            } else if (item.type === 'text') {
+              html += '<input type="text" class="text-input" id="' + item.id + '-val" placeholder="请输入">';
+            } else if (item.type === 'select') {
+              html += '<select class="select-input" id="' + item.id + '-val">';
+              for (var o = 0; o < item.options.length; o++) {
+                html += '<option value="' + item.options[o] + '">' + item.options[o] + '</option>';
+              }
+              html += '</select>';
+            }
+            html += '</div>';
+          }
+          html += '</div>';
         }
+        html += '</div>';
+      }
+      $('m2-survey-list').innerHTML = html;
+
+      var checks = document.querySelectorAll('.sv-check');
+      for (var c = 0; c < checks.length; c++) {
+        checks[c].addEventListener('change', updateSurveyProgress);
+      }
+      updateSurveyProgress();
+    }
+
+    function renderCustomSurveys() {
+      var html = '';
+      for (var i = 0; i < m2State.customSurveys.length; i++) {
+        var cs = m2State.customSurveys[i];
+        html += '<div class="survey-item"><div class="survey-item-head">';
+        html += '<input type="checkbox" id="custom-' + cs.id + '" class="sv-check" ' + (cs.checked ? 'checked' : '') + '>';
+        html += '<label for="custom-' + cs.id + '">' + cs.label + '（自定义）</label></div></div>';
+      }
+      $('m2-custom-list').innerHTML = html;
+      var checks = $('m2-custom-list').querySelectorAll('.sv-check');
+      for (var c = 0; c < checks.length; c++) {
+        checks[c].addEventListener('change', function () {
+          var id = this.id.replace('custom-', '');
+          for (var k = 0; k < m2State.customSurveys.length; k++) {
+            if (m2State.customSurveys[k].id === id) m2State.customSurveys[k].checked = this.checked;
+          }
+          updateSurveyProgress();
+        });
+      }
+      updateSurveyProgress();
+    }
+
+    function getSurveyTotal() {
+      var builtin = document.querySelectorAll('#m2-survey-list .sv-check').length;
+      return builtin + m2State.customSurveys.length;
+    }
+
+    function getSurveyDone() {
+      var done = 0;
+      var checks = document.querySelectorAll('#m2-survey-list .sv-check, #m2-custom-list .sv-check');
+      for (var i = 0; i < checks.length; i++) { if (checks[i].checked) done++; }
+      return done;
+    }
+
+    function updateSurveyProgress() {
+      var total = getSurveyTotal();
+      var done = getSurveyDone();
+      $('m2-progress-text').textContent = '已完成 ' + done + ' / ' + total + ' 项';
+      $('m2-progress-fill').style.width = (total > 0 ? (done / total * 100) : 0) + '%';
+    }
+
+    function getUncheckedSurveyLabels() {
+      var labels = [];
+      var items = document.querySelectorAll('#m2-survey-list .survey-item');
+      for (var i = 0; i < items.length; i++) {
+        var cb = items[i].querySelector('.sv-check');
+        if (!cb.checked) labels.push(items[i].querySelector('label').textContent);
+      }
+      for (var j = 0; j < m2State.customSurveys.length; j++) {
+        if (!m2State.customSurveys[j].checked) labels.push(m2State.customSurveys[j].label);
+      }
+      return labels;
+    }
+
+    $('m2-add-survey').addEventListener('click', function () {
+      if (m2State.customSurveys.length >= 10) { alert('最多新增10项'); return; }
+      show($('m2-add-form'));
+    });
+
+    $('m2-save-custom').addEventListener('click', function () {
+      var text = $('m2-custom-input').value.trim();
+      if (!text) { alert('请输入踏勘项内容'); return; }
+      m2State.customSurveys.push({ id: 'c' + Date.now(), label: text, checked: false });
+      $('m2-custom-input').value = '';
+      hide($('m2-add-form'));
+      renderCustomSurveys();
+    });
+
+    $('m2-to-next').addEventListener('click', function () {
+      if (hasSolarOrCombo()) {
+        if (m2State.roofs.length === 0) initRoofs();
+        m2ShowStep('m2s25');
+      } else {
+        m2ShowStep('m2s3');
+      }
+    });
+
+    /* Step 2.5 屋顶估算 */
+    function createRoofData() {
+      return {
+        id: 'r' + Date.now() + Math.random(),
+        roofType: 'flat',
+        customRoofType: '',
+        areaCoef: 0.70,
+        totalArea: 0,
+        orientation: 'south',
+        customOrientation: '',
+        orientCoef: 1.00,
+        shadeCoef: 0.95,
+        powerDensity: 100,
+        sysEfficiency: 80,
+        sunHours: 4.5
+      };
+    }
+
+    function initRoofs() {
+      m2State.roofs = [createRoofData()];
+      renderRoofs();
+    }
+
+    function calcRoof(r) {
+      var areaCoef = parseFloat(r.areaCoef) || 0;
+      var totalArea = parseFloat(r.totalArea) || 0;
+      var orientCoef = parseFloat(r.orientCoef) || 0;
+      var shadeCoef = parseFloat(r.shadeCoef) || 0;
+      var powerDensity = parseFloat(r.powerDensity) || 0;
+      var sysEff = (parseFloat(r.sysEfficiency) || 0) / 100;
+      var sunHours = parseFloat(r.sunHours) || 0;
+
+      var usableArea = totalArea * areaCoef;
+      var capKwp = usableArea * powerDensity * orientCoef / 1000;
+      var peakHours = sunHours * 365;
+      var annualKwh = capKwp * peakHours * sysEff * shadeCoef;
+      var annualWan = annualKwh / 10000;
+
+      return {
+        usableArea: usableArea,
+        capKwp: capKwp,
+        peakHours: peakHours,
+        annualWan: annualWan
+      };
+    }
+
+    function renderRoofs() {
+      var container = $('m2-roofs-container');
+      var html = '';
+      for (var i = 0; i < m2State.roofs.length; i++) {
+        var r = m2State.roofs[i];
+        var calc = calcRoof(r);
+        html += '<div class="roof-card" data-idx="' + i + '">';
+        html += '<div class="roof-card-title">屋顶 ' + (i + 1);
+        if (m2State.roofs.length > 1) html += '<button type="button" class="btn-sm m2-del-roof" data-idx="' + i + '">删除</button>';
+        html += '</div>';
+
+        html += '<div class="field-row"><label>屋顶类型</label><div class="mini-cards m2-roof-types" data-idx="' + i + '">';
+        for (var t = 0; t < ROOF_TYPES.length; t++) {
+          var rt = ROOF_TYPES[t];
+          html += '<div class="mini-card m2-rt-opt' + (r.roofType === rt.id ? ' selected' : '') + '" data-idx="' + i + '" data-type="' + rt.id + '">' + rt.label + ' <span class="ref-tag">参考 ' + rt.ref + '</span></div>';
+        }
+        html += '<div class="mini-card m2-rt-add" data-idx="' + i + '">+ 新增类型</div></div>';
+        html += '<div class="field-row"><label>可用面积系数</label><div class="input-wrap"><input type="number" class="m2-rf" data-idx="' + i + '" data-field="areaCoef" min="0" max="1" step="0.01" value="' + r.areaCoef + '"></div></div>';
+
+        html += '<div class="field-row"><label>屋顶总面积</label><div class="input-wrap"><input type="number" class="m2-rf" data-idx="' + i + '" data-field="totalArea" min="0" step="any" value="' + (r.totalArea || '') + '"><span class="suffix">m²</span></div></div>';
+
+        html += '<div class="field-row"><label>朝向</label><div class="mini-cards m2-orient-types" data-idx="' + i + '">';
+        for (var o = 0; o < ORIENTATIONS.length; o++) {
+          var ori = ORIENTATIONS[o];
+          html += '<div class="mini-card m2-or-opt' + (r.orientation === ori.id ? ' selected' : '') + '" data-idx="' + i + '" data-ori="' + ori.id + '">' + ori.label + ' <span class="ref-tag">参考 ' + ori.ref + '</span></div>';
+        }
+        html += '<div class="mini-card m2-or-add" data-idx="' + i + '">+ 新增朝向</div></div>';
+        html += '<div class="field-row"><label>朝向系数</label><div class="input-wrap"><input type="number" class="m2-rf" data-idx="' + i + '" data-field="orientCoef" min="0" max="1.5" step="0.01" value="' + r.orientCoef + '"></div></div>';
+
+        html += '<div class="shading-ref">遮挡参考：无遮挡 0.98～1.00 · 轻微 0.92～0.97 · 中等 0.85～0.91 · 较严重 0.75～0.84 · 严重 &lt;0.75</div>';
+        html += '<div class="field-row"><label>遮挡系数</label><div class="input-wrap"><input type="number" class="m2-rf" data-idx="' + i + '" data-field="shadeCoef" min="0" max="1" step="0.01" value="' + r.shadeCoef + '"></div></div>';
+
+        html += '<div class="field-row"><label>组件安装功率密度 <span class="unit">（Wp/m²，一般85～120）</span></label><div class="input-wrap"><input type="number" class="m2-rf" data-idx="' + i + '" data-field="powerDensity" min="0" step="any" value="' + r.powerDensity + '"><span class="suffix">Wp/m²</span></div></div>';
+        html += '<div class="field-row"><label>系统综合效率 <span class="unit">（%，一般75%～85%）</span></label><div class="input-wrap"><input type="number" class="m2-rf" data-idx="' + i + '" data-field="sysEfficiency" min="0" max="100" step="any" value="' + r.sysEfficiency + '"><span class="suffix">%</span></div></div>';
+        html += '<div class="field-row"><label>日均峰值日照小时 <span class="unit">（h/天）</span></label><div class="input-wrap"><input type="number" class="m2-rf" data-idx="' + i + '" data-field="sunHours" min="0" step="any" value="' + r.sunHours + '"><span class="suffix">h/天</span></div></div>';
+
+        html += '<div class="calc-box">';
+        html += '① 可用面积 = ' + calc.usableArea.toFixed(1) + ' m²<br>';
+        html += '② 理论装机 = ' + calc.capKwp.toFixed(2) + ' kWp<br>';
+        html += '③ 年峰值小时 = ' + calc.peakHours.toFixed(0) + ' h<br>';
+        html += '④ 年发电量 = ' + calc.annualWan.toFixed(2) + ' 万kWh';
+        html += '</div></div>';
+      }
+      container.innerHTML = html;
+      bindRoofEvents();
+      updateRoofTotals();
+    }
+
+    function bindRoofEvents() {
+      var rfInputs = document.querySelectorAll('.m2-rf');
+      for (var i = 0; i < rfInputs.length; i++) {
+        rfInputs[i].addEventListener('input', function () {
+          var idx = parseInt(this.getAttribute('data-idx'), 10);
+          var field = this.getAttribute('data-field');
+          m2State.roofs[idx][field] = this.value;
+          renderRoofs();
+        });
+      }
+
+      var rtOpts = document.querySelectorAll('.m2-rt-opt');
+      for (var r = 0; r < rtOpts.length; r++) {
+        rtOpts[r].addEventListener('click', function () {
+          var idx = parseInt(this.getAttribute('data-idx'), 10);
+          var type = this.getAttribute('data-type');
+          m2State.roofs[idx].roofType = type;
+          for (var t = 0; t < ROOF_TYPES.length; t++) {
+            if (ROOF_TYPES[t].id === type) m2State.roofs[idx].areaCoef = ROOF_TYPES[t].defaultCoef;
+          }
+          renderRoofs();
+        });
+      }
+
+      var orOpts = document.querySelectorAll('.m2-or-opt');
+      for (var o = 0; o < orOpts.length; o++) {
+        orOpts[o].addEventListener('click', function () {
+          var idx = parseInt(this.getAttribute('data-idx'), 10);
+          var ori = this.getAttribute('data-ori');
+          m2State.roofs[idx].orientation = ori;
+          for (var j = 0; j < ORIENTATIONS.length; j++) {
+            if (ORIENTATIONS[j].id === ori) m2State.roofs[idx].orientCoef = ORIENTATIONS[j].defaultCoef;
+          }
+          renderRoofs();
+        });
+      }
+
+      var rtAdds = document.querySelectorAll('.m2-rt-add');
+      for (var a = 0; a < rtAdds.length; a++) {
+        rtAdds[a].addEventListener('click', function () {
+          var name = prompt('请输入屋顶类型名称');
+          if (name) {
+            var idx = parseInt(this.getAttribute('data-idx'), 10);
+            m2State.roofs[idx].roofType = 'custom';
+            m2State.roofs[idx].customRoofType = name;
+            renderRoofs();
+          }
+        });
+      }
+
+      var orAdds = document.querySelectorAll('.m2-or-add');
+      for (var b = 0; b < orAdds.length; b++) {
+        orAdds[b].addEventListener('click', function () {
+          var name = prompt('请输入朝向描述');
+          if (name) {
+            var idx = parseInt(this.getAttribute('data-idx'), 10);
+            m2State.roofs[idx].orientation = 'custom';
+            m2State.roofs[idx].customOrientation = name;
+            renderRoofs();
+          }
+        });
+      }
+
+      var dels = document.querySelectorAll('.m2-del-roof');
+      for (var d = 0; d < dels.length; d++) {
+        dels[d].addEventListener('click', function () {
+          var idx = parseInt(this.getAttribute('data-idx'), 10);
+          m2State.roofs.splice(idx, 1);
+          renderRoofs();
+        });
+      }
+    }
+
+    function updateRoofTotals() {
+      var totalKwp = 0, totalGen = 0;
+      for (var i = 0; i < m2State.roofs.length; i++) {
+        var c = calcRoof(m2State.roofs[i]);
+        totalKwp += c.capKwp;
+        totalGen += c.annualWan;
+      }
+      $('m2-total-kwp').textContent = totalKwp.toFixed(2);
+      $('m2-total-gen').textContent = totalGen.toFixed(2);
+      m2State.roofAnnualGen = totalGen;
+    }
+
+    $('m2-add-roof').addEventListener('click', function () {
+      if (m2State.roofs.length >= 5) { alert('最多5栋屋顶'); return; }
+      m2State.roofs.push(createRoofData());
+      renderRoofs();
+    });
+
+    $('m2-import-s3').addEventListener('click', function () {
+      var totalKwp = parseFloat($('m2-total-kwp').textContent) || 0;
+      var totalGen = parseFloat($('m2-total-gen').textContent) || 0;
+      m2State.fromRoof = true;
+      m2State.roofAnnualGen = totalGen;
+      $('m2-capacity').value = (totalKwp / 1000).toFixed(4);
+      $('m2-capacity').classList.add('input-highlight');
+      show($('m2-cap-badge'));
+      var cap = totalKwp / 1000;
+      var rate = parseFloat($('m2-auxRate').value) || 5;
+      if (cap > 0 && totalGen > 0) {
+        var hours = totalGen * 10000 / (cap * 1000 * (1 - rate / 100));
+        $('m2-hours').value = hours.toFixed(0);
+      }
+      calcStep3();
+      m2ShowStep('m2s3');
+    });
+
+    $('m2-skip-s25').addEventListener('click', function () {
+      m2State.fromRoof = false;
+      m2ShowStep('m2s3');
+    });
+
+    /* Step 3 资源与负荷 */
+    function renderUserTable() {
+      var tbody = $('m2-user-body');
+      var html = '';
+      for (var i = 0; i < m2State.users.length; i++) {
+        var u = m2State.users[i];
+        var annual = (parseFloat(u.power) || 0) * (parseFloat(u.hours) || 0) / 10;
+        html += '<tr data-idx="' + i + '">';
+        html += '<td><input type="text" class="m2-un" data-idx="' + i + '" data-f="name" value="' + (u.name || '') + '"></td>';
+        html += '<td><input type="number" class="m2-un" data-idx="' + i + '" data-f="power" step="any" value="' + (u.power || '') + '"></td>';
+        html += '<td><input type="number" class="m2-un" data-idx="' + i + '" data-f="hours" step="any" value="' + (u.hours || '') + '"></td>';
+        html += '<td class="auto-val">' + annual.toFixed(2) + ' 万kWh</td></tr>';
+      }
+      tbody.innerHTML = html;
+      var inputs = tbody.querySelectorAll('.m2-un');
+      for (var j = 0; j < inputs.length; j++) {
+        inputs[j].addEventListener('input', function () {
+          var idx = parseInt(this.getAttribute('data-idx'), 10);
+          var f = this.getAttribute('data-f');
+          m2State.users[idx][f] = this.value;
+          calcStep3();
+          renderUserTable();
+        });
+      }
+    }
+
+    function calcStep3() {
+      var cap = parseFloat($('m2-capacity').value) || 0;
+      var hours = parseFloat($('m2-hours').value) || 0;
+      var rate = parseFloat($('m2-auxRate').value) || 0;
+      var annualGen = cap * 1000 * hours * (1 - rate / 100) / 10000;
+      $('m2-annualGen').textContent = annualGen > 0 ? annualGen.toFixed(2) : '—';
+
+      var totalLoad = 0;
+      for (var i = 0; i < m2State.users.length; i++) {
+        totalLoad += (parseFloat(m2State.users[i].power) || 0) * (parseFloat(m2State.users[i].hours) || 0) / 10;
+      }
+      $('m2-totalLoad').textContent = totalLoad.toFixed(2);
+
+      var selfUse = annualGen * m2State.flexCoef;
+      var gridFeed = Math.max(0, annualGen - selfUse);
+      $('m2-selfUse').textContent = annualGen > 0 ? selfUse.toFixed(2) : '—';
+      $('m2-gridFeed').textContent = annualGen > 0 ? gridFeed.toFixed(2) : '—';
+
+      return { annualGen: annualGen, totalLoad: totalLoad, selfUse: selfUse, gridFeed: gridFeed };
+    }
+
+    ['m2-capacity', 'm2-hours', 'm2-auxRate'].forEach(function (id) {
+      $(id).addEventListener('input', calcStep3);
+    });
+
+    $('m2-add-user').addEventListener('click', function () {
+      if (m2State.users.length >= 8) { alert('最多8个用户'); return; }
+      m2State.users.push({ name: '', power: 0, hours: 0 });
+      renderUserTable();
+    });
+
+    var flexOpts = document.querySelectorAll('#m2-flex-options .flex-option');
+    for (var f = 0; f < flexOpts.length; f++) {
+      flexOpts[f].addEventListener('click', function () {
+        for (var j = 0; j < flexOpts.length; j++) flexOpts[j].classList.remove('selected');
         this.classList.add('selected');
-        calcYear = this.getAttribute('data-year');
-        hideOutput2();
+        m2State.flexCoef = parseFloat(this.getAttribute('data-coef'));
+        calcStep3();
       });
     }
 
-    function validateSelfUse() {
-      var totalGen = parseFloat($('totalGen').value) || 0;
-      var selfUse = parseFloat($('selfUse').value) || 0;
-      var err = $('selfUse-error');
-      if (selfUse > totalGen && totalGen > 0) { show(err); return false; }
-      hide(err);
-      return true;
-    }
-
-    function validateGridFeed() {
-      var totalGen = parseFloat($('totalGen').value) || 0;
-      var gridFeed = parseFloat($('gridFeed').value) || 0;
-      var err = $('gridFeed-error');
-      if (gridFeed > totalGen && totalGen > 0) { show(err); return false; }
-      hide(err);
-      return true;
-    }
-
-    $('totalGen').addEventListener('input', function () {
-      validateSelfUse();
-      validateGridFeed();
-      hideOutput2();
+    $('m2-to-s4').addEventListener('click', function () {
+      var d = calcStep3();
+      if (!d.annualGen || d.annualGen <= 0) { alert('请填写有效的发电侧数据'); return; }
+      if (!d.totalLoad || d.totalLoad <= 0) { alert('请填写有效的用电侧数据'); return; }
+      renderCompliance(d);
+      m2ShowStep('m2s4');
     });
-    $('selfUse').addEventListener('input', function () {
-      validateSelfUse();
-      hideOutput2();
-    });
-    $('gridFeed').addEventListener('input', function () {
-      validateGridFeed();
-      hideOutput2();
-    });
-    $('totalLoad').addEventListener('input', hideOutput2);
 
+    /* Step 4 合规测算 */
     function calculate(inputs) {
       var totalGen = inputs.totalGen;
       var selfUse = inputs.selfUse;
@@ -1216,68 +2088,51 @@
       var needReduce = p3 ? 0 : parseFloat(((r3 - 0.20) * totalGen).toFixed(2));
 
       return {
-        r1: r1, r2: r2, r3: r3,
-        p1: p1, p2: p2, p3: p3,
-        r2threshold: r2threshold,
-        needSelfUse: needSelfUse,
-        needReduce: needReduce,
+        r1: r1, r2: r2, r3: r3, p1: p1, p2: p2, p3: p3,
+        r2threshold: r2threshold, needSelfUse: needSelfUse, needReduce: needReduce,
         allPass: p1 && p2 && p3,
         failCount: [p1, p2, p3].filter(function (x) { return !x; }).length
       };
     }
 
-    function hideOutput2() {
-      $('output2').classList.remove('visible');
-    }
+    function renderCompliance(data) {
+      $('m2s4-gen').textContent = data.annualGen.toFixed(2);
+      $('m2s4-self').textContent = data.selfUse.toFixed(2);
+      $('m2s4-load').textContent = data.totalLoad.toFixed(2);
+      $('m2s4-feed').textContent = data.gridFeed.toFixed(2);
 
-    function renderM2Output(result, year) {
-      var r2Label = year === 'before2030' ? '≥35%（2030年前）' : '≥30%（2030年后）';
+      var result = calculate({
+        totalGen: data.annualGen,
+        selfUse: data.selfUse,
+        totalLoad: data.totalLoad,
+        gridFeed: data.gridFeed,
+        year: m2State.calcYear
+      });
+      m2State.complianceResult = result;
+      m2State.step3Data = data;
 
+      var r2Label = m2State.calcYear === 'before2030' ? '≥35%（2030年前）' : '≥30%（2030年后）';
       var metrics = [
-        {
-          name: '自发自用 / 总可用发电量',
-          value: result.r1,
-          threshold: '≥60%',
-          pass: result.p1,
-          gap: result.p1 ? '' : pct(0.60 - result.r1),
-          fix: result.p1 ? '' : '需增加自发自用电量约 ' + result.needSelfUse + ' 万kWh'
-        },
-        {
-          name: '自发自用 / 总用电量',
-          value: result.r2,
-          threshold: r2Label,
-          pass: result.p2,
-          gap: result.p2 ? '' : pct(result.r2threshold - result.r2),
-          fix: result.p2 ? '' : '需增加自发自用电量约 ' + result.needSelfUse + ' 万kWh'
-        },
-        {
-          name: '上网电量 / 总可用发电量',
-          value: result.r3,
-          threshold: '原则上≤20%',
-          pass: result.p3,
-          gap: result.p3 ? '' : pct(result.r3 - 0.20),
-          fix: result.p3 ? '' : '需减少上网电量约 ' + result.needReduce + ' 万kWh'
-        }
+        { name: '自发自用 / 总可用发电量', value: result.r1, threshold: '≥60%', pass: result.p1, gap: pct(0.60 - result.r1), fix: '需增加自发自用电量约 ' + result.needSelfUse + ' 万kWh' },
+        { name: '自发自用 / 总用电量', value: result.r2, threshold: r2Label, pass: result.p2, gap: pct(result.r2threshold - result.r2), fix: '需增加自发自用电量约 ' + result.needSelfUse + ' 万kWh' },
+        { name: '上网电量 / 总可用发电量', value: result.r3, threshold: '原则上≤20%', pass: result.p3, gap: pct(result.r3 - 0.20), fix: '需减少上网电量约 ' + result.needReduce + ' 万kWh' }
       ];
 
       var html = '';
       for (var m = 0; m < metrics.length; m++) {
         var met = metrics[m];
-        html += '<div class="metric-card ' + (met.pass ? 'pass' : 'fail') + '">';
+        html += '<div class="metric-card ' + (met.pass ? 'pass' : 'fail') + '" style="margin:0 0 10px;">';
         html += '<div class="metric-name">' + met.name + '</div>';
         html += '<div class="metric-row"><span>计算值：' + pct(met.value) + '</span><span>门槛：' + met.threshold + '</span></div>';
         html += '<div class="metric-conclusion">' + (met.pass ? '✅ 达标' : '❌ 未达标，差 ' + met.gap) + '</div>';
-        if (!met.pass && met.fix) {
-          html += '<div class="metric-fix">整改：' + met.fix + '</div>';
-        }
+        if (!met.pass) html += '<div class="metric-fix">整改：' + met.fix + '</div>';
         html += '</div>';
       }
-      $('metrics-container').innerHTML = html;
+      $('m2-metrics-container').innerHTML = html;
 
-      var header = $('result2-header');
-      var icon = $('result2-icon');
-      var title = $('result2-title');
-
+      var header = $('m2-compliance-header');
+      var icon = $('m2-compliance-icon');
+      var title = $('m2-compliance-title');
       if (result.allPass) {
         header.className = 'result-header pass';
         icon.textContent = '✅';
@@ -1291,49 +2146,153 @@
         icon.textContent = '⚠️';
         title.textContent = result.failCount + '项指标未达标，请参考整改建议';
       }
-
-      $('output2').classList.add('visible');
-      scrollToEl($('output2'));
     }
 
-    $('btn-calc').addEventListener('click', function () {
-      var totalGen = parseFloat($('totalGen').value);
-      var selfUse = parseFloat($('selfUse').value);
-      var totalLoad = parseFloat($('totalLoad').value);
-      var gridFeed = parseFloat($('gridFeed').value);
-
-      if (!totalGen || totalGen <= 0) { alert('请输入有效的年总可用发电量'); return; }
-      if (isNaN(selfUse) || selfUse < 0) { alert('请输入有效的年自发自用电量'); return; }
-      if (!totalLoad || totalLoad <= 0) { alert('请输入有效的年总用电量'); return; }
-      if (isNaN(gridFeed) || gridFeed < 0) { alert('请输入有效的年上网电量'); return; }
-      if (!validateSelfUse() || !validateGridFeed()) return;
-      if (selfUse > totalGen) { alert('自发自用电量不能超过总可用发电量'); return; }
-      if (gridFeed > totalGen) { alert('上网电量不能超过总可用发电量'); return; }
-
-      var result = calculate({
-        totalGen: totalGen,
-        selfUse: selfUse,
-        totalLoad: totalLoad,
-        gridFeed: gridFeed,
-        year: calcYear
+    var m2YearOpts = document.querySelectorAll('#m2-year-options .year-option');
+    for (var y = 0; y < m2YearOpts.length; y++) {
+      m2YearOpts[y].addEventListener('click', function () {
+        for (var yo = 0; yo < m2YearOpts.length; yo++) m2YearOpts[yo].classList.remove('selected');
+        this.classList.add('selected');
+        m2State.calcYear = this.getAttribute('data-year');
+        var d = calcStep3();
+        if (d.annualGen > 0) renderCompliance(d);
       });
-      renderM2Output(result, calcYear);
+    }
+
+    $('m2-to-s5').addEventListener('click', function () {
+      var d = m2State.step3Data || calcStep3();
+      $('m2-emi-selfUse').value = d.selfUse.toFixed(2);
+      calcEmission();
+      m2ShowStep('m2s5');
     });
 
-    $('reset2').addEventListener('click', function () {
-      hideOutput2();
-      $('totalGen').value = '';
-      $('selfUse').value = '';
-      $('totalLoad').value = '';
-      $('gridFeed').value = '';
-      hide($('selfUse-error'));
-      hide($('gridFeed-error'));
-      calcYear = 'before2030';
-      for (var yo = 0; yo < yearOptions.length; yo++) {
-        yearOptions[yo].classList.toggle('selected', yearOptions[yo].getAttribute('data-year') === 'before2030');
-      }
-      scrollToEl($('module2'));
+    /* Step 5 减排 */
+    function calcEmission() {
+      var selfUse = parseFloat($('m2-emi-selfUse').value) || 0;
+      var factor = parseFloat($('m2-emissionFactor').value) || 0;
+      var years = parseInt($('m2-opYears').value, 10) || 25;
+
+      var annualTon = selfUse * 10000 * factor / 1000;
+      var lifecycleTon = annualTon * years;
+      var treesWan = annualTon * 1000 / 21.8 / 10000;
+
+      $('m2-annualEmission').textContent = annualTon.toFixed(1);
+      $('m2-trees').textContent = treesWan.toFixed(2);
+      $('m2-lifecycleEmission').textContent = (lifecycleTon / 10000).toFixed(2);
+      $('m2-lifecycleYears').textContent = years;
+
+      m2State.emissionResult = {
+        annualTon: annualTon,
+        lifecycleTon: lifecycleTon,
+        treesWan: treesWan,
+        years: years
+      };
+    }
+
+    ['m2-emissionFactor', 'm2-opYears'].forEach(function (id) {
+      $(id).addEventListener('input', calcEmission);
     });
+
+    /* 生成报告 */
+    $('m2-gen-report').addEventListener('click', function () {
+      calcEmission();
+      renderReport();
+      $('m2-report').classList.add('visible');
+      scrollToEl($('m2-report'));
+    });
+
+    function renderReport() {
+      var d = m2State.step3Data || calcStep3();
+      var cr = m2State.complianceResult;
+      var er = m2State.emissionResult;
+      var done = getSurveyDone();
+      var total = getSurveyTotal();
+      var unchecked = getUncheckedSurveyLabels();
+
+      var typeLabel = m2State.projectType === 'grid' ? '并网型' : '离网型';
+      var enLabels = { solar: '光伏', wind: '风电', biomass: '生物质', combo: '组合' };
+      var enStr = m2State.energyTypes.map(function (t) { return enLabels[t] || t; }).join('、') || '—';
+
+      $('m2-report-meta').innerHTML =
+        '项目名称：' + ($('m2-projectName').value || '—') + '<br>' +
+        '所在地区：' + ($('m2-location').value || '—') + '<br>' +
+        '踏勘日期：' + ($('m2-surveyDate').value || '—') + '<br>' +
+        '填报人：' + ($('m2-reporter').value || '—') + '<br>' +
+        '项目类型：' + typeLabel + ' · 新能源类型：' + enStr;
+
+      var html = '';
+
+      html += '<div class="report-section"><h3>【现场踏勘】</h3><p>已完成 ' + done + ' / ' + total + ' 项';
+      if (unchecked.length > 0) html += '，未完成项：' + unchecked.join('、');
+      html += '</p></div>';
+
+      html += '<div class="report-section"><h3>【资源评估】</h3><ul>';
+      html += '<li>装机：' + (parseFloat($('m2-capacity').value) || 0).toFixed(2) + ' MW</li>';
+      html += '<li>利用小时：' + (parseFloat($('m2-hours').value) || 0) + ' h</li>';
+      html += '<li>年可用发电量：' + d.annualGen.toFixed(2) + ' 万kWh</li>';
+      if (m2State.fromRoof) html += '<li>（含屋顶估算数据）</li>';
+      html += '</ul></div>';
+
+      html += '<div class="report-section"><h3>【负荷摸底】</h3><ul>';
+      html += '<li>用户数：' + m2State.users.length + ' 个</li>';
+      html += '<li>年总用电量：' + d.totalLoad.toFixed(2) + ' 万kWh</li>';
+      html += '</ul></div>';
+
+      if (cr) {
+        html += '<div class="report-section"><h3>【合规测算】</h3><ul>';
+        html += '<li>指标一：' + pct(cr.r1) + ' ' + (cr.p1 ? '✅' : '❌') + '</li>';
+        html += '<li>指标二：' + pct(cr.r2) + ' ' + (cr.p2 ? '✅' : '❌') + '</li>';
+        html += '<li>指标三：' + pct(cr.r3) + ' ' + (cr.p3 ? '✅' : '❌') + '</li>';
+        html += '<li>综合结论：' + (cr.allPass ? '三项指标均符合政策规划要求' : cr.failCount + '项指标未达标') + '</li>';
+        html += '</ul></div>';
+      }
+
+      if (er) {
+        html += '<div class="report-section"><h3>【减排效益】</h3><ul>';
+        html += '<li>年减排：' + er.annualTon.toFixed(1) + ' 吨CO₂</li>';
+        html += '<li>全周期：' + (er.lifecycleTon / 10000).toFixed(2) + ' 万吨CO₂（' + er.years + '年）</li>';
+        html += '<li>等效植树：' + er.treesWan.toFixed(2) + ' 万棵/年</li>';
+        html += '</ul></div>';
+      }
+
+      if (cr && !cr.allPass) {
+        html += '<div class="report-section"><h3>【整改建议】</h3><ul>';
+        if (!cr.p1 || !cr.p2) html += '<li>指标一/二未达标：需增加自发自用电量约 ' + cr.needSelfUse + ' 万kWh</li>';
+        if (!cr.p3) html += '<li>指标三未达标：需减少上网电量约 ' + cr.needReduce + ' 万kWh</li>';
+        html += '</ul></div>';
+      }
+
+      $('m2-report-body').innerHTML = html;
+    }
+
+    $('m2-export-pdf').addEventListener('click', function () {
+      window.print();
+    });
+
+    $('m2-reset-calc').addEventListener('click', function () {
+      $('m2-report').classList.remove('visible');
+      m2State.fromRoof = false;
+      m2State.complianceResult = null;
+      m2State.emissionResult = null;
+      $('m2-capacity').value = '';
+      $('m2-capacity').classList.remove('input-highlight');
+      hide($('m2-cap-badge'));
+      $('m2-hours').value = '';
+      $('m2-auxRate').value = '5';
+      $('m2-storage').value = '';
+      m2State.users = [{ name: '', power: 0, hours: 0 }];
+      renderUserTable();
+      calcStep3();
+      m2ShowStep('m2s3');
+    });
+
+    /* 模块二初始化 */
+    renderSurveyList();
+    renderUserTable();
+    var today = new Date();
+    var mm = today.getMonth() + 1;
+    var dd = today.getDate();
+    $('m2-surveyDate').value = today.getFullYear() + '-' + (mm < 10 ? '0' : '') + mm + '-' + (dd < 10 ? '0' : '') + dd;
 
   })();
   </script>

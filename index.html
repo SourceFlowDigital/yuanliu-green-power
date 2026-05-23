@@ -211,6 +211,38 @@
     .collapsible-child .collapsible-header:hover {
       background: #102840;
     }
+    .param-tooltip {
+      display: none;
+      position: absolute;
+      z-index: 200;
+      background: #132236;
+      border: 1px solid #4a9ebb;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 12px;
+      color: #8fa8c0;
+      line-height: 1.8;
+      max-width: 280px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+      white-space: pre-wrap;
+    }
+    .param-tooltip.visible { display: block; }
+    .tooltip-wrap { position: relative; }
+    .tooltip-icon {
+      display: inline-block;
+      width: 16px; height: 16px;
+      background: #1e3a52;
+      border: 1px solid #4a9ebb;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 16px;
+      font-size: 11px;
+      color: #4a9ebb;
+      cursor: pointer;
+      margin-left: 6px;
+      user-select: none;
+      flex-shrink: 0;
+    }
     @media print {
       .collapsible-content { max-height: none !important; overflow: visible !important; }
       .collapsible-header.open + .collapsible-content { max-height: none !important; }
@@ -287,10 +319,6 @@
         <div class="field-row hidden" id="st-other-row"><label>场地描述</label><input type="text" class="text-input" id="st-other-input" placeholder="描述其他场地类型"></div>
           </div></div>
         </div>
-
-        <div id="hint-solar" class="ref-hint-card hidden"><strong>光伏参考参数</strong><br>组件功率密度：85～120 Wp/m²<br>系统综合效率：75%～85%<br>建议使用 <a href="https://solargis.com/maps-and-gis-data/overview" target="_blank">Solargis</a> 获取年有效发电小时数</div>
-        <div id="hint-wind" class="ref-hint-card hidden"><strong>风电参考参数</strong><br>系统效率：80%～90%<br>建议咨询当地气象部门获取风资源数据</div>
-        <div id="hint-biomass" class="ref-hint-card hidden"><strong>生物质参考参数</strong><br>年运行小时数：6000～7500h<br>厂用电率：5%～8%</div>
 
         <div id="sec-roof" class="hidden collapsible-wrap">
           <div class="collapsible-header" id="coll-roof-hdr"><span class="header-title">屋顶光伏估算</span><span class="header-right"><span class="header-summary" id="coll-roof-sum"></span><span class="arrow">▼</span></span></div>
@@ -510,6 +538,21 @@
       bindCollapsible(headers[i]);
     }
   }
+  function bindTooltip(iconEl, tooltipEl) {
+    iconEl.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var visible = tooltipEl.classList.contains('visible');
+      document.querySelectorAll('.param-tooltip').forEach(function(t) {
+        t.classList.remove('visible');
+      });
+      if (!visible) tooltipEl.classList.add('visible');
+    });
+  }
+  document.addEventListener('click', function() {
+    document.querySelectorAll('.param-tooltip').forEach(function(t) {
+      t.classList.remove('visible');
+    });
+  });
   function setCollSummary(headerId, summaryText) {
     var el = $(headerId);
     if (el) {
@@ -558,22 +601,6 @@
   var SLOT_LABELS = ['00-02','02-04','04-06','06-08','08-10','10-12','12-14','14-16','16-18','18-20','20-22','22-24'];
   var PV_WEIGHTS = [0,0,0.02,0.08,0.15,0.20,0.22,0.18,0.10,0.05,0,0];
 
-  var ROOF_TYPES = [
-    { id: 'flat', label: '平屋顶', ref: '0.65～0.75', coef: 0.70 },
-    { id: 'slope', label: '坡屋顶朝南', ref: '0.80～0.90', coef: 0.85 },
-    { id: 'saw', label: '锯齿形厂房', ref: '0.55～0.65', coef: 0.60 },
-    { id: 'steel', label: '彩钢瓦屋顶', ref: '0.75～0.85', coef: 0.80 }
-  ];
-  var ORIENTATIONS = [
-    { id: 'south', label: '正南', ref: '1.00', coef: 1.00 },
-    { id: 'se15', label: '南偏东15°', ref: '0.97～0.99', coef: 0.98 },
-    { id: 'sw15', label: '南偏西15°', ref: '0.97～0.99', coef: 0.98 },
-    { id: 'se30', label: '南偏东30°', ref: '0.92～0.95', coef: 0.93 },
-    { id: 'sw30', label: '南偏西30°', ref: '0.92～0.95', coef: 0.93 },
-    { id: 'east', label: '东向', ref: '0.82～0.88', coef: 0.85 },
-    { id: 'west', label: '西向', ref: '0.82～0.88', coef: 0.85 },
-    { id: 'north', label: '北向', ref: '0.65～0.75', coef: 0.70 }
-  ];
   var GROUND_TYPES = ['地面','荒地','鱼塘','农业大棚'];
   var GREEN_DEMAND = ['有绿电比例要求','重点用能企业','碳排放企业','出口外向型','算力设施','绿氢氨醇','其他'];
 
@@ -600,7 +627,7 @@
   }
 
   function createRoof() {
-    return { id:'r'+Date.now(), roofType:'flat', areaCoef:0.70, totalArea:0, orientation:'south', orientCoef:1.0, shadeCoef:0.95, powerDensity:100, sunHours:4.5 };
+    return { id:'r'+Date.now(), name:'', areaMode:'calc', totalArea:0, areaCoef:0.70, usableArea:0, orientCoef:1.00, shadeCoef:0.95, powerDensity:220, sunHours:1643 };
   }
 
   function createGroundArea(type) {
@@ -745,60 +772,68 @@
     return t;
   }
 
-  function updateRefHints() {
-    hide($('hint-solar')); hide($('hint-wind')); hide($('hint-biomass'));
-    if(hasSolar()) show($('hint-solar'));
-    if(hasWind()) show($('hint-wind'));
-    if(hasBiomass()) show($('hint-biomass'));
-  }
-
-  document.querySelectorAll('#s1-energy input').forEach(function(el){ el.addEventListener('change', updateRefHints); });
-
   /* ===== Roof calc ===== */
   function calcRoof(r) {
-    var ua=num(r.totalArea)*num(r.areaCoef);
-    var cap=ua*num(r.powerDensity)*num(r.orientCoef)/1000;
-    var effHours=num(r.sunHours)*365;
-    var gen=cap*effHours*num(r.shadeCoef);
-    return {ua:ua,cap:cap,effHours:effHours,gen:gen};
+    var ua = r.areaMode === 'direct'
+      ? num(r.usableArea)
+      : num(r.totalArea) * num(r.areaCoef);
+    var cap = ua * num(r.powerDensity) / 1000;
+    var gen = cap * num(r.sunHours) * num(r.shadeCoef) * num(r.orientCoef);
+    return { ua: ua, cap: cap, gen: gen };
+  }
+
+  var ROOF_TIP_AREA = '平屋顶：0.65～0.75\n坡屋顶朝南：0.80～0.90\n锯齿形厂房：0.55～0.65\n彩钢瓦屋顶：0.75～0.85\n说明：系数含运维通道、设备遮挡等因素';
+  var ROOF_TIP_ORIENT = '正南：1.00\n南偏东/西15°：0.97～0.99\n南偏东/西30°：0.92～0.95\n东向/西向：0.82～0.88\n北向：0.65～0.75';
+  var ROOF_TIP_SHADE = '无遮挡：0.98～1.00\n轻微遮挡：0.92～0.97\n中等遮挡：0.85～0.91\n较严重遮挡：0.75～0.84\n严重遮挡：&lt;0.75';
+  var ROOF_TIP_POWER = '主流N型TOPCon/BC组件功率密度：\n· 平屋顶（含间距）：120～150 Wp/m²\n· 彩钢瓦坡屋顶（贴面）：180～210 Wp/m²\n· 低载荷屋面：180～210 Wp/m²\n主流组件本体密度：220～260 Wp/m²\n（隆基/晶科/天合/阿特斯主流型号）\n建议：已含可用面积系数时用120-210，\n未含时用220-260';
+  var ROOF_TIP_SUN = '建议通过 Solargis 获取当地数据\n西北地区：1400～1800h/年\n华东华南：1000～1400h/年\n东北内蒙：1300～1600h/年';
+
+  function bindRoofTooltips(container) {
+    var icons = container.querySelectorAll('.tooltip-icon');
+    for (var i = 0; i < icons.length; i++) {
+      (function(icon) {
+        var wrap = icon.parentElement;
+        var tip = wrap ? wrap.querySelector('.param-tooltip') : null;
+        if (tip) bindTooltip(icon, tip);
+      })(icons[i]);
+    }
   }
 
   function renderRoofs() {
     var box=$('roofs-container'), html='', totalCap=0, totalGen=0, i;
     for(i=0;i<state.roofs.length;i++) {
       var r=state.roofs[i], c=calcRoof(r);
+      if(!r.areaMode) r.areaMode='calc';
       totalCap+=c.cap; totalGen+=c.gen;
       var roofInner='';
-      roofInner+='<div class="field-row"><label>屋顶类型</label><div class="mini-cards">';
-      for(var t=0;t<ROOF_TYPES.length;t++) {
-        var rt=ROOF_TYPES[t];
-        roofInner+='<div class="mini-card rt-pick'+(r.roofType===rt.id?' selected':'')+'" data-i="'+i+'" data-t="'+rt.id+'">'+rt.label+' <span class="ref">'+rt.ref+'</span></div>';
-      }
-      roofInner+='</div></div>';
-      roofInner+='<div class="field-row"><label>可用面积系数</label><input type="number" step="0.01" class="text-input rf" data-i="'+i+'" data-f="areaCoef" value="'+r.areaCoef+'"></div>';
+      roofInner+='<div class="field-row"><label>屋顶名称</label><input type="text" class="text-input rf" data-i="'+i+'" data-f="name" placeholder="如&quot;厂房A屋顶&quot;" value="'+(r.name||'')+'"></div>';
+      roofInner+='<div class="field-row"><label>可用面积核定方式</label><select class="select-input rf-area-mode" data-i="'+i+'">';
+      roofInner+='<option value="calc"'+(r.areaMode!=='direct'?' selected':'')+'>方案一：按系数计算</option>';
+      roofInner+='<option value="direct"'+(r.areaMode==='direct'?' selected':'')+'>方案二：直接填写可用面积</option>';
+      roofInner+='</select></div>';
+      roofInner+='<div class="rf-mode-calc'+(r.areaMode==='direct'?' hidden':'')+'">';
       roofInner+='<div class="field-row"><label>屋顶总面积(m²)</label><input type="number" step="0.01" class="text-input rf" data-i="'+i+'" data-f="totalArea" value="'+(r.totalArea||'')+'"></div>';
-      roofInner+='<div class="field-row"><label>朝向</label><div class="mini-cards">';
-      for(var o=0;o<ORIENTATIONS.length;o++) {
-        var ori=ORIENTATIONS[o];
-        roofInner+='<div class="mini-card or-pick'+(r.orientation===ori.id?' selected':'')+'" data-i="'+i+'" data-o="'+ori.id+'">'+ori.label+' <span class="ref">'+ori.ref+'</span></div>';
-      }
-      roofInner+='</div></div>';
-      roofInner+='<div class="field-row"><label>朝向系数</label><input type="number" step="0.01" class="text-input rf" data-i="'+i+'" data-f="orientCoef" value="'+r.orientCoef+'"></div>';
-      roofInner+='<div class="shading-ref">无遮挡0.98～1.00 · 轻微0.92～0.97 · 中等0.85～0.91 · 较严重0.75～0.84 · 严重&lt;0.75</div>';
-      roofInner+='<div class="field-row"><label>遮挡系数</label><input type="number" step="0.01" class="text-input rf" data-i="'+i+'" data-f="shadeCoef" value="'+r.shadeCoef+'"></div>';
-      roofInner+='<div class="field-row"><label>功率密度(Wp/m²)</label><input type="number" step="0.01" class="text-input rf" data-i="'+i+'" data-f="powerDensity" value="'+r.powerDensity+'"><p class="hint-sm">一般85～120 Wp/m²</p></div>';
-      roofInner+='<div class="field-row"><label>日均峰值日照(h/天)</label><input type="number" step="0.01" class="text-input rf" data-i="'+i+'" data-f="sunHours" value="'+r.sunHours+'">';
-      roofInner+='<p class="hint-sm">建议使用 <a href="https://solargis.com/maps-and-gis-data/overview" target="_blank" rel="noopener">Solargis</a> 获取数据</p></div>';
-      roofInner+='<div class="calc-box">①可用面积='+c.ua.toFixed(1)+'m² ②装机='+c.cap.toFixed(2)+'kW ③有效小时='+c.effHours.toFixed(0)+'h<br>④年发电量='+fmt(c.gen)+' kWh</div>';
+      roofInner+='<div class="field-row"><label class="tooltip-wrap">可用面积系数<span class="tooltip-icon">?</span><div class="param-tooltip">'+ROOF_TIP_AREA+'</div></label><input type="number" step="0.01" class="text-input rf" data-i="'+i+'" data-f="areaCoef" value="'+r.areaCoef+'"></div>';
+      roofInner+='</div>';
+      roofInner+='<div class="rf-mode-direct'+(r.areaMode!=='direct'?' hidden':'')+'">';
+      roofInner+='<div class="field-row"><label>可用面积(m²)</label><input type="number" step="0.01" class="text-input rf" data-i="'+i+'" data-f="usableArea" value="'+(r.usableArea||'')+'"></div>';
+      roofInner+='</div>';
+      roofInner+='<div class="field-row"><label class="tooltip-wrap">朝向系数<span class="tooltip-icon">?</span><div class="param-tooltip">'+ROOF_TIP_ORIENT+'</div></label><input type="number" step="0.01" class="text-input rf" data-i="'+i+'" data-f="orientCoef" value="'+r.orientCoef+'"></div>';
+      roofInner+='<div class="field-row"><label class="tooltip-wrap">遮挡系数<span class="tooltip-icon">?</span><div class="param-tooltip">'+ROOF_TIP_SHADE+'</div></label><input type="number" step="0.01" class="text-input rf" data-i="'+i+'" data-f="shadeCoef" value="'+r.shadeCoef+'"></div>';
+      roofInner+='<div class="field-row"><label class="tooltip-wrap">功率密度(Wp/m²)<span class="tooltip-icon">?</span><div class="param-tooltip">'+ROOF_TIP_POWER+'</div></label><input type="number" step="0.01" class="text-input rf" data-i="'+i+'" data-f="powerDensity" value="'+r.powerDensity+'"></div>';
+      roofInner+='<div class="field-row"><label class="tooltip-wrap">年有效发电小时(h)<span class="tooltip-icon">?</span><div class="param-tooltip">'+ROOF_TIP_SUN+'</div></label><input type="number" step="0.01" class="text-input rf" data-i="'+i+'" data-f="sunHours" value="'+r.sunHours+'"><p class="hint-sm"><a href="https://solargis.com/maps-and-gis-data/overview" target="_blank" rel="noopener">打开 Solargis →</a></p></div>';
+      roofInner+='<div class="calc-box">可用面积='+c.ua.toFixed(1)+'m² · 装机='+c.cap.toFixed(2)+'kW · 年发电量='+fmt(c.gen)+' kWh</div>';
       var sum = c.cap>0 ? ('装机 '+c.cap.toFixed(2)+'kW · 年发电 '+fmt(c.gen)+' kWh') : '';
       var delBtn = state.roofs.length>1 ? '<button class="roof-del-btn" data-i="'+i+'" style="background:none;border:none;color:#8fa8c0;font-size:16px;cursor:pointer;padding:0 4px;" onmouseover="this.style.color=\'#e05c5c\'" onmouseout="this.style.color=\'#8fa8c0\'">×</button>' : '';
+      var roofTitle = r.name ? r.name : ('屋顶'+(i+1));
       html+='<div class="collapsible-wrap collapsible-child">'+
-        '<div class="collapsible-header"><span class="header-title">屋顶 '+(i+1)+'</span>'+
+        '<div class="collapsible-header"><span class="header-title roof-hdr-title" data-i="'+i+'">'+roofTitle+'</span>'+
         '<span class="header-right"><span class="header-summary">'+sum+'</span>'+delBtn+'<span class="arrow">▼</span></span></div>'+
         '<div class="collapsible-content"><div class="collapsible-inner">'+roofInner+'</div></div></div>';
     }
     box.innerHTML=html;
     bindRoofEvents();
+    bindRoofTooltips(box);
     bindCollapsibles(box);
     $('roof-subtotal').textContent='装机 '+fmt(totalCap)+' kW | 年发电量 '+fmt(totalGen)+' kWh';
     setCollSummary('coll-roof-hdr', totalCap>0 ? ('装机 '+fmt(totalCap)+'kW · 年发电 '+fmt(totalGen)+' kWh') : '');
@@ -807,15 +842,20 @@
 
   function bindRoofEvents() {
     document.querySelectorAll('.rf').forEach(function(el){
-      el.oninput=function(){ state.roofs[parseInt(this.getAttribute('data-i'),10)][this.getAttribute('data-f')]=this.value; updateSiteTotals(); renderRoofs(); };
+      el.oninput=function(){
+        var i=parseInt(this.getAttribute('data-i'),10), f=this.getAttribute('data-f');
+        state.roofs[i][f]=this.value;
+        updateSiteTotals();
+        renderRoofs();
+      };
     });
-    document.querySelectorAll('.rt-pick').forEach(function(el){
-      el.onclick=function(){ var i=parseInt(this.getAttribute('data-i'),10), t=this.getAttribute('data-t');
-        state.roofs[i].roofType=t; for(var j=0;j<ROOF_TYPES.length;j++) if(ROOF_TYPES[j].id===t) state.roofs[i].areaCoef=ROOF_TYPES[j].coef; renderRoofs(); updateSiteTotals(); };
-    });
-    document.querySelectorAll('.or-pick').forEach(function(el){
-      el.onclick=function(){ var i=parseInt(this.getAttribute('data-i'),10), o=this.getAttribute('data-o');
-        state.roofs[i].orientation=o; for(var j=0;j<ORIENTATIONS.length;j++) if(ORIENTATIONS[j].id===o) state.roofs[i].orientCoef=ORIENTATIONS[j].coef; renderRoofs(); updateSiteTotals(); };
+    document.querySelectorAll('.rf-area-mode').forEach(function(el){
+      el.onchange=function(){
+        var i=parseInt(this.getAttribute('data-i'),10);
+        state.roofs[i].areaMode=this.value;
+        renderRoofs();
+        updateSiteTotals();
+      };
     });
     document.querySelectorAll('.roof-del-btn').forEach(function(el){
       el.onclick=function(e){ e.stopPropagation(); state.roofs.splice(parseInt(this.getAttribute('data-i'),10),1); renderRoofs(); updateSiteTotals(); };
@@ -891,7 +931,7 @@
     if(hasBiomass()) show($('sec-biomass')); else hide($('sec-biomass'));
     if(sites.indexOf('其他')!==-1) show($('sec-other')); else hide($('sec-other'));
     if(sites.indexOf('其他')!==-1) show($('st-other-row')); else hide($('st-other-row'));
-    updateRefHints(); updateSiteTotals();
+    updateSiteTotals();
   }
 
   document.querySelectorAll('.site-type').forEach(function(el){ el.addEventListener('change', updateSiteSections); });
@@ -1415,7 +1455,7 @@
 
   /* ===== Init ===== */
   bindHeaders(); bindCollapsibles(document); renderProgress(); renderPowerSurvey(); renderComplySurvey();
-  renderUsers(); updateDateDisplay(); updateRefHints(); updateRightsSummary(); updateStorageSummary(); bindCollapsibles(document);
+  renderUsers(); updateDateDisplay(); updateRightsSummary(); updateStorageSummary(); bindCollapsibles(document);
   var now=new Date(); state.dateY=now.getFullYear(); state.dateM=now.getMonth()+1; state.dateD=now.getDate(); updateDateDisplay();
 
 })();

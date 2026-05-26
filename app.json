@@ -1,7 +1,8 @@
 {
   "pages": [
     "pages/green-direct/index",
-    "pages/green-direct/result"
+    "pages/green-direct/result",
+    "pages/about/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -18,6 +19,10 @@
       {
         "pagePath": "pages/green-direct/index",
         "text": "自测"
+      },
+      {
+        "pagePath": "pages/about/index",
+        "text": "关于"
       }
     ]
   },

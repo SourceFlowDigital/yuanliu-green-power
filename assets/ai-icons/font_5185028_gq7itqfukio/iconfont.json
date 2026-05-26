@@ -1,0 +1,16 @@
+{
+  "id": "5185028",
+  "name": "绿电直连",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "12711374",
+      "name": "人工智能大脑",
+      "font_class": "rengongzhinengdanao",
+      "unicode": "e610",
+      "unicode_decimal": 58896
+    }
+  ]
+}

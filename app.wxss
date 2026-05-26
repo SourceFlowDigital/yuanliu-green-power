@@ -10,6 +10,23 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+@font-face {
+  font-family: 'iconfont-ai';
+  src: url('/assets/ai-icons/font_5185028_gq7itqfukio/iconfont.woff2')
+       format('woff2'),
+       url('/assets/ai-icons/font_5185028_gq7itqfukio/iconfont.woff')
+       format('woff'),
+       url('/assets/ai-icons/font_5185028_gq7itqfukio/iconfont.ttf')
+       format('truetype');
+}
+
+.iconfont-ai {
+  font-family: 'iconfont-ai' !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+}
+
 page {
   --yl-primary-logo: #003060;
   --yl-primary-deep: #0B2F5B;

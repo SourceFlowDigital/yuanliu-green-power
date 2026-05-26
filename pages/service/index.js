@@ -14,5 +14,9 @@ Page({
   onShow: function () {
     var t = typeof this.getTabBar === 'function' && this.getTabBar()
     if (t) t.setData({ selected: 2 })
+  },
+
+  onStartAi: function () {
+    wx.showToast({ title: '功能即将上线', icon: 'none' })
   }
 })

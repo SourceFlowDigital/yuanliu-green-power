@@ -1,0 +1,129 @@
+<view class="header">
+  <view class="status-bar" style="height: {{statusBarHeight}}px;"></view>
+  <view class="header-main" style="height: {{navBarHeight}}px;">
+    <image class="header-logo" src="/assets/logo.png" mode="aspectFit"></image>
+    <view class="header-title-group">
+      <view class="header-title">源流绿电直连</view>
+      <view class="header-sub-wrap">
+        <text class="header-sub">政策合规自测工具</text>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="body" style="margin-top: {{headerHeight}}px;">
+  <view class="policy-tag-bar">
+    <text class="policy-tag">发改能源〔2026〕688号</text>
+    <text class="policy-tag-sub">现场踏勘数据</text>
+  </view>
+
+  <view class="step-indicator">
+    <view class="step-dot done">1</view>
+    <view class="step-line active"></view>
+    <view class="step-dot active">2</view>
+    <view class="step-line"></view>
+    <view class="step-dot">3</view>
+    <view class="step-line"></view>
+    <view class="step-dot">4</view>
+    <view class="step-line"></view>
+    <view class="step-dot">5</view>
+  </view>
+
+  <view class="policy-list">
+    <view class="policy-card step-card">
+      <view class="card-header step-card-header">
+        <text class="card-step-label">Step 2-1</text>
+        <text class="card-title step-card-title">装机规模</text>
+      </view>
+
+      <view class="input-row">
+        <text class="input-label">装机容量</text>
+        <view class="unit-input-wrap">
+          <input class="input-field unit-input" type="digit" placeholder="请输入" value="{{formData.installedCapacity}}" bindinput="onInput" data-field="installedCapacity" />
+          <text class="unit-label">kW</text>
+        </view>
+      </view>
+
+      <view class="input-row">
+        <text class="input-label">年等效利用小时数</text>
+        <view class="unit-input-wrap">
+          <input class="input-field unit-input" type="digit" placeholder="请输入" value="{{formData.annualHours}}" bindinput="onInput" data-field="annualHours" />
+          <text class="unit-label">h</text>
+        </view>
+        <text class="field-hint">光伏参考1000-1500h，风电参考2000-3000h</text>
+      </view>
+
+      <view class="input-row input-row-last">
+        <text class="input-label">综合效率</text>
+        <view class="unit-input-wrap">
+          <input class="input-field unit-input" type="digit" value="{{formData.efficiency}}" bindinput="onInput" data-field="efficiency" />
+          <text class="unit-label">%</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="policy-card step-card">
+      <view class="card-header step-card-header">
+        <text class="card-step-label">Step 2-2</text>
+        <text class="card-title step-card-title">用电负荷</text>
+      </view>
+
+      <view class="input-row">
+        <text class="input-label">年总用电量</text>
+        <view class="unit-input-wrap">
+          <input class="input-field unit-input" type="digit" placeholder="请输入" value="{{formData.annualLoad}}" bindinput="onInput" data-field="annualLoad" />
+          <text class="unit-label">万kWh</text>
+        </view>
+      </view>
+
+      <view class="input-row input-row-last">
+        <text class="input-label">用电负荷类型</text>
+        <view class="tag-group">
+          <view class="tag-item {{formData.loadType === 'commercial' ? 'active' : ''}}" bindtap="onSelect" data-field="loadType" data-value="commercial"><text>工商业用电</text></view>
+          <view class="tag-item priority {{formData.loadType === 'dataCenter' ? 'active' : ''}}" bindtap="onSelect" data-field="loadType" data-value="dataCenter"><text>算力中心 ⭐优先支持</text></view>
+          <view class="tag-item priority {{formData.loadType === 'greenFuel' ? 'active' : ''}}" bindtap="onSelect" data-field="loadType" data-value="greenFuel"><text>绿色氢氨醇 ⭐优先支持</text></view>
+          <view class="tag-item {{formData.loadType === 'other' ? 'active' : ''}}" bindtap="onSelect" data-field="loadType" data-value="other"><text>其他</text></view>
+        </view>
+      </view>
+    </view>
+
+    <view class="policy-card step-card">
+      <view class="card-header step-card-header">
+        <text class="card-step-label">Step 2-3</text>
+        <text class="card-title step-card-title">储能配置</text>
+      </view>
+
+      <view class="input-row {{formData.hasStorage === 'yes' ? '' : 'input-row-last'}}">
+        <text class="input-label">是否配置储能</text>
+        <view class="radio-group">
+          <view class="radio-item {{formData.hasStorage === 'yes' ? 'active' : ''}}" bindtap="onSelect" data-field="hasStorage" data-value="yes"><text>是</text></view>
+          <view class="radio-item {{formData.hasStorage === 'no' ? 'active' : ''}}" bindtap="onSelect" data-field="hasStorage" data-value="no"><text>否</text></view>
+        </view>
+      </view>
+
+      <view wx:if="{{formData.hasStorage === 'yes'}}">
+        <view class="input-row">
+          <text class="input-label">储能容量</text>
+          <view class="unit-input-wrap">
+            <input class="input-field unit-input" type="digit" placeholder="请输入" value="{{formData.storageCapacity}}" bindinput="onInput" data-field="storageCapacity" />
+            <text class="unit-label">MWh</text>
+          </view>
+        </view>
+        <view class="input-row input-row-last">
+          <text class="input-label">储能时长</text>
+          <view class="unit-input-wrap">
+            <input class="input-field unit-input" type="digit" placeholder="请输入" value="{{formData.storageDuration}}" bindinput="onInput" data-field="storageDuration" />
+            <text class="unit-label">h</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="action-bar two-actions">
+    <button class="btn-secondary" bindtap="onPrev">上一步</button>
+    <button class="btn-primary" bindtap="onNext">下一步：发用电测算</button>
+  </view>
+</view>
+
+<embedded-tab-bar active-fallback="{{0}}" />

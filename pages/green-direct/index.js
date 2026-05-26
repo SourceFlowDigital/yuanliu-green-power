@@ -48,6 +48,8 @@ Page({
       wx.showToast({ title: '请选择用户类型', icon: 'none' })
       return
     }
-    wx.showToast({ title: 'Step2开发中', icon: 'none' })
+    wx.navigateTo({
+      url: '/pages/green-direct/step2?data=' + encodeURIComponent(JSON.stringify(form))
+    })
   }
 })

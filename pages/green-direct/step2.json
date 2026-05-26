@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "embedded-tab-bar": "/components/embedded-tab-bar/embedded-tab-bar"
+  },
+  "navigationBarTitleText": "现场踏勘数据"
+}

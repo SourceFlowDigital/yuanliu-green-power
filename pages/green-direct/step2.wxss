@@ -1,0 +1,78 @@
+@import "/styles/shell.wxss";
+@import "/pages/green-direct/index.wxss";
+
+.unit-input-wrap {
+  display: flex;
+  align-items: center;
+  background: #F4F8FB;
+  border: 1rpx solid #DCE5EF;
+  border-radius: 8rpx;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.unit-input-wrap .input-field {
+  border: none;
+  border-radius: 0;
+  background: transparent;
+}
+
+.unit-input {
+  flex: 1;
+  min-width: 0;
+}
+
+.unit-label {
+  flex-shrink: 0;
+  min-width: 96rpx;
+  padding: 0 20rpx;
+  color: #003060;
+  font-size: 26rpx;
+  font-weight: 600;
+  text-align: center;
+  border-left: 1rpx solid #DCE5EF;
+}
+
+.field-hint {
+  display: block;
+  margin-top: 10rpx;
+  color: #6B7280;
+  font-size: 22rpx;
+  line-height: 1.5;
+}
+
+.tag-item.priority {
+  border-color: rgba(214, 168, 79, 0.45);
+}
+
+.tag-item.priority.active {
+  border-color: #003060;
+}
+
+.two-actions {
+  display: flex;
+  gap: 20rpx;
+}
+
+.two-actions button {
+  flex: 1;
+}
+
+.btn-secondary {
+  width: 100%;
+  height: 88rpx;
+  margin: 0;
+  background: #D9EAF3;
+  color: #003060;
+  border-radius: 12rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-secondary::after {
+  border: none;
+}

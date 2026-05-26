@@ -1,6 +1,8 @@
 {
   "pages": [
     "pages/green-direct/index",
+    "pages/green-direct/step2",
+    "pages/green-direct/step3",
     "pages/green-direct/result",
     "pages/about/index"
   ],

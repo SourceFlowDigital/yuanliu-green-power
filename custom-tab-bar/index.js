@@ -19,8 +19,8 @@ Component({
       {
         pagePath: '/pages/service/index',
         name: '服务',
-        iconName: 'dingyue',
-        unicode: ''
+        iconName: 'rengongzhinengdanao',
+        unicode: ''
       },
       {
         pagePath: '/pages/about/index',

@@ -8,7 +8,7 @@
     bindtap="switchTab"
   >
     <text
-      class="iconfont"
+      class="{{item.pagePath === '/pages/service/index' ? 'iconfont-ai' : 'iconfont'}}"
       style="color: {{selected === index ? selectedColor : color}}; font-size: 48rpx;"
     >{{item.unicode}}</text>
     <view style="color: {{selected === index ? selectedColor : color}}; font-size: 20rpx; margin-top: 4rpx;">

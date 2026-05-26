@@ -12,13 +12,13 @@
 </view>
 <view class="body" style="margin-top: {{headerHeight}}px;">
   <view class="surface-strip">
-    <text class="surface-strip-tip">AI解读</text>
+    <text class="surface-strip-tip">AI分析</text>
   </view>
   <view class="policy-list">
     <view class="policy-card ai-card">
       <view class="ai-card-title">
         <text class="iconfont-ai" style="font-size:40rpx;margin-right:8rpx;"></text>
-        <text class="ai-card-title-text">AI政策解读</text>
+        <text class="ai-card-title-text">AI分析</text>
       </view>
       <view class="ai-card-sub">基于688号文，智能解读您的项目合规情况</view>
       <button class="ai-card-btn" bindtap="onStartAi">开始AI解读</button>

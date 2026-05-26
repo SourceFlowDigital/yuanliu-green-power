@@ -62,10 +62,13 @@ Page({
     if (t) t.setData({ selected: 3 })
   },
   toTerms() {
-    wx.showToast({ title: '敬请期待', icon: 'none' })
+    wx.navigateTo({ url: '/pages/legal/terms/terms' })
   },
   toPrivacyDoc() {
-    wx.showToast({ title: '敬请期待', icon: 'none' })
+    wx.navigateTo({ url: '/pages/legal/privacy/privacy' })
+  },
+  toThirdParty() {
+    wx.navigateTo({ url: '/pages/legal/third-party/third-party' })
   },
   openWxPrivacyGuide() {
     if (typeof wx.openPrivacyContract === 'function') {

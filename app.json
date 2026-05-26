@@ -6,7 +6,10 @@
     "pages/green-direct/result",
     "pages/report/index",
     "pages/service/index",
-    "pages/about/index"
+    "pages/about/index",
+    "pages/legal/terms/terms",
+    "pages/legal/privacy/privacy",
+    "pages/legal/third-party/third-party"
   ],
   "window": {
     "backgroundTextStyle": "light",

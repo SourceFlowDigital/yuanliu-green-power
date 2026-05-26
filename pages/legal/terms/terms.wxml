@@ -1,0 +1,49 @@
+<scroll-view class="legal-scroll" scroll-y="enhanced">
+  <view class="legal-inner">
+    <text class="legal-meta">版本 {{version}} · 更新日期 {{updateDate}} · 生效日期 {{effectiveDate}}</text>
+    <text class="legal-h">源流绿电直连 · 用户服务协议</text>
+    <text class="legal-p">欢迎使用「源流绿电直连」小程序（以下简称"本小程序"）。本协议由宁夏源流数字服务有限公司（以下简称"我们"）与您订立，请您在使用前仔细阅读。</text>
+
+    <text class="legal-h2">一、服务内容</text>
+    <text class="legal-p">本小程序定位为工具类「政策与行业信息公开查询」服务，主要提供：
+1. 国家及各省市新能源相关政策文件的聚合展示；
+2. 基于AI技术的政策结构化索引与摘要；
+3. 新能源行业资讯的聚合浏览；
+4. 省份关注与推送提醒服务。
+本小程序展示内容均来源于政府部门等公开渠道，不提供行政许可、执法解释或法律咨询结论。</text>
+
+    <text class="legal-h2">二、用户行为规范</text>
+    <text class="legal-p">您在使用本小程序时应遵守以下规范：
+1. 遵守中华人民共和国相关法律法规；
+2. 不得利用本小程序从事任何违法违规活动；
+3. 不得传播虚假、有害或侵权信息；
+4. 不得干扰本小程序正常运营。</text>
+
+    <text class="legal-h2">三、AI生成内容说明</text>
+    <text class="legal-p">本小程序提供的政策摘要、要点索引等内容由AI自动生成，已通过规则与自动化校验降低错误率，但仍可能存在误差。上述内容仅供参考，不构成政策解读或执行建议，请以官方原文为准。如发现摘要错误，可通过详情页「摘要纠错」功能反馈。</text>
+
+    <text class="legal-h2">四、原文链接说明</text>
+    <text class="legal-p">本小程序通过「复制原文链接」方式提供原文访问，由您在系统浏览器中自行打开，我们不在小程序内嵌套跳转至第三方页面。第三方页面内容由其运营方负责。</text>
+
+    <text class="legal-h2">五、知识产权</text>
+    <text class="legal-p">本小程序展示的政策原文版权归相应政府部门所有。AI生成的摘要内容版权归我们所有。未经授权，不得以任何形式复制、传播或商业使用本小程序的内容。</text>
+
+    <text class="legal-h2">六、免责声明</text>
+    <text class="legal-p">1. 本小程序提供的政策信息以政府官方发布为准，我们不对信息的完整性、时效性承担责任；
+2. AI生成内容仅供参考，不构成任何专业建议；
+3. 因不可抗力或第三方原因导致的服务中断，我们不承担责任。</text>
+
+    <text class="legal-h2">七、服务变更与终止</text>
+    <text class="legal-p">我们保留根据业务需要调整、暂停或终止部分服务的权利，并将提前通知用户。</text>
+
+    <text class="legal-h2">八、协议变更</text>
+    <text class="legal-p">我们会在版本显著位置提示修订日期；如涉及重大条款变更，将按微信平台规则重新征求您的授权确认。</text>
+
+    <text class="legal-h2">九、联系方式</text>
+    <text class="legal-p">如您对本协议有任何疑问，请通过以下方式联系我们：</text>
+    <text class="legal-contact">宁夏源流数字服务有限公司
+统一社会信用代码：91640100MAKFB83M8F
+邮箱：sourceflowdigital@163.com
+电话：+86 184-6511-4111</text>
+  </view>
+</scroll-view>

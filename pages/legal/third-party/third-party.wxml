@@ -1,0 +1,14 @@
+<scroll-view class="legal-scroll" scroll-y="enhanced">
+  <view class="legal-inner">
+    <text class="legal-meta">版本 {{version}} · 更新日期 {{updateDate}} · 生效日期 {{effectiveDate}}</text>
+    <text class="legal-h">第三方信息共享清单（摘要）</text>
+    <text class="legal-p">以下列出本产品为实现功能所需委托处理或向其提供个人信息的主要第三方。最终以运营主体加盖公章的完整版为准。</text>
+    <text class="legal-h2">一、大模型与技术辅助</text>
+    <text class="legal-p">服务方示例：合规备案的大模型服务提供方。\n用途：对公开政策文本做技术索引与摘要草稿生成。\n数据类型：经去标识化整理的标题、节选及提示词。\n安全保障：数据传输加密、不落库敏感个人信息为原则（以合同为准）。</text>
+    <text class="legal-h2">二、云服务与托管</text>
+    <text class="legal-p">服务方示例：境内云服务商（对象存储 / 数据库 / 负载均衡）。\n用途：静态资源托管、备份与运维监控。\n数据类型：经最小化授权的日志与服务配置。</text>
+    <text class="legal-h2">三、微信公众平台</text>
+    <text class="legal-p">提供小程序运行宿主、订阅消息与用户隐私同步能力。\n不向腾讯出售个人隐私；共享范围以实现小程序服务能力为限。</text>
+    <text class="legal-contact">宁夏源流数字服务有限公司 · sourceflowdigital@163.com</text>
+  </view>
+</scroll-view>

@@ -1,0 +1,57 @@
+<scroll-view class="legal-scroll" scroll-y="enhanced">
+  <view class="legal-inner">
+    <text class="legal-meta">版本 {{version}} · 更新日期 {{updateDate}} · 生效日期 {{effectiveDate}}</text>
+    <text class="legal-h">源流绿电直连 · 隐私政策</text>
+    <text class="legal-p">宁夏源流数字服务有限公司（以下简称"我们"）深知隐私保护的重要性。本政策说明我们如何收集、使用和保护您的个人信息。</text>
+
+    <text class="legal-h2">一、我们收集的信息</text>
+    <text class="legal-p">1. 微信授权信息：在您同意后，我们获取微信OpenID用于识别用户身份；
+2. 关注偏好：您选择关注的省份和政策类型；
+3. 使用记录：搜索历史（仅存储于本地，90天后自动清除）；
+4. 反馈内容：您通过纠错或举报功能主动提交的文字描述；
+5. 设备信息：用于优化小程序体验的基础设备参数。
+我们不收集您的通讯录、位置、相册等与本服务无关的信息。</text>
+
+    <text class="legal-h2">二、信息使用目的</text>
+    <text class="legal-p">我们收集的信息仅用于：
+1. 提供政策查询与关注服务；
+2. 发送您关注省份的政策更新提醒；
+3. 改善产品体验；
+4. 处理您的反馈与投诉。</text>
+
+    <text class="legal-h2">三、信息存储与保护</text>
+    <text class="legal-p">1. 关注偏好：存储于服务器，注销后48小时内删除；
+2. 搜索记录：仅存储于本地设备，90天后自动清除；
+3. 账户信息：注销后7个工作日内完成匿名化处理；
+4. AI审核日志：留存不少于6个月；
+5. 我们采用加密传输和访问控制等安全措施保护您的信息。</text>
+
+    <text class="legal-h2">四、第三方服务</text>
+    <text class="legal-p">本小程序使用以下第三方服务：
+1. 微信开放平台：用于用户登录与消息推送（腾讯科技）；
+2. DeepSeek API：用于政策摘要生成（深度求索）；
+3. 阿里云：用于服务器托管与数据存储（阿里云计算）。
+我们不向上述以外的第三方出售或共享您的个人信息。</text>
+
+    <text class="legal-h2">五、您的权利</text>
+    <text class="legal-p">您享有以下权利：
+1. 查阅权：查看我们持有的您的个人信息；
+2. 更正权：更正不准确的个人信息；
+3. 删除权：请求删除您的个人信息；
+4. 撤回同意：通过「关于」页撤回授权，需重新阅读并同意条款后继续使用；
+5. 注销权：申请注销账户，我们将在7个工作日内处理。</text>
+
+    <text class="legal-h2">六、未成年人保护</text>
+    <text class="legal-p">本小程序不面向未成年人提供个性化推荐服务。如监护人发现未成年人提供了个人信息，可通过下方联系方式申请删除，我们将在核验后依法处理。</text>
+
+    <text class="legal-h2">七、隐私政策变更</text>
+    <text class="legal-p">如本政策发生重大变更，我们将通过小程序弹窗通知您，并重新征求您的同意。</text>
+
+    <text class="legal-h2">八、联系我们</text>
+    <text class="legal-p">如您对本隐私政策有任何疑问或需行使上述权利，请联系：</text>
+    <text class="legal-contact">宁夏源流数字服务有限公司
+统一社会信用代码：91640100MAKFB83M8F
+邮箱：sourceflowdigital@163.com
+电话：+86 184-6511-4111</text>
+  </view>
+</scroll-view>

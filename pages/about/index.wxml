@@ -5,7 +5,7 @@
     <view class="header-title-group">
       <view class="header-title">源流绿电直连</view>
       <view class="header-sub-wrap">
-        <text class="header-sub">政策合规自测工具</text>
+        <text class="header-sub">新能源聚合服务平台</text>
       </view>
     </view>
   </view>
@@ -18,6 +18,21 @@
     <view wx:for="{{blocks}}" wx:key="title" class="policy-card about-block">
       <view class="card-title">{{item.title}}</view>
       <view class="about-p" wx:for="{{item.lines}}" wx:key="idx" wx:for-item="line" wx:for-index="idx">{{line}}</view>
+    </view>
+    <view class="policy-card about-actions">
+      <view class="card-title">协议（版本 {{bundleVersion}}）</view>
+      <view class="action-row" bindtap="toTerms">
+        <text class="action-text">《用户协议》</text>
+        <text class="action-arrow">›</text>
+      </view>
+      <view class="action-row" bindtap="toPrivacyDoc">
+        <text class="action-text">《隐私政策》</text>
+        <text class="action-arrow">›</text>
+      </view>
+      <view class="action-row" bindtap="openWxPrivacyGuide">
+        <text class="action-text">《微信小程序隐私保护指引》</text>
+        <text class="action-arrow">›</text>
+      </view>
     </view>
   </view>
 </view>

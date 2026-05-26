@@ -1,12 +1,6 @@
 @import "../../styles/shell.wxss";
-
-.about-block .card-title {
-  margin-bottom: 18rpx;
-}
-
-.about-block .about-p:last-child {
-  margin-bottom: 0;
-}
+.about-block .card-title{margin-bottom:18rpx;}
+.about-block .about-p:last-child{margin-bottom:0;}
 
 .about-actions .action-row {
   display: flex;

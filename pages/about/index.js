@@ -1,12 +1,11 @@
 const { measureHeader } = require('../../utils/headerLayout.js')
-const legal = require('../../utils/legal.js')
 
 Page({
   data: {
     statusBarHeight: 0,
     navBarHeight: 88,
     headerHeight: 0,
-    bundleVersion: legal.LEGAL_BUNDLE_VERSION,
+    headerSub: '政策合规自测工具',
     blocks: [
       {
         title: '平台简介',
@@ -17,7 +16,7 @@ Page({
       {
         title: '主体信息',
         lines: [
-          '技术支持：润源',
+          '技术支持：源流数字',
           '联系邮箱：sourceflowdigital@163.com',
           '使用本小程序即表示您已阅读并理解页面展示的相关信息与提示。如有合作或纠错需求，可通过下方渠道联系。',
         ],
@@ -60,17 +59,14 @@ Page({
     this.setData(measureHeader())
   },
   onShow() {
-    if (legal.relaunchToConsentIfNeeded()) return
-    const app = getApp()
-    legal.hydrateApp(app)
     const t = typeof this.getTabBar === 'function' && this.getTabBar()
     if (t) t.setData({ selected: 3 })
   },
   toTerms() {
-    wx.navigateTo({ url: '/pages/legal/terms/terms' })
+    wx.showToast({ title: '敬请期待', icon: 'none' })
   },
   toPrivacyDoc() {
-    wx.navigateTo({ url: '/pages/legal/privacy/privacy' })
+    wx.showToast({ title: '敬请期待', icon: 'none' })
   },
   openWxPrivacyGuide() {
     if (typeof wx.openPrivacyContract === 'function') {

@@ -17,7 +17,7 @@
   <view class="policy-list">
     <view class="policy-card ai-card">
       <view class="ai-card-title">
-        <text class="iconfont-ai ai-icon">&#xe610;</text>
+        <text class="iconfont-ai" style="font-size:40rpx;margin-right:8rpx;"></text>
         <text class="ai-card-title-text">AI政策解读</text>
       </view>
       <view class="ai-card-sub">基于688号文，智能解读您的项目合规情况</view>

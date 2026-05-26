@@ -1,4 +1,4 @@
-var headerLayout = require('../../utils/headerLayout.js')
+var measureHeader = require('../../utils/headerLayout.js').measureHeader
 
 Page({
   data: {
@@ -15,7 +15,7 @@ Page({
   },
 
   onLoad: function () {
-    this.setData(headerLayout.measureHeader())
+    this.setData(measureHeader())
   },
 
   onInput: function (e) {

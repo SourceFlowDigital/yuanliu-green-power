@@ -58,6 +58,11 @@
 
 .step-card {
   margin-bottom: 0;
+  background: #FFFFFF;
+  border-radius: 12rpx;
+  border: 1rpx solid #DCE5EF;
+  border-left: 8rpx solid #7AAFD4;
+  box-shadow: 0 4rpx 18rpx rgba(0, 48, 96, 0.045);
 }
 
 .step-card-header {

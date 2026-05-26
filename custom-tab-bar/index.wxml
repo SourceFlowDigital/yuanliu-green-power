@@ -1,20 +1,18 @@
-<view class="tab-shell">
-  <view class="tab-inner">
-    <view
-      class="tab-item"
-      wx:for="{{list}}"
-      wx:key="url"
-      data-index="{{index}}"
-      bindtap="switchTab"
-    >
-      <text
-        class="iconfont"
-        style="color: {{selected === index ? selectedColor : color}}; font-size: 48rpx;"
-      >{{item.unicode}}</text>
-      <text
-        class="tab-text"
-        style="color: {{selected === index ? selectedColor : color}}"
-      >{{item.text}}</text>
+<view class="tab-bar">
+  <view
+    wx:for="{{list}}"
+    wx:key="index"
+    class="tab-bar-item"
+    data-path="{{item.pagePath}}"
+    data-index="{{index}}"
+    bindtap="switchTab"
+  >
+    <text
+      class="iconfont"
+      style="color: {{selected === index ? selectedColor : color}}; font-size: 48rpx;"
+    >{{item.unicode}}</text>
+    <view style="color: {{selected === index ? selectedColor : color}}; font-size: 20rpx; margin-top: 4rpx;">
+      {{item.text}}
     </view>
   </view>
 </view>

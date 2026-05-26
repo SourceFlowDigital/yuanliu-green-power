@@ -2,22 +2,28 @@ Component({
   data: {
     selected: 0,
     color: '#6B7280',
-    selectedColor: '#003060',
+    selectedColor: '#D6A84F',
     list: [
       {
-        url: '/pages/green-direct/index',
+        pagePath: '/pages/green-direct/index',
         text: '自测',
+        iconName: 'liebiao',
         unicode: ''
+      },
+      {
+        pagePath: '/pages/about/index',
+        text: '关于',
+        iconName: 'guanyu',
+        unicode: ''
       }
     ]
   },
   methods: {
-    switchTab(e) {
-      const i = Number(e.currentTarget.dataset.index)
-      const item = this.data.list[i]
-      if (!item) return
-      this.setData({ selected: i })
-      wx.switchTab({ url: item.url })
+    switchTab: function (e) {
+      var data = e.currentTarget.dataset
+      var url = data.path
+      wx.switchTab({ url: url })
+      this.setData({ selected: data.index })
     }
   }
 })

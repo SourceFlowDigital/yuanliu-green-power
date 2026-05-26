@@ -8,15 +8,15 @@
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#F4F8FB",
-    "navigationBarTitleText": "源流绿电直连",
+    "navigationBarBackgroundColor": "#F4F7FA",
+    "navigationBarTitleText": "源流政策通",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
     "custom": true,
     "color": "#6B7280",
     "selectedColor": "#003060",
-    "backgroundColor": "#F4F8FB",
+    "backgroundColor": "#FFFFFF",
     "list": [
       {
         "pagePath": "pages/green-direct/index",

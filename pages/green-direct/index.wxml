@@ -173,5 +173,3 @@
     <button class="btn-primary" bindtap="onNext">下一步：现场踏勘</button>
   </view>
 </view>
-
-<embedded-tab-bar active-fallback="{{0}}" />

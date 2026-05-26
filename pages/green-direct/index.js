@@ -18,6 +18,11 @@ Page({
     this.setData(measureHeader())
   },
 
+  onShow: function () {
+    var t = typeof this.getTabBar === 'function' && this.getTabBar()
+    if (t) t.setData({ selected: 0 })
+  },
+
   onInput: function (e) {
     var field = e.currentTarget.dataset.field
     var value = e.detail && e.detail.value ? e.detail.value : ''

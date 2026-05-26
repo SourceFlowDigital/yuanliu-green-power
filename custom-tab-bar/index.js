@@ -6,15 +6,23 @@ Component({
     list: [
       {
         pagePath: '/pages/green-direct/index',
-        text: '自测',
-        iconName: 'liebiao',
-        unicode: ''
+        name: '自测',
+        unicode: '\ue612'
+      },
+      {
+        pagePath: '/pages/report/index',
+        name: '报告',
+        unicode: '\ue679'
+      },
+      {
+        pagePath: '/pages/service/index',
+        name: '服务',
+        unicode: '\ue607'
       },
       {
         pagePath: '/pages/about/index',
-        text: '关于',
-        iconName: 'guanyu',
-        unicode: ''
+        name: '关于',
+        unicode: '\ue611'
       }
     ]
   },

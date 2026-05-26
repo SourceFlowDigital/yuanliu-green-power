@@ -4,6 +4,8 @@
     "pages/green-direct/step2",
     "pages/green-direct/step3",
     "pages/green-direct/result",
+    "pages/report/index",
+    "pages/service/index",
     "pages/about/index"
   ],
   "window": {
@@ -21,6 +23,14 @@
       {
         "pagePath": "pages/green-direct/index",
         "text": "自测"
+      },
+      {
+        "pagePath": "pages/report/index",
+        "text": "报告"
+      },
+      {
+        "pagePath": "pages/service/index",
+        "text": "服务"
       },
       {
         "pagePath": "pages/about/index",

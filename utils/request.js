@@ -1,0 +1,32 @@
+const config = require('./config.js')
+
+function get(path, query) {
+  return new Promise(function(resolve, reject) {
+    var url = config.getApiBase() + path
+    if (query) {
+      var params = Object.keys(query)
+        .filter(function(k) { return query[k] !== undefined && query[k] !== null })
+        .map(function(k) { return k + '=' + encodeURIComponent(query[k]) })
+        .join('&')
+      if (params) url += '?' + params
+    }
+    wx.request({
+      url: url,
+      method: 'GET',
+      header: config.withPolicyApiKeyHeader(),
+      timeout: 10000,
+      success: function(res) {
+        if (res.statusCode === 200) {
+          resolve(res.data)
+        } else {
+          reject(new Error('HTTP ' + res.statusCode))
+        }
+      },
+      fail: function(err) {
+        reject(err)
+      }
+    })
+  })
+}
+
+module.exports = { get }

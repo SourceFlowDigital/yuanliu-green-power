@@ -1,0 +1,27 @@
+{
+  "pages": [
+    "pages/green-direct/index",
+    "pages/green-direct/result"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#F4F8FB",
+    "navigationBarTitleText": "源流绿电直连",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#6B7280",
+    "selectedColor": "#003060",
+    "backgroundColor": "#F4F8FB",
+    "list": [
+      {
+        "pagePath": "pages/green-direct/index",
+        "text": "自测"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

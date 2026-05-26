@@ -1,0 +1,18 @@
+<view wx:if="{{alive}}" class="softh-slot" style="height: {{stripTotalRpx}}rpx;">
+  <view wx:if="{{showChrome}}" class="softh-inner">
+    <text class="softh-msg">关注我们，便于同步政策与服务通知</text>
+    <view class="softh-actions">
+      <button class="softh-btn ghost" size="mini" bindtap="onLaterSoft">稍后</button>
+      <button
+        class="softh-btn prim"
+        size="mini"
+        open-type="getPhoneNumber"
+        bindgetphonenumber="onPhoneAuth"
+      >授权手机号</button>
+      <button class="softh-btn danger" size="mini" bindtap="onRejectSoft">拒绝</button>
+    </view>
+  </view>
+  <view wx:else class="softh-collapsed" bindtap="onExpandSoft">
+    <text class="softh-mini-t">公众号引导已收起，点此展开</text>
+  </view>
+</view>

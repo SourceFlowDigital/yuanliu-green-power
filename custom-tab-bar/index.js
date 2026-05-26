@@ -7,22 +7,26 @@ Component({
       {
         pagePath: '/pages/green-direct/index',
         name: '自测',
-        unicode: '\ue612'
+        iconName: 'liebiao',
+        unicode: ''
       },
       {
         pagePath: '/pages/report/index',
         name: '报告',
-        unicode: '\ue679'
+        iconName: 'icnews',
+        unicode: ''
       },
       {
         pagePath: '/pages/service/index',
         name: '服务',
-        unicode: '\ue607'
+        iconName: 'dingyue',
+        unicode: ''
       },
       {
         pagePath: '/pages/about/index',
         name: '关于',
-        unicode: '\ue611'
+        iconName: 'guanyu',
+        unicode: ''
       }
     ]
   },

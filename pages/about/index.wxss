@@ -1,3 +1,36 @@
 @import "../../styles/shell.wxss";
-.about-block .card-title{margin-bottom:18rpx;}
-.about-block .about-p:last-child{margin-bottom:0;}
+
+.about-block .card-title {
+  margin-bottom: 18rpx;
+}
+
+.about-block .about-p:last-child {
+  margin-bottom: 0;
+}
+
+.about-actions .action-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 26rpx 0;
+  border-bottom: 1rpx solid rgba(200, 218, 232, 0.75);
+}
+
+.about-actions .action-row:last-child {
+  border-bottom: none;
+}
+
+.about-actions .action-text {
+  font-size: 28rpx;
+  color: #003060;
+  flex: 1;
+}
+
+.about-actions .action-arrow {
+  font-size: 32rpx;
+  color: #bbb;
+}
+
+.about-actions .card-title {
+  margin-bottom: 8rpx;
+}

@@ -1,3 +1,177 @@
-<view class="body">
-  <view class="loading">页面开发中...</view>
+<view class="header">
+  <view class="status-bar" style="height: {{statusBarHeight}}px;"></view>
+  <view class="header-main" style="height: {{navBarHeight}}px;">
+    <image class="header-logo" src="/assets/logo.png" mode="aspectFit"></image>
+    <view class="header-title-group">
+      <view class="header-title">源流绿电直连</view>
+      <view class="header-sub-wrap">
+        <text class="header-sub">政策合规自测工具</text>
+      </view>
+    </view>
+  </view>
 </view>
+
+<view class="body" style="margin-top: {{headerHeight}}px;">
+  <view class="policy-tag-bar">
+    <text class="policy-tag">发改能源〔2026〕688号</text>
+    <text class="policy-tag-sub">2026年5月14日施行</text>
+  </view>
+
+  <view class="step-indicator">
+    <view class="step-dot active">1</view>
+    <view class="step-line"></view>
+    <view class="step-dot">2</view>
+    <view class="step-line"></view>
+    <view class="step-dot">3</view>
+    <view class="step-line"></view>
+    <view class="step-dot">4</view>
+    <view class="step-line"></view>
+    <view class="step-dot">5</view>
+  </view>
+
+  <view class="policy-list">
+    <view class="policy-card step-card">
+      <view class="card-header step-card-header">
+        <text class="card-step-label">Step 1</text>
+        <text class="card-title step-card-title">项目基本信息</text>
+      </view>
+
+      <view class="input-row">
+        <text class="input-label">项目名称</text>
+        <input
+          class="input-field"
+          placeholder="请输入项目名称"
+          value="{{formData.projectName}}"
+          bindinput="onInput"
+          data-field="projectName"
+        />
+      </view>
+
+      <view class="input-row">
+        <text class="input-label">项目类型</text>
+        <view class="radio-group">
+          <view
+            class="radio-item {{formData.projectType === 'grid' ? 'active' : ''}}"
+            bindtap="onSelect"
+            data-field="projectType"
+            data-value="grid"
+          >
+            <text>并网型</text>
+          </view>
+          <view
+            class="radio-item {{formData.projectType === 'offgrid' ? 'active' : ''}}"
+            bindtap="onSelect"
+            data-field="projectType"
+            data-value="offgrid"
+          >
+            <text>离网型</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="input-row">
+        <text class="input-label">新能源类型</text>
+        <view class="tag-group">
+          <view
+            class="tag-item {{formData.energyType === 'solar' ? 'active' : ''}}"
+            bindtap="onSelect"
+            data-field="energyType"
+            data-value="solar"
+          >
+            <text>光伏</text>
+          </view>
+          <view
+            class="tag-item {{formData.energyType === 'wind' ? 'active' : ''}}"
+            bindtap="onSelect"
+            data-field="energyType"
+            data-value="wind"
+          >
+            <text>风电</text>
+          </view>
+          <view
+            class="tag-item {{formData.energyType === 'biomass' ? 'active' : ''}}"
+            bindtap="onSelect"
+            data-field="energyType"
+            data-value="biomass"
+          >
+            <text>生物质</text>
+          </view>
+          <view
+            class="tag-item {{formData.energyType === 'combo' ? 'active' : ''}}"
+            bindtap="onSelect"
+            data-field="energyType"
+            data-value="combo"
+          >
+            <text>组合</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="input-row">
+        <text class="input-label">用户类型</text>
+        <view class="tag-group">
+          <view
+            class="tag-item {{formData.userType === 'new' ? 'active' : ''}}"
+            bindtap="onSelect"
+            data-field="userType"
+            data-value="new"
+          >
+            <text>新建负荷</text>
+          </view>
+          <view
+            class="tag-item {{formData.userType === 'existing' ? 'active' : ''}}"
+            bindtap="onSelect"
+            data-field="userType"
+            data-value="existing"
+          >
+            <text>存量负荷</text>
+          </view>
+          <view
+            class="tag-item {{formData.userType === 'park' ? 'active' : ''}}"
+            bindtap="onSelect"
+            data-field="userType"
+            data-value="park"
+          >
+            <text>工业园区</text>
+          </view>
+          <view
+            class="tag-item {{formData.userType === 'incremental' ? 'active' : ''}}"
+            bindtap="onSelect"
+            data-field="userType"
+            data-value="incremental"
+          >
+            <text>增量配电网</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="input-row input-row-last">
+        <text class="input-label">目标年份</text>
+        <view class="radio-group">
+          <view
+            class="radio-item {{formData.targetYear === 'pre2030' ? 'active' : ''}}"
+            bindtap="onSelect"
+            data-field="targetYear"
+            data-value="pre2030"
+          >
+            <text>2030年前</text>
+          </view>
+          <view
+            class="radio-item {{formData.targetYear === 'post2030' ? 'active' : ''}}"
+            bindtap="onSelect"
+            data-field="targetYear"
+            data-value="post2030"
+          >
+            <text>2030年后</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="action-bar">
+    <button class="btn-primary" bindtap="onNext">下一步：现场踏勘</button>
+  </view>
+</view>
+
+<embedded-tab-bar active-fallback="{{0}}" />

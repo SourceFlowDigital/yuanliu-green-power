@@ -38,6 +38,10 @@ Page({
     ],
 
     suspectCheckIncomplete: true,
+
+    p3Done: false,
+    p3HelpExpanded: false,
+
     suspectCheckItems: [
       {
         key: 'q1',
@@ -142,6 +146,10 @@ Page({
       wx.showToast({ title: '请确认全部条件', icon: 'none' })
       return
     }
+    if (cur === 3 && !this.data.p3Done) {
+      wx.showToast({ title: '请完成全部选择', icon: 'none' })
+      return
+    }
     if (cur >= 9) return
     this._updateProgress(cur + 1)
   },
@@ -162,6 +170,36 @@ Page({
       'appState.suspectCheck': suspectCheck,
       suspectCheckIncomplete: this._hasSuspectCheckIncomplete(suspectCheck)
     })
+  },
+
+  onSelectGridType: function (e) {
+    var value = e.currentTarget.dataset.value
+    if (!value) return
+    var projectType = Object.assign({}, this.data.appState.projectType)
+    projectType.gridType = value
+    this.setData({
+      'appState.projectType': projectType,
+      p3Done: this._isP3Done(projectType)
+    })
+  },
+
+  onSelectTargetYear: function (e) {
+    var value = e.currentTarget.dataset.value
+    if (!value) return
+    var projectType = Object.assign({}, this.data.appState.projectType)
+    projectType.targetYear = value
+    this.setData({
+      'appState.projectType': projectType,
+      p3Done: this._isP3Done(projectType)
+    })
+  },
+
+  onToggleP3Help: function () {
+    this.setData({ p3HelpExpanded: !this.data.p3HelpExpanded })
+  },
+
+  _isP3Done: function (projectType) {
+    return !!(projectType && projectType.gridType && projectType.targetYear)
   },
 
   _hasSuspectCheckIncomplete: function (suspectCheck) {

@@ -398,6 +398,112 @@
   text-align: center;
 }
 
+/* P3 项目类型 */
+.screen-p3 { padding: 28rpx 28rpx 32rpx; }
+.p3-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #003060;
+  line-height: 1.4;
+  margin-bottom: 12rpx;
+}
+.p3-sub {
+  display: block;
+  font-size: 24rpx;
+  color: #6B7280;
+  line-height: 1.5;
+  margin-bottom: 28rpx;
+}
+.p3-section { margin-bottom: 28rpx; }
+.p3-question {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1F2933;
+  line-height: 1.5;
+  margin-bottom: 20rpx;
+}
+.p3-type-card {
+  background: #fff;
+  border: 1rpx solid #E0E8F0;
+  border-left: 6rpx solid #DCE5EF;
+  border-radius: 8rpx;
+  padding: 24rpx;
+  margin-bottom: 16rpx;
+  box-sizing: border-box;
+}
+.p3-type-card.active {
+  border: 2rpx solid #003060;
+  border-left: 8rpx solid #003060;
+  background: #F0F4FA;
+}
+.p3-card-title {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #003060;
+  margin-bottom: 12rpx;
+}
+.p3-card-desc {
+  display: block;
+  font-size: 26rpx;
+  color: #374151;
+  line-height: 1.6;
+}
+.p3-help-link {
+  display: block;
+  font-size: 24rpx;
+  color: #003060;
+  text-decoration: underline;
+  margin-top: 8rpx;
+  padding: 8rpx 0;
+}
+.p3-help-panel {
+  margin-top: 12rpx;
+  padding: 20rpx 24rpx;
+  background: #F4F6F8;
+  border-radius: 8rpx;
+}
+.p3-help-text {
+  display: block;
+  font-size: 24rpx;
+  color: #5E6D7F;
+  line-height: 1.65;
+}
+.p3-year-group {
+  display: flex;
+  flex-direction: row;
+  gap: 16rpx;
+  margin-bottom: 16rpx;
+}
+.p3-year-btn {
+  flex: 1;
+  min-width: 0;
+  height: 72rpx;
+  padding: 0 12rpx;
+  border: 2rpx solid #DCE5EF;
+  border-radius: 8rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+  color: #6B7280;
+  background: #fff;
+  text-align: center;
+  box-sizing: border-box;
+}
+.p3-year-btn.active {
+  background: #003060;
+  border-color: #003060;
+  color: #fff;
+  font-weight: 600;
+}
+.p3-year-note {
+  display: block;
+  font-size: 22rpx;
+  color: #9CA3AF;
+  line-height: 1.55;
+}
+
 /* 否决弹窗 */
 .reject-modal-mask {
   position: fixed;

@@ -88,8 +88,53 @@
       </view>
       <text class="suspect-hint" wx:if="{{suspectCheckIncomplete}}">建议全部作答，未作答项结果页将标注待确认</text>
     </view>
-    <view wx:if="{{currentScreen == 3}}" class="screen">
-      <text>P3：项目类型（待实现）</text>
+    <view wx:if="{{currentScreen == 3}}" class="screen screen-p3">
+      <view class="p3-title">第三步：项目类型</view>
+      <text class="p3-sub">请选择您的项目基本类型</text>
+
+      <view class="p3-section">
+        <text class="p3-question">您的项目是否计划与公共电网保持物理连接？</text>
+
+        <view
+          class="p3-type-card {{appState.projectType.gridType === 'grid' ? 'active' : ''}}"
+          catchtap="onSelectGridType"
+          data-value="grid"
+        >
+          <view class="p3-card-title">并网型</view>
+          <text class="p3-card-desc">与大电网连接，电网作为备用，供电更可靠，需遵守上网电量等合规规则</text>
+        </view>
+
+        <view
+          class="p3-type-card {{appState.projectType.gridType === 'offgrid' ? 'active' : ''}}"
+          catchtap="onSelectGridType"
+          data-value="offgrid"
+        >
+          <view class="p3-card-title">离网型</view>
+          <text class="p3-card-desc">完全独立运行，不接入公共电网，全部电量内部自平衡，需自承全部安全风险</text>
+        </view>
+
+        <text class="p3-help-link" catchtap="onToggleP3Help">不确定？点此帮我判断</text>
+        <view class="p3-help-panel" wx:if="{{p3HelpExpanded}}">
+          <text class="p3-help-text">您的项目在新能源发电不足时，是否需要从公共电网购电作为备用？需要 → 建议选并网型；不需要 → 建议选离网型</text>
+        </view>
+      </view>
+
+      <view class="p3-section" wx:if="{{appState.projectType.gridType}}">
+        <text class="p3-question">项目计划投产年份？</text>
+        <view class="p3-year-group">
+          <view
+            class="p3-year-btn {{appState.projectType.targetYear === 'pre2030' ? 'active' : ''}}"
+            catchtap="onSelectTargetYear"
+            data-value="pre2030"
+          >2030年前（含2030年）</view>
+          <view
+            class="p3-year-btn {{appState.projectType.targetYear === 'post2030' ? 'active' : ''}}"
+            catchtap="onSelectTargetYear"
+            data-value="post2030"
+          >2030年后</view>
+        </view>
+        <text class="p3-year-note">影响自发自用占总用电量比例门槛：2030年前≥35%，2030年后≥30%</text>
+      </view>
     </view>
     <view wx:if="{{currentScreen == 4}}" class="screen">
       <text>P4：项目信息（待实现）</text>
@@ -132,7 +177,10 @@
   <view class="bottom-nav" wx:if="{{currentScreen >= 2}}">
     <view class="nav-btn nav-btn-prev" catchtap="goPrev">上一项</view>
     <text class="nav-page-num">{{currentScreen}}/9</text>
-    <view class="nav-btn nav-btn-next" catchtap="goNext">{{currentScreen == 9 ? '完成' : '下一项'}}</view>
+    <view
+      class="nav-btn nav-btn-next {{currentScreen == 3 && !p3Done ? 'nav-btn-disabled' : ''}}"
+      catchtap="goNext"
+    >{{currentScreen == 9 ? '完成' : '下一项'}}</view>
   </view>
 
   <view class="footer-credit {{currentScreen == 0 ? 'footer-credit-p0' : ''}}">

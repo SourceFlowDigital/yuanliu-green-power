@@ -1,14 +1,4 @@
 var measureHeader = require('../../utils/headerLayout.js').measureHeader
-var constants = require('../../utils/greenDirectConstants.js')
-var AI_SYSTEM_PROMPT = constants.AI_SYSTEM_PROMPT
-
-var P7_TYPE_LABELS = {
-  wind: '风电',
-  solar: '地面光伏',
-  rooftop: '屋顶光伏',
-  biomass: '生物质',
-  other: '其他'
-}
 
 var PRE_CHECK_REJECT = {
   q1: '政策明确规定多用户不包括居民和农业用户，您的项目暂不适用本政策。',
@@ -23,6 +13,11 @@ var EMPTY_PRE_CHECK = { q1: null, q2: null, q3: null, q4: null, q5: null, q6: nu
 
 function _matchId(a, b) {
   return String(a) === String(b)
+}
+
+function _emptyIfZero(val) {
+  if (val === 0 || val === '0' || val === null || val === undefined) return ''
+  return val
 }
 
 Page({
@@ -119,6 +114,14 @@ Page({
       { label: '存量消纳受限', value: 'existingLimited' }
     ],
 
+    energyTypeLabels: {
+      wind: '风电',
+      solar: '地面光伏',
+      rooftop: '屋顶光伏',
+      biomass: '生物质',
+      other: '其他'
+    },
+
     p7Balance: {
       userCount: 0,
       totalConsumption: 0,
@@ -129,7 +132,7 @@ Page({
       p7ByTypeList: [],
       gap: 0,
       gapAbs: 0,
-      gapKind: 'match',
+      gapType: 'balanced',
       selfUse: 0,
       ratio1: 0,
       ratio2: 0,
@@ -137,10 +140,35 @@ Page({
       ratio1Pass: false,
       ratio2Pass: false,
       conclusionType: 'failBoth',
-      aiContent: '',
-      aiLoading: false,
-      aiError: false
+      conclusionText: ''
     },
+
+    p9SuspectWarnings: [],
+    p9SuspectAllClear: true,
+    p9IndustryTags: [],
+    p9UserList: [],
+    p9EnergyList: [],
+
+    finalResults: {
+      totalGeneration: 0,
+      totalConsumption: 0,
+      selfUseWithStorage: 0,
+      gridFeedInWithStorage: 0,
+      ratio1: 0,
+      ratio1Pass: false,
+      ratio2: 0,
+      ratio2Pass: false,
+      ratio2Threshold: 35,
+      ratio3: 0,
+      ratio3Pass: false,
+      isOffgrid: false,
+      overallPass: false,
+      suggestions: []
+    },
+    p10SuspectWarnings: [],
+    p10SuspectAllClear: true,
+    p10ShowPriority: false,
+    p10PriorityText: '',
 
     p7Preview: {
       totalGeneration: 0,
@@ -288,8 +316,8 @@ Page({
       energySources: [],
       storage: {
         hasStorage: null,
-        power: 0,
-        capacity: 0,
+        power: '',
+        capacity: '',
         cyclesPerDay: 1,
         operateDays: 300,
         annualStorageEnergy: 0
@@ -410,6 +438,10 @@ Page({
       provinceIndex: idx,
       'appState.projectInfo': projectInfo
     })
+    var users = this.data.appState.users || []
+    if (users.length) this._setUsers(users.slice())
+    var sources = this.data.appState.energySources || []
+    if (sources.length) this._setEnergySources(sources.slice())
   },
 
   onSelectInPark: function (e) {
@@ -464,7 +496,7 @@ Page({
       rooftopStructure: '',
       rooftopStructureCustom: '',
       rooftopCapacity: '',
-      rooftopHours: ref.solar || 0,
+      rooftopHours: '',
       rooftopGeneration: 0
     }
   },
@@ -497,6 +529,13 @@ Page({
 
   _normalizeUser: function (user) {
     var u = Object.assign({}, user)
+    u.annualConsumption = _emptyIfZero(u.annualConsumption)
+    u.transformerCapacity = _emptyIfZero(u.transformerCapacity)
+    u.expansionRate = _emptyIfZero(u.expansionRate)
+    u.rooftopCapacity = _emptyIfZero(u.rooftopCapacity)
+    u.rooftopHours = _emptyIfZero(u.rooftopHours)
+    var ref = this.data.appState.projectInfo.refHours || {}
+    u.refRooftopHours = ref.solar || 0
     u.consumption2030 = this._calcUser2030(u)
     u.rooftopGeneration = this._calcUserRooftopGen(u)
     return u
@@ -623,6 +662,29 @@ Page({
     this._patchUser(userId, patch)
   },
 
+  onApplyUserRefHours: function (e) {
+    var userId = e.currentTarget.dataset.id
+    var ref = (this.data.appState.projectInfo.refHours || {}).solar
+    if (!ref) return
+    this._patchUser(userId, { rooftopHours: String(ref) })
+  },
+
+  onApplyEnergyRefHours: function (e) {
+    var sourceId = e.currentTarget.dataset.id
+    var sources = this.data.appState.energySources || []
+    var i
+    var srcType = ''
+    for (i = 0; i < sources.length; i++) {
+      if (sources[i].id === sourceId) {
+        srcType = sources[i].type || ''
+        break
+      }
+    }
+    var ref = this._getDefaultHoursForType(srcType)
+    if (!ref) return
+    this._patchSource(sourceId, { hours: String(ref), hoursCustom: true })
+  },
+
   _energyTypeLabels: {
     wind: '风电',
     solar: '地面光伏',
@@ -636,7 +698,7 @@ Page({
       id: Date.now(),
       type: '',
       capacity: '',
-      hours: 0,
+      hours: '',
       hoursCustom: false,
       generation: 0,
       isExisting: null
@@ -670,6 +732,9 @@ Page({
 
   _normalizeSource: function (source) {
     var s = Object.assign({}, source)
+    s.capacity = _emptyIfZero(s.capacity)
+    s.hours = _emptyIfZero(s.hours)
+    s.refHours = this._getDefaultHoursForType(s.type || '')
     var cap = parseFloat(s.capacity)
     var hours = parseFloat(s.hours)
     if (isNaN(cap) || isNaN(hours)) {
@@ -763,7 +828,7 @@ Page({
       if (s.id !== sourceId) return s
       var merged = Object.assign({}, s, patch)
       if ('type' in patch && !merged.hoursCustom) {
-        merged.hours = self._getDefaultHoursForType(merged.type)
+        merged.hours = ''
       }
       return merged
     })
@@ -818,7 +883,7 @@ Page({
       id: newId,
       type: 'rooftop',
       capacity: String(ref.total),
-      hours: this._getDefaultHoursForType('rooftop'),
+      hours: '',
       hoursCustom: false,
       generation: ref.totalGen,
       isExisting: 'new'
@@ -932,10 +997,10 @@ Page({
   },
 
   _refreshP7Balance: function () {
-    var prev = this.data.p7Balance || {}
     var users = (this.data.appState.users || []).map(this._normalizeUser.bind(this))
     var sources = this.data.appState.energySources || []
     var projectType = this.data.appState.projectType || {}
+    var labels = this.data.energyTypeLabels || {}
     var ratio2Threshold = projectType.targetYear === 'post2030' ? 30 : 35
 
     var totalGeneration = 0
@@ -956,10 +1021,11 @@ Page({
       var s = sources[i]
       totalGeneration += s.generation || 0
       var cap = parseFloat(s.capacity)
-      if (!isNaN(cap)) totalCapacity += cap
+      var capVal = isNaN(cap) ? 0 : cap
+      totalCapacity += capVal
       var t = s.type || 'other'
       if (!byType[t]) t = 'other'
-      if (!isNaN(cap)) byType[t].capacity += cap
+      byType[t].capacity += capVal
       byType[t].generation += s.generation || 0
     }
 
@@ -979,14 +1045,22 @@ Page({
     var ratio1Pass = ratio1 >= 60
     var ratio2Pass = ratio2 >= ratio2Threshold
 
-    var gapKind = 'match'
-    if (gap > 0) gapKind = 'surplus'
-    else if (gap < 0) gapKind = 'short'
+    var gapType = 'balanced'
+    if (gap > 0) gapType = 'surplus'
+    else if (gap < 0) gapType = 'deficit'
 
     var conclusionType = 'pass'
-    if (!ratio1Pass && !ratio2Pass) conclusionType = 'failBoth'
-    else if (!ratio1Pass) conclusionType = 'failRatio1'
-    else if (!ratio2Pass) conclusionType = 'failRatio2'
+    var conclusionText = '✅ 源荷匹配良好，可根据投资意愿\n决定是否在下一步配置储能'
+    if (!ratio1Pass && !ratio2Pass) {
+      conclusionType = 'failBoth'
+      conclusionText = '❌ 源荷匹配不足，建议返回调整\n新能源装机规模或用电负荷后重新测算'
+    } else if (!ratio1Pass) {
+      conclusionType = 'failRatio1'
+      conclusionText = '⚠️ 自发自用占发电量比例偏低，\n建议适当减少新能源装机规模，\n或在下一步配置储能提升消纳'
+    } else if (!ratio2Pass) {
+      conclusionType = 'failRatio2'
+      conclusionText = '⚠️ 绿电消费占用电量比例偏低，\n建议适当增加内部用电负荷，\n或减少新能源装机规模'
+    }
 
     var byTypeFiltered = {}
     var p7ByTypeList = []
@@ -999,13 +1073,15 @@ Page({
         generation: this._round1(row.generation)
       }
       p7ByTypeList.push({
-        type: key,
-        label: P7_TYPE_LABELS[key] || key,
+        key: key,
+        label: labels[key] || key,
         capacity: this._round1(row.capacity),
         generation: this._round1(row.generation)
       })
     }
 
+    var self = this
+    var done = arguments.length > 0 && typeof arguments[0] === 'function' ? arguments[0] : null
     this.setData({
       p7Balance: {
         userCount: users.length,
@@ -1017,7 +1093,7 @@ Page({
         p7ByTypeList: p7ByTypeList,
         gap: this._round1(gap),
         gapAbs: this._round1(Math.abs(gap)),
-        gapKind: gapKind,
+        gapType: gapType,
         selfUse: this._round1(selfUse),
         ratio1: this._round1(ratio1),
         ratio2: this._round1(ratio2),
@@ -1025,126 +1101,254 @@ Page({
         ratio1Pass: ratio1Pass,
         ratio2Pass: ratio2Pass,
         conclusionType: conclusionType,
-        aiContent: prev.aiContent || '',
-        aiLoading: prev.aiLoading || false,
-        aiError: prev.aiError || false
+        conclusionText: conclusionText
       }
+    }, function () {
+      if (done) done.call(self)
     })
   },
 
-  _buildP7AIUserPrompt: function () {
-    var appState = this.data.appState || {}
-    var info = appState.projectInfo || {}
-    var pt = appState.projectType || {}
-    var b = this.data.p7Balance || {}
-    var gridLabel = pt.gridType === 'grid' ? '并网型' : '离网型'
-    var yearLabel = pt.targetYear === 'pre2030' ? '2030年前' : '2030年后'
-    var typeLines = ''
-    var list = b.p7ByTypeList || []
+  _collectSuspectWarnings: function () {
+    var items = this.data.suspectCheckItems || []
+    var check = this.data.appState.suspectCheck || {}
+    var warnings = []
     var i
-    for (i = 0; i < list.length; i++) {
-      typeLines += '\n' + list[i].label + '：' + list[i].capacity + ' MW / ' + list[i].generation + ' 万kWh'
-    }
-    if (!typeLines) typeLines = '\n（暂无分类明细）'
+    var j
 
-    return '请对以下项目源荷平衡数据进行分析：\n\n' +
-      '项目名称：' + (info.name || '未填写') + '\n' +
-      '项目类型：' + gridLabel + '\n' +
-      '目标投产：' + yearLabel + '\n\n' +
-      '【用电端】\n' +
-      '用户总数：' + (b.userCount || 0) + '个\n' +
-      '年总用电量：' + (b.totalConsumption || 0) + '万kWh\n' +
-      '预计2030年总用电量：' + (b.consumption2030 || 0) + '万kWh\n\n' +
-      '【发电端】\n' +
-      '新能源合计装机：' + (b.totalCapacity || 0) + 'MW\n' +
-      '预计年总发电量：' + (b.totalGeneration || 0) + '万kWh' +
-      typeLines + '\n\n' +
-      '【平衡分析】\n' +
-      '发电与用电差值：' + (b.gap || 0) + '万kWh\n' +
-      '初步自发自用电量：' + (b.selfUse || 0) + '万kWh\n' +
-      '指标一预估（自发自用/总发电量）：' + (b.ratio1 || 0) + '%（目标≥60%）\n' +
-      '指标二预估（自发自用/总用电量）：' + (b.ratio2 || 0) + '%\n' +
-      '（目标：' + (b.ratio2Threshold || 35) + '%）\n\n' +
-      '请从以下三个维度给出专业分析：\n' +
-      '一、源荷匹配评估\n' +
-      '二、政策合规预判（对照688号文三项指标）\n' +
-      '三、优化建议（1-3条具体可操作方向）'
+    for (i = 0; i < items.length; i++) {
+      var item = items[i]
+      var val = check[item.key]
+      var warnOn = item.warnOn || []
+      var shouldWarn = false
+      if (val === null || val === undefined || val === '') {
+        shouldWarn = true
+      } else {
+        for (j = 0; j < warnOn.length; j++) {
+          if (warnOn[j] === val) {
+            shouldWarn = true
+            break
+          }
+        }
+      }
+      if (shouldWarn) {
+        warnings.push({ key: item.key, warnMsg: item.warnMsg })
+      }
+    }
+    return warnings
   },
 
-  onGetAIAnalysis: function () {
-    var self = this
+  _calcFinalResults: function () {
     var appState = this.data.appState || {}
-    var b = this.data.p7Balance || {}
-    var userPrompt = this._buildP7AIUserPrompt()
+    var p7 = this.data.p7Balance || {}
+    var projectType = appState.projectType || {}
+    var storage = appState.storage || {}
+    var totalGeneration = p7.totalGeneration || 0
+    var totalConsumption = p7.totalConsumption || 0
+    var storageAnnual = storage.hasStorage === true ? (storage.annualStorageEnergy || 0) : 0
+    var targetYear = projectType.targetYear
+    var gridType = projectType.gridType
+    var isOffgrid = gridType === 'offgrid'
+
+    var selfUse = totalGeneration >= totalConsumption ? totalConsumption : totalGeneration
+    var selfUseWithStorage = Math.min(selfUse + storageAnnual, totalConsumption)
+    var gridFeedIn = totalGeneration > totalConsumption ? totalGeneration - totalConsumption : 0
+    var gridFeedInWithStorage = Math.max(totalGeneration - selfUseWithStorage, 0)
+
+    var ratio1 = totalGeneration > 0 ? (selfUseWithStorage / totalGeneration * 100) : 0
+    var ratio1Pass = ratio1 >= 60
+    var ratio2Threshold = targetYear === 'pre2030' ? 35 : 30
+    var ratio2 = totalConsumption > 0 ? (selfUseWithStorage / totalConsumption * 100) : 0
+    var ratio2Pass = ratio2 >= ratio2Threshold
+    var ratio3 = totalGeneration > 0 ? (gridFeedInWithStorage / totalGeneration * 100) : 0
+    var ratio3Pass = ratio3 <= 20
+
+    var overallPass = ratio1Pass && ratio2Pass && (isOffgrid || ratio3Pass)
+
+    var suggestions = []
+    var sugIdx = 1
+    var totalCapacity = p7.totalCapacity || 0
+
+    if (!ratio1Pass) {
+      var diff1 = this._round1(Math.max(0, 60 - ratio1))
+      var shortfall1 = this._round1(Math.max(0, totalGeneration * 0.6 - selfUseWithStorage))
+      var reduceMW = 0
+      if (totalGeneration > 0 && totalCapacity > 0) {
+        reduceMW = this._round1(shortfall1 * totalCapacity / totalGeneration)
+      } else if (shortfall1 > 0) {
+        reduceMW = this._round1(shortfall1 * 10 / 1400)
+      }
+      suggestions.push({
+        index: sugIdx++,
+        text: '指标一不达标（差' + diff1 + '个百分点）：建议减少新能源装机约' + reduceMW +
+          ' MW，或增加用电负荷约' + shortfall1 + '万kWh，或增加储能容量'
+      })
+    }
+
+    if (!ratio2Pass) {
+      var diff2 = this._round1(Math.max(0, ratio2Threshold - ratio2))
+      var needSelf2 = totalConsumption * ratio2Threshold / 100
+      var shortfall2 = this._round1(Math.max(0, needSelf2 - selfUseWithStorage))
+      suggestions.push({
+        index: sugIdx++,
+        text: '指标二不达标（差' + diff2 + '个百分点）：建议增加内部用电负荷约' + shortfall2 +
+          '万kWh，或适当减少新能源装机规模'
+      })
+    }
+
+    if (!isOffgrid && !ratio3Pass) {
+      var diff3 = this._round1(Math.max(0, ratio3 - 20))
+      var maxFeed = totalGeneration * 0.2
+      var excessFeed = this._round1(Math.max(0, gridFeedInWithStorage - maxFeed))
+      suggestions.push({
+        index: sugIdx++,
+        text: '指标三不达标（超出' + diff3 + '个百分点）：建议减少新能源装机规模，或增加内部用电负荷约' +
+          excessFeed + '万kWh'
+      })
+    }
+
+    var industryTypes = (appState.projectInfo && appState.projectInfo.industryTypes) || []
+    var priorityParts = []
+    if (industryTypes.indexOf('computing') >= 0) priorityParts.push('算力设施')
+    if (industryTypes.indexOf('hydrogen') >= 0) priorityParts.push('绿色氢氨醇')
+
+    var suspectWarnings = this._collectSuspectWarnings()
 
     this.setData({
-      'p7Balance.aiLoading': true,
-      'p7Balance.aiError': false
+      finalResults: {
+        totalGeneration: this._round1(totalGeneration),
+        totalConsumption: this._round1(totalConsumption),
+        selfUseWithStorage: this._round1(selfUseWithStorage),
+        gridFeedInWithStorage: this._round1(gridFeedInWithStorage),
+        ratio1: this._round1(ratio1),
+        ratio1Pass: ratio1Pass,
+        ratio2: this._round1(ratio2),
+        ratio2Pass: ratio2Pass,
+        ratio2Threshold: ratio2Threshold,
+        ratio3: this._round1(ratio3),
+        ratio3Pass: ratio3Pass,
+        isOffgrid: isOffgrid,
+        overallPass: overallPass,
+        suggestions: suggestions
+      },
+      p10SuspectWarnings: suspectWarnings,
+      p10SuspectAllClear: suspectWarnings.length === 0,
+      p10ShowPriority: priorityParts.length > 0,
+      p10PriorityText: priorityParts.join('、')
     })
+  },
 
-    wx.request({
-      url: 'http://127.0.0.1:8000/api/analyze',
-      method: 'POST',
-      header: { 'content-type': 'application/json' },
-      data: {
-        report: {
-          step1: {
-            projectName: (appState.projectInfo && appState.projectInfo.name) || '',
-            projectType: (appState.projectType && appState.projectType.gridType) || '',
-            targetYear: (appState.projectType && appState.projectType.targetYear) || ''
-          },
-          step3: {
-            totalGeneration: b.totalGeneration,
-            selfUseAmount: b.selfUse,
-            totalConsumption: b.totalConsumption,
-            gridFeedIn: 0
-          },
-          step4: {
-            ratio1: b.ratio1,
-            ratio1Pass: b.ratio1Pass,
-            ratio2: b.ratio2,
-            ratio2Pass: b.ratio2Pass,
-            ratio2Threshold: b.ratio2Threshold
-          },
-          p7Balance: {
-            totalGeneration: b.totalGeneration,
-            totalConsumption: b.totalConsumption,
-            selfUse: b.selfUse,
-            ratio1: b.ratio1,
-            ratio1Pass: b.ratio1Pass,
-            ratio2: b.ratio2,
-            ratio2Pass: b.ratio2Pass,
-            ratio2Threshold: b.ratio2Threshold
-          },
-          userPrompt: userPrompt,
-          systemPrompt: AI_SYSTEM_PROMPT
-        }
-      },
+  onGenerateBasicReport: function () {
+    var appState = this.data.appState || {}
+    var report = {
+      projectName: (appState.projectInfo && appState.projectInfo.name) || '',
+      timestamp: Date.now(),
+      finalResults: this.data.finalResults,
+      users: appState.users || [],
+      energySources: appState.energySources || [],
+      storage: appState.storage || {},
+      projectInfo: appState.projectInfo || {},
+      projectType: appState.projectType || {},
+      suspectWarnings: this._collectSuspectWarnings()
+    }
+    try {
+      wx.setStorageSync('yuanliu_report_latest', report)
+    } catch (e) {
+      wx.showToast({ title: '保存失败', icon: 'none' })
+      return
+    }
+    wx.showToast({ title: '报告已生成', icon: 'success' })
+    setTimeout(function () {
+      wx.switchTab({ url: '/pages/report/index' })
+    }, 500)
+  },
+
+  onRequestAIReport: function () {
+    wx.showModal({
+      title: '获取AI深度分析报告',
+      content: '请添加源流顾问微信，获取服务后即可使用AI深度分析功能。顾问将在工作时间内为您提供专业服务。',
+      confirmText: '联系顾问',
+      cancelText: '稍后再说',
+      confirmColor: '#D6A84F',
       success: function (res) {
-        if (res.statusCode === 200 && res.data && res.data.success && res.data.content) {
-          self.setData({
-            'p7Balance.aiContent': res.data.content,
-            'p7Balance.aiLoading': false,
-            'p7Balance.aiError': false
-          })
-          return
-        }
-        self.setData({
-          'p7Balance.aiLoading': false,
-          'p7Balance.aiError': true
-        })
-      },
-      fail: function () {
-        self.setData({
-          'p7Balance.aiLoading': false,
-          'p7Balance.aiError': true
+        if (!res.confirm) return
+        wx.setClipboardData({
+          data: '源流绿电顾问微信号：[预留占位WEIXIN_ID]',
+          success: function () {
+            wx.showToast({ title: '微信号已复制，请添加顾问', icon: 'none' })
+          }
         })
       }
+    })
+  },
+
+  _refreshP9Display: function () {
+    var items = this.data.suspectCheckItems || []
+    var check = this.data.appState.suspectCheck || {}
+    var warnings = []
+    var i
+    var j
+    var userOpts = this.data.userIndustryOptions || []
+    var typeLabels = this.data.energyTypeLabels || {}
+    var users = this.data.appState.users || []
+    var sources = this.data.appState.energySources || []
+    var p9UserList = []
+    var p9EnergyList = []
+
+    for (i = 0; i < users.length; i++) {
+      var u = users[i]
+      var indLabel = '—'
+      for (j = 0; j < userOpts.length; j++) {
+        if (userOpts[j].value === u.industry) {
+          indLabel = userOpts[j].label
+          break
+        }
+      }
+      p9UserList.push({
+        id: u.id,
+        name: u.name || '未填写',
+        industryLabel: indLabel,
+        annualConsumption: u.annualConsumption || '—'
+      })
+    }
+
+    for (i = 0; i < sources.length; i++) {
+      var s = sources[i]
+      p9EnergyList.push({
+        id: s.id,
+        typeLabel: typeLabels[s.type] || s.type || '其他',
+        capacity: s.capacity || '—',
+        generation: s.generation != null ? s.generation : 0
+      })
+    }
+
+    warnings = this._collectSuspectWarnings()
+
+    var industryList = this.data.industryList || []
+    var types = this.data.appState.projectInfo.industryTypes || []
+    var tags = []
+    for (i = 0; i < types.length; i++) {
+      var found = false
+      for (j = 0; j < industryList.length; j++) {
+        if (industryList[j].value === types[i]) {
+          tags.push(industryList[j].label)
+          found = true
+          break
+        }
+      }
+      if (!found) tags.push(types[i])
+    }
+
+    this.setData({
+      p9SuspectWarnings: warnings,
+      p9SuspectAllClear: warnings.length === 0,
+      p9IndustryTags: tags,
+      p9UserList: p9UserList,
+      p9EnergyList: p9EnergyList
     })
   },
 
   _refreshP7: function (storagePatch) {
-    var storage = Object.assign({}, this.data.appState.storage, storagePatch || {})
+    var storage = Object.assign({}, this.data.appState.storage || {}, storagePatch || {})
     var preview = this._calcP7Preview(storage)
     storage.annualStorageEnergy = storage.hasStorage === true ? preview.annualStorageEnergy : 0
     this.setData({
@@ -1168,7 +1372,10 @@ Page({
     if (!field) return
     var patch = {}
     patch[field] = e.detail.value
+    var storage = Object.assign({}, this.data.appState.storage, patch)
     this._refreshP7(patch)
+    var preview = this._calcP7Preview(storage)
+    this.setData({ p7Preview: preview })
   },
 
   onStorageCyclesChange: function (e) {
@@ -1181,6 +1388,8 @@ Page({
     cycles = Math.max(0.5, Math.min(2, cycles))
     storage.cyclesPerDay = cycles
     this._refreshP7(storage)
+    var preview = this._calcP7Preview(storage)
+    this.setData({ p7Preview: preview })
   },
 
   onStorageOperateDaysChange: function (e) {
@@ -1193,6 +1402,8 @@ Page({
     days = Math.max(200, Math.min(365, days))
     storage.operateDays = days
     this._refreshP7(storage)
+    var preview = this._calcP7Preview(storage)
+    this.setData({ p7Preview: preview })
   },
 
   _hasSuspectCheckIncomplete: function (suspectCheck) {
@@ -1284,6 +1495,19 @@ Page({
     if (cur === 6) this._ensureP6Sources()
     if (cur === 7) this._refreshP7Balance()
     if (cur === 8) this._refreshP7()
+    if (cur === 9) {
+      var self = this
+      this._refreshP7Balance(function () {
+        self._refreshP9Display()
+      })
+    }
+    if (cur === 10) {
+      var self10 = this
+      this._refreshP7({})
+      this._refreshP7Balance(function () {
+        self10._calcFinalResults()
+      })
+    }
     var progressPercent = cur === 0 ? 0 : Math.round((cur / 10) * 100)
     var progressText = cur === 0 ? '' : '第' + cur + '步，共10步'
     var screenChanged = cur !== prev

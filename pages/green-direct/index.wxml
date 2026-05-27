@@ -24,7 +24,7 @@
   </view>
 
   <view
-    class="screen-wrap {{currentScreen == 0 ? 'screen-wrap-p0' : ''}} {{currentScreen == 5 ? 'screen-wrap-p5' : ''}} {{currentScreen == 6 ? 'screen-wrap-p6' : ''}} {{currentScreen == 7 ? 'screen-wrap-p7' : ''}}"
+    class="screen-wrap {{currentScreen == 0 ? 'screen-wrap-p0' : ''}} {{currentScreen == 5 ? 'screen-wrap-p5' : ''}} {{currentScreen == 6 ? 'screen-wrap-p6' : ''}} {{currentScreen == 7 ? 'screen-wrap-p7' : ''}} {{currentScreen == 9 ? 'screen-wrap-p9' : ''}} {{currentScreen == 10 ? 'screen-wrap-p10' : ''}}"
     style="margin-top: {{currentScreen > 0 ? 0 : headerHeight}}px;"
   >
     <view wx:if="{{currentScreen == 0}}" class="screen screen-p0">
@@ -96,19 +96,27 @@
         <text class="p3-question">您的项目是否计划与公共电网保持物理连接？</text>
 
         <view
-          class="p3-type-card {{appState.projectType.gridType === 'grid' ? 'active' : ''}}"
+          class="card-option {{appState.projectType.gridType === 'grid' ? 'card-option--selected' : ''}}"
+          hover-class="card-active"
           catchtap="onSelectGridType"
           data-value="grid"
         >
+          <view class="card-option-radio {{appState.projectType.gridType === 'grid' ? 'card-option-radio--selected' : ''}}">
+            <text wx:if="{{appState.projectType.gridType === 'grid'}}">✓</text>
+          </view>
           <view class="p3-card-title">并网型</view>
           <text class="p3-card-desc">与大电网连接，电网作为备用，供电更可靠，需遵守上网电量等合规规则</text>
         </view>
 
         <view
-          class="p3-type-card {{appState.projectType.gridType === 'offgrid' ? 'active' : ''}}"
+          class="card-option {{appState.projectType.gridType === 'offgrid' ? 'card-option--selected' : ''}}"
+          hover-class="card-active"
           catchtap="onSelectGridType"
           data-value="offgrid"
         >
+          <view class="card-option-radio {{appState.projectType.gridType === 'offgrid' ? 'card-option-radio--selected' : ''}}">
+            <text wx:if="{{appState.projectType.gridType === 'offgrid'}}">✓</text>
+          </view>
           <view class="p3-card-title">离网型</view>
           <text class="p3-card-desc">完全独立运行，不接入公共电网，全部电量内部自平衡，需自承全部安全风险</text>
         </view>
@@ -286,7 +294,7 @@
           </view>
           <view class="p4-field user-field">
             <view class="p4-label"><text class="p4-required">*</text><text>上一年度用电量（万kWh）</text></view>
-            <input class="p4-input" type="digit" placeholder="请输入用电量" value="{{user.annualConsumption}}" bindinput="onUserInput" data-id="{{user.id}}" data-field="annualConsumption" />
+            <input class="p4-input" type="digit" placeholder="请输入用电量" placeholder-style="color:#BBBBBB" value="{{user.annualConsumption || ''}}" bindinput="onUserInput" data-id="{{user.id}}" data-field="annualConsumption" />
           </view>
           <view class="p4-field user-field">
             <view class="p4-label"><text>是否已收集电费缴费单</text></view>
@@ -298,7 +306,7 @@
           </view>
           <view class="p4-field user-field">
             <view class="p4-label"><text>变压器总容量（kVA）</text></view>
-            <input class="p4-input" type="digit" placeholder="选填" value="{{user.transformerCapacity}}" bindinput="onUserInput" data-id="{{user.id}}" data-field="transformerCapacity" />
+            <input class="p4-input" type="digit" placeholder="选填" placeholder-style="color:#BBBBBB" value="{{user.transformerCapacity || ''}}" bindinput="onUserInput" data-id="{{user.id}}" data-field="transformerCapacity" />
           </view>
         </view>
 
@@ -313,7 +321,7 @@
           </view>
           <view class="p4-field user-field" wx:if="{{user.hasExpansionPlan === true}}">
             <view class="p4-label"><text>预期年增减率（%/年，可为负）</text></view>
-            <input class="p4-input" type="digit" placeholder="如 5 或 -3" value="{{user.expansionRate}}" bindinput="onUserInput" data-id="{{user.id}}" data-field="expansionRate" />
+            <input class="p4-input" type="digit" placeholder="如：5 或 -3" placeholder-style="color:#BBBBBB" value="{{user.expansionRate || ''}}" bindinput="onUserInput" data-id="{{user.id}}" data-field="expansionRate" />
             <text class="user-calc-line">预计2030年用电量：{{user.consumption2030}} 万kWh</text>
           </view>
         </view>
@@ -349,11 +357,28 @@
             </view>
             <view class="p4-field user-field">
               <view class="p4-label"><text>预计可安装容量（MW）</text></view>
-              <input class="p4-input" type="digit" placeholder="请输入容量" value="{{user.rooftopCapacity}}" bindinput="onUserInput" data-id="{{user.id}}" data-field="rooftopCapacity" />
+              <input class="p4-input" type="digit" placeholder="请输入可安装容量" placeholder-style="color:#BBBBBB" value="{{user.rooftopCapacity || ''}}" bindinput="onUserInput" data-id="{{user.id}}" data-field="rooftopCapacity" />
             </view>
             <view class="p4-field user-field">
               <view class="p4-label"><text>年有效发电小时数（h）</text></view>
-              <input class="p4-input" type="digit" value="{{user.rooftopHours}}" bindinput="onUserInput" data-id="{{user.id}}" data-field="rooftopHours" />
+              <view class="es-hours-row">
+                <input
+                  class="p4-input es-hours-input"
+                  type="digit"
+                  placeholder="请输入或参考右侧数值"
+                  placeholder-style="color:#BBBBBB"
+                  value="{{user.rooftopHours || ''}}"
+                  bindinput="onUserInput"
+                  data-id="{{user.id}}"
+                  data-field="rooftopHours"
+                />
+                <text
+                  class="es-hours-ref"
+                  wx:if="{{user.refRooftopHours}}"
+                  catchtap="onApplyUserRefHours"
+                  data-id="{{user.id}}"
+                >参考：{{user.refRooftopHours}}h</text>
+              </view>
             </view>
             <text class="user-calc-line">预计年发电量：{{user.rooftopGeneration}} 万kWh</text>
           </block>
@@ -407,15 +432,28 @@
 
         <view class="p4-field user-field">
           <view class="p4-label"><text class="p4-required">*</text><text>装机规模（MW）</text></view>
-          <input class="p4-input" type="digit" placeholder="请输入装机规模" value="{{es.capacity}}" bindinput="onEnergyInput" data-id="{{es.id}}" data-field="capacity" />
+          <input class="p4-input" type="digit" placeholder="请输入装机规模" placeholder-style="color:#BBBBBB" value="{{es.capacity || ''}}" bindinput="onEnergyInput" data-id="{{es.id}}" data-field="capacity" />
         </view>
 
         <view class="p4-field user-field">
           <view class="p4-label"><text>年有效发电小时数（h）</text></view>
           <view class="es-hours-row">
-            <input class="p4-input es-hours-input" type="digit" value="{{es.hours}}" bindinput="onEnergyInput" data-id="{{es.id}}" data-field="hours" />
-            <text class="es-hours-tag" wx:if="{{!es.hoursCustom}}">参考值</text>
-            <text class="es-hours-tag es-hours-tag-custom" wx:else>已自定义</text>
+            <input
+              class="p4-input es-hours-input"
+              type="digit"
+              placeholder="系统已带入参考值，可修改"
+              placeholder-style="color:#BBBBBB"
+              value="{{es.hours || ''}}"
+              bindinput="onEnergyInput"
+              data-id="{{es.id}}"
+              data-field="hours"
+            />
+            <text
+              class="es-hours-ref"
+              wx:if="{{es.refHours}}"
+              catchtap="onApplyEnergyRefHours"
+              data-id="{{es.id}}"
+            >参考：{{es.refHours}}h</text>
           </view>
         </view>
 
@@ -445,65 +483,50 @@
       <view class="p7-balance-title">第七步：源荷平衡分析</view>
 
       <view class="p7-balance-card">
-        <view class="p7-balance-card-title">用电端</view>
+        <view class="p7-balance-card-title">📊 用电端</view>
         <text class="p7-balance-line">用户总数：{{p7Balance.userCount}} 个</text>
         <text class="p7-balance-line">年总用电量：{{p7Balance.totalConsumption}} 万kWh</text>
         <text class="p7-balance-line">预计2030年总用电量：{{p7Balance.consumption2030}} 万kWh</text>
       </view>
 
       <view class="p7-balance-card">
-        <view class="p7-balance-card-title">发电端</view>
-        <block wx:for="{{p7Balance.p7ByTypeList}}" wx:key="type">
+        <view class="p7-balance-card-title">⚡ 发电端</view>
+        <text class="p7-balance-line">合计装机：{{p7Balance.totalCapacity}} MW</text>
+        <text class="p7-balance-line">预计年总发电量：{{p7Balance.totalGeneration}} 万kWh</text>
+        <block wx:for="{{p7Balance.p7ByTypeList}}" wx:key="key">
           <text class="p7-balance-line">{{item.label}}：{{item.capacity}} MW / {{item.generation}} 万kWh</text>
         </block>
-        <text class="p7-balance-line p7-balance-total">合计：{{p7Balance.totalCapacity}} MW / {{p7Balance.totalGeneration}} 万kWh</text>
       </view>
 
       <view class="p7-balance-card">
-        <view class="p7-balance-card-title">平衡分析</view>
+        <view class="p7-balance-card-title">⚖️ 平衡分析</view>
         <view class="p7-balance-gap-row">
-          <text class="p7-balance-label">发电量与用电量差值：</text>
-          <text class="p7-balance-gap p7-balance-gap-{{p7Balance.gapKind}}" wx:if="{{p7Balance.gapKind === 'surplus'}}">+{{p7Balance.gapAbs}} 万kWh（发电过剩）</text>
-          <text class="p7-balance-gap p7-balance-gap-{{p7Balance.gapKind}}" wx:elif="{{p7Balance.gapKind === 'short'}}">{{p7Balance.gapAbs}} 万kWh（存在缺口）</text>
-          <text class="p7-balance-gap p7-balance-gap-{{p7Balance.gapKind}}" wx:else>基本匹配</text>
+          <text class="p7-balance-label">发电与用电差值：</text>
+          <text class="p7-balance-gap p7-balance-gap-{{p7Balance.gapType}}" wx:if="{{p7Balance.gapType === 'surplus'}}">+{{p7Balance.gapAbs}} 万kWh（发电过剩）</text>
+          <text class="p7-balance-gap p7-balance-gap-{{p7Balance.gapType}}" wx:elif="{{p7Balance.gapType === 'deficit'}}">-{{p7Balance.gapAbs}} 万kWh（存在缺口）</text>
+          <text class="p7-balance-gap p7-balance-gap-{{p7Balance.gapType}}" wx:else>发电量与用电量基本匹配</text>
         </view>
         <text class="p7-balance-line">初步自发自用电量：{{p7Balance.selfUse}} 万kWh</text>
-        <view class="p7-balance-metric-row">
-          <text class="p7-balance-label">指标一预估（自发自用/总发电量）：</text>
-          <text class="p7-balance-metric-val {{p7Balance.ratio1Pass ? 'pass' : 'fail'}}">{{p7Balance.ratio1}}%</text>
+        <view class="p7-balance-metric-block">
+          <view class="p7-balance-metric-row">
+            <text class="p7-balance-label">指标一：自发自用/总发电量</text>
+            <text class="p7-balance-metric-val {{p7Balance.ratio1Pass ? 'pass' : 'fail'}}">{{p7Balance.ratio1}}%（目标≥60%）</text>
+          </view>
+          <text class="p7-metric-desc">自发自用 ÷ 总发电量（目标≥60%）\n反映新能源就地消纳程度</text>
         </view>
-        <text class="p7-balance-hint">达标门槛 ≥60%</text>
-        <view class="p7-balance-metric-row">
-          <text class="p7-balance-label">指标二预估（自发自用/总用电量）：</text>
-          <text class="p7-balance-metric-val {{p7Balance.ratio2Pass ? 'pass' : 'fail'}}">{{p7Balance.ratio2}}%</text>
+        <view class="p7-balance-metric-block">
+          <view class="p7-balance-metric-row">
+            <text class="p7-balance-label">指标二：自发自用/总用电量</text>
+            <text class="p7-balance-metric-val {{p7Balance.ratio2Pass ? 'pass' : 'fail'}}">{{p7Balance.ratio2}}%（目标≥{{p7Balance.ratio2Threshold}}%）</text>
+          </view>
+          <text class="p7-metric-desc">自发自用 ÷ 总用电量\n（2030年前≥35%，2030年后≥30%）\n反映绿电覆盖用电的比例</text>
         </view>
-        <text class="p7-balance-hint">门槛说明：2030年前≥35%，2030年后≥30%</text>
       </view>
 
-      <view class="p7-conclusion p7-conclusion-pass" wx:if="{{p7Balance.conclusionType === 'pass'}}">
-        <text>源荷匹配良好，可根据投资意愿决定是否配置储能</text>
-      </view>
-      <view class="p7-conclusion p7-conclusion-warn" wx:elif="{{p7Balance.conclusionType === 'failRatio1'}}">
-        <text>自发自用比例偏低，建议减少新能源装机或增加用电负荷</text>
-      </view>
-      <view class="p7-conclusion p7-conclusion-warn" wx:elif="{{p7Balance.conclusionType === 'failRatio2'}}">
-        <text>绿电消费比例偏低，建议增加内部用电量或减少新能源装机</text>
-      </view>
-      <view class="p7-conclusion p7-conclusion-fail" wx:else>
-        <text>源荷匹配不足，建议调整新能源装机规模后重新测算</text>
-      </view>
-
-      <view class="p7-ai-section">
-        <view class="p7-ai-title">AI深度解读</view>
-        <view wx:if="{{!p7Balance.aiContent && !p7Balance.aiLoading && !p7Balance.aiError}}">
-          <view class="p7-ai-btn" catchtap="onGetAIAnalysis">获取AI分析建议</view>
-        </view>
-        <text class="p7-ai-loading" wx:elif="{{p7Balance.aiLoading}}">AI分析中，请稍候...</text>
-        <text class="p7-ai-content" wx:elif="{{p7Balance.aiContent}}">{{p7Balance.aiContent}}</text>
-        <view wx:else class="p7-ai-error-wrap">
-          <text class="p7-ai-error">AI分析暂时不可用，请稍后重试</text>
-          <view class="p7-ai-retry" catchtap="onGetAIAnalysis">重试</view>
-        </view>
+      <view
+        class="p7-conclusion {{p7Balance.conclusionType === 'pass' ? 'p7-conclusion-pass' : (p7Balance.conclusionType === 'failBoth' ? 'p7-conclusion-fail' : 'p7-conclusion-warn')}}"
+      >
+        <text>{{p7Balance.conclusionText}}</text>
       </view>
 
       <view class="p7-disclaimer-card">
@@ -527,16 +550,20 @@
 
       <view class="p7-metric-card">
         <text class="p7-metric-title">配储前指标预估</text>
-        <view class="p7-metric-row">
-          <text class="p7-metric-label">指标一（自发自用/总发电量）</text>
-          <text class="p7-metric-val {{p7Preview.ratio1Before >= 60 ? 'pass' : 'fail'}}">{{p7Preview.ratio1Before}}%</text>
+        <view class="p7-metric-block">
+          <view class="p7-metric-row">
+            <text class="p7-metric-label">指标一（自发自用/总发电量）</text>
+            <text class="p7-metric-val {{p7Preview.ratio1Before >= 60 ? 'pass' : 'fail'}}">{{p7Preview.ratio1Before}}%</text>
+          </view>
+          <text class="p7-metric-desc">自发自用电量 ÷ 新能源总发电量，政策要求≥60%\n比例偏低说明新能源装机过大，\n大量发电无法就地消纳</text>
         </view>
-        <text class="p7-metric-hint">门槛 ≥60%</text>
-        <view class="p7-metric-row">
-          <text class="p7-metric-label">指标二（自发自用/总用电量）</text>
-          <text class="p7-metric-val {{p7Preview.ratio2Before >= p7Preview.ratio2Threshold ? 'pass' : 'fail'}}">{{p7Preview.ratio2Before}}%</text>
+        <view class="p7-metric-block">
+          <view class="p7-metric-row">
+            <text class="p7-metric-label">指标二（自发自用/总用电量）</text>
+            <text class="p7-metric-val {{p7Preview.ratio2Before >= p7Preview.ratio2Threshold ? 'pass' : 'fail'}}">{{p7Preview.ratio2Before}}%</text>
+          </view>
+          <text class="p7-metric-desc">自发自用电量 ÷ 用户总用电量，\n2030年前要求≥35%，2030年后要求≥30%\n比例偏低说明绿电供应不足以覆盖用电需求</text>
         </view>
-        <text class="p7-metric-hint">门槛 ≥{{p7Preview.ratio2Threshold}}%</text>
       </view>
 
       <view class="p4-field">
@@ -559,11 +586,11 @@
         <view class="p7-storage-panel">
           <view class="p4-field user-field">
             <view class="p4-label"><text>储能功率（MW）</text></view>
-            <input class="p4-input" type="digit" placeholder="请输入功率" value="{{appState.storage.power}}" bindinput="onStorageInput" data-field="power" />
+            <input class="p4-input" type="digit" placeholder="请输入储能功率（MW）" placeholder-style="color:#BBBBBB" value="{{appState.storage.power || ''}}" bindinput="onStorageInput" data-field="power" />
           </view>
           <view class="p4-field user-field">
             <view class="p4-label"><text>储能容量（MWh）</text></view>
-            <input class="p4-input" type="digit" placeholder="请输入容量" value="{{appState.storage.capacity}}" bindinput="onStorageInput" data-field="capacity" />
+            <input class="p4-input" type="digit" placeholder="请输入储能容量（MWh）" placeholder-style="color:#BBBBBB" value="{{appState.storage.capacity || ''}}" bindinput="onStorageInput" data-field="capacity" />
           </view>
           <view class="p4-field user-field">
             <view class="p4-label"><text>日均充放电次数</text></view>
@@ -587,24 +614,180 @@
 
         <view class="p7-metric-card" wx:if="{{appState.storage.capacity}}">
           <text class="p7-metric-title">配储后指标预估</text>
-          <view class="p7-metric-row">
-            <text class="p7-metric-label">配储后指标一</text>
-            <text class="p7-metric-val {{p7Preview.ratio1After >= 60 ? 'pass' : 'fail'}}">{{p7Preview.ratio1After}}%</text>
+          <view class="p7-metric-block">
+            <view class="p7-metric-row">
+              <text class="p7-metric-label">配储后指标一</text>
+              <text class="p7-metric-val {{p7Preview.ratio1After >= 60 ? 'pass' : 'fail'}}">{{p7Preview.ratio1After}}%</text>
+            </view>
+            <text class="p7-metric-desc">自发自用电量 ÷ 新能源总发电量，政策要求≥60%\n比例偏低说明新能源装机过大，\n大量发电无法就地消纳</text>
           </view>
-          <view class="p7-metric-row">
-            <text class="p7-metric-label">配储后指标二</text>
-            <text class="p7-metric-val {{p7Preview.ratio2After >= p7Preview.ratio2Threshold ? 'pass' : 'fail'}}">{{p7Preview.ratio2After}}%</text>
+          <view class="p7-metric-block">
+            <view class="p7-metric-row">
+              <text class="p7-metric-label">配储后指标二</text>
+              <text class="p7-metric-val {{p7Preview.ratio2After >= p7Preview.ratio2Threshold ? 'pass' : 'fail'}}">{{p7Preview.ratio2After}}%</text>
+            </view>
+            <text class="p7-metric-desc">自发自用电量 ÷ 用户总用电量，\n2030年前要求≥35%，2030年后要求≥30%\n比例偏低说明绿电供应不足以覆盖用电需求</text>
           </view>
         </view>
       </block>
 
       <text class="p7-footnote">储能按1充1放估算，充电电源为新能源发电，放电对象为用户负荷，实际效果受运行策略影响。</text>
     </view>
-    <view wx:if="{{currentScreen == 9}}" class="screen">
-      <text>P9：汇总（待实现）</text>
+    <view wx:if="{{currentScreen == 9}}" class="screen screen-p9">
+      <view class="p9-title">第九步：汇总确认</view>
+
+      <view class="p9-card">
+        <view class="p9-card-title">📋 项目基本信息</view>
+        <text class="p9-line">项目名称：{{appState.projectInfo.name || '未填写'}}</text>
+        <text class="p9-line" wx:if="{{appState.projectType.gridType === 'grid'}}">项目类型：并网型</text>
+        <text class="p9-line" wx:elif="{{appState.projectType.gridType === 'offgrid'}}">项目类型：离网型</text>
+        <text class="p9-line" wx:else>项目类型：未选择</text>
+        <text class="p9-line" wx:if="{{appState.projectType.targetYear === 'pre2030'}}">目标投产：2030年前</text>
+        <text class="p9-line" wx:elif="{{appState.projectType.targetYear === 'post2030'}}">目标投产：2030年后</text>
+        <text class="p9-line" wx:else>目标投产：未选择</text>
+        <text class="p9-line">所在省份：{{appState.projectInfo.province || '未填写'}}</text>
+        <text class="p9-line" wx:if="{{appState.projectInfo.inPark === true}}">是否位于认定园区：是</text>
+        <text class="p9-line" wx:elif="{{appState.projectInfo.inPark === false}}">是否位于认定园区：否</text>
+        <text class="p9-line" wx:else>是否位于认定园区：未选择</text>
+        <text class="p9-line" wx:if="{{appState.projectInfo.inPark === true && appState.projectInfo.parkType === 'industrial'}}">园区类型：工业园区</text>
+        <text class="p9-line" wx:elif="{{appState.projectInfo.inPark === true && appState.projectInfo.parkType === 'zeroCarbon'}}">园区类型：零碳园区</text>
+        <text class="p9-line" wx:elif="{{appState.projectInfo.inPark === true && appState.projectInfo.parkType === 'incremental'}}">园区类型：增量配电网</text>
+        <view class="p9-industry-row">
+          <text class="p9-line p9-line-inline">产业类型：</text>
+          <text class="p9-tag" wx:for="{{p9IndustryTags}}" wx:key="*this">{{item}}</text>
+          <text class="p9-line p9-line-muted" wx:if="{{!p9IndustryTags.length}}">未填写</text>
+        </view>
+      </view>
+
+      <view class="p9-card">
+        <view class="p9-card-title">📊 用电端（共{{p7Balance.userCount}}个用户）</view>
+        <view class="p9-table-row p9-table-head">
+          <text class="p9-col-left">上一年度总用电量</text>
+          <text class="p9-col-right">{{p7Balance.totalConsumption}} 万kWh</text>
+        </view>
+        <view class="p9-table-row">
+          <text class="p9-col-left">预计2030年总用电量</text>
+          <text class="p9-col-right">{{p7Balance.consumption2030}} 万kWh</text>
+        </view>
+        <view class="p9-list-head">
+          <text class="p9-list-col-name">用户名称</text>
+          <text class="p9-list-col-ind">行业</text>
+          <text class="p9-list-col-val">上年用电量</text>
+        </view>
+        <view class="p9-list-row" wx:for="{{p9UserList}}" wx:for-item="u" wx:key="id">
+          <text class="p9-list-col-name">{{u.name}}</text>
+          <text class="p9-list-col-ind">{{u.industryLabel}}</text>
+          <text class="p9-list-col-val">{{u.annualConsumption}} 万kWh</text>
+        </view>
+      </view>
+
+      <view class="p9-card">
+        <view class="p9-card-title">⚡ 发电端（共{{appState.energySources.length}}条电源）</view>
+        <text class="p9-line">合计装机：{{p7Balance.totalCapacity}} MW</text>
+        <text class="p9-line">预计年总发电量：{{p7Balance.totalGeneration}} 万kWh</text>
+        <view class="p9-list-row" wx:for="{{p9EnergyList}}" wx:for-item="es" wx:key="id">
+          <text class="p9-list-col-type">{{es.typeLabel}}</text>
+          <text class="p9-list-col-mid">{{es.capacity}} MW</text>
+          <text class="p9-list-col-val">{{es.generation}} 万kWh</text>
+        </view>
+      </view>
+
+      <view class="p9-card">
+        <view class="p9-card-title">🔋 储能配置</view>
+        <text class="p9-line p9-line-muted" wx:if="{{appState.storage.hasStorage !== true}}">未配置储能</text>
+        <block wx:else>
+          <text class="p9-line">储能功率：{{appState.storage.power || '—'}} MW</text>
+          <text class="p9-line">储能容量：{{appState.storage.capacity || '—'}} MWh</text>
+          <text class="p9-line">日均充放电次数：{{appState.storage.cyclesPerDay}} 次</text>
+          <text class="p9-line">年运行天数：{{appState.storage.operateDays}} 天</text>
+          <text class="p9-line">预计年增加自发自用：{{appState.storage.annualStorageEnergy}} 万kWh</text>
+        </block>
+      </view>
+
+      <view class="p9-card">
+        <view class="p9-card-title">⚠️ 待落实事项</view>
+        <text class="p9-line p9-line-ok" wx:if="{{p9SuspectAllClear}}">无待落实事项</text>
+        <block wx:else>
+          <text class="p9-warn-item" wx:for="{{p9SuspectWarnings}}" wx:key="key">⚠️ {{item.warnMsg}}</text>
+        </block>
+      </view>
+
+      <view class="p9-tip">
+        <text>请核对以上信息，如有误请点「上一项」返回修改\n确认无误后点「下一项」生成测算结果</text>
+      </view>
     </view>
-    <view wx:if="{{currentScreen == 10}}" class="screen">
-      <text>P10：结果输出（T12实现）</text>
+    <view wx:if="{{currentScreen == 10}}" class="screen screen-p10">
+      <view class="p10-title">第十步：测算结果</view>
+
+      <view class="p10-banner p10-banner-pass" wx:if="{{finalResults.overallPass}}">
+        <text class="p10-banner-main">✅ 项目初步符合政策合规要求</text>
+        <text class="p10-banner-sub">建议推进可行性研究</text>
+      </view>
+      <view class="p10-banner p10-banner-fail" wx:else>
+        <text class="p10-banner-main">❌ 存在不达标指标，需调整后重新测算</text>
+      </view>
+
+      <view class="p10-metrics">
+        <view class="p10-metric-card">
+          <text class="p10-metric-name">指标一</text>
+          <text class="p10-metric-desc">自发自用/总发电量</text>
+          <text class="p10-metric-val {{finalResults.ratio1Pass ? 'pass' : 'fail'}}">{{finalResults.ratio1}}%</text>
+          <text class="p10-metric-threshold">门槛 ≥60%</text>
+        </view>
+        <view class="p10-metric-card">
+          <text class="p10-metric-name">指标二</text>
+          <text class="p10-metric-desc">自发自用/总用电量</text>
+          <text class="p10-metric-val {{finalResults.ratio2Pass ? 'pass' : 'fail'}}">{{finalResults.ratio2}}%</text>
+          <text class="p10-metric-threshold">门槛 ≥{{finalResults.ratio2Threshold}}%</text>
+        </view>
+        <view class="p10-metric-card {{finalResults.isOffgrid ? 'p10-metric-card--muted' : ''}}">
+          <text class="p10-metric-name">指标三</text>
+          <text class="p10-metric-desc">上网电量/总发电量</text>
+          <text class="p10-metric-val p10-metric-na" wx:if="{{finalResults.isOffgrid}}">—</text>
+          <text class="p10-metric-val {{finalResults.ratio3Pass ? 'pass' : 'fail'}}" wx:else>{{finalResults.ratio3}}%</text>
+          <text class="p10-metric-threshold" wx:if="{{finalResults.isOffgrid}}">离网型不涉及</text>
+          <text class="p10-metric-threshold" wx:else>门槛 ≤20%</text>
+        </view>
+      </view>
+
+      <view class="p10-section" wx:if="{{!finalResults.overallPass && finalResults.suggestions.length}}">
+        <view class="p10-section-title">💡 整改建议</view>
+        <text class="p10-suggest-item" wx:for="{{finalResults.suggestions}}" wx:key="index">{{item.index}}. {{item.text}}</text>
+      </view>
+
+      <view class="p10-section">
+        <view class="p10-section-title">⚠️ 待落实事项</view>
+        <text class="p10-line-ok" wx:if="{{p10SuspectAllClear}}">无待落实事项</text>
+        <block wx:else>
+          <text class="p10-warn-item" wx:for="{{p10SuspectWarnings}}" wx:key="key">⚠️ {{item.warnMsg}}</text>
+        </block>
+      </view>
+
+      <view class="p10-priority" wx:if="{{p10ShowPriority}}">
+        <text>🌟 您的项目包含政策优先支持产业：{{p10PriorityText}}</text>
+      </view>
+
+      <view class="p10-report-section">
+        <view class="p10-section-title">选择报告类型</view>
+
+        <view class="p10-report-card">
+          <view class="p10-report-head">
+            <text class="p10-report-title">📄 基础合规报告</text>
+            <text class="p10-tag p10-tag-free">免费</text>
+          </view>
+          <text class="p10-report-desc">包含项目信息、指标测算结果、合规结论及整改建议</text>
+          <view class="p10-btn p10-btn-primary" catchtap="onGenerateBasicReport">生成基础报告</view>
+        </view>
+
+        <view class="p10-report-card p10-report-card--ai">
+          <view class="p10-report-head">
+            <text class="p10-report-title">🤖 AI深度分析报告</text>
+            <text class="p10-tag p10-tag-paid">增值服务</text>
+          </view>
+          <text class="p10-report-desc">在基础报告基础上，增加基于688号文的专业政策解读和项目优化建议</text>
+          <view class="p10-btn p10-btn-gold" catchtap="onRequestAIReport">了解AI报告服务</view>
+        </view>
+      </view>
     </view>
   </view>
 

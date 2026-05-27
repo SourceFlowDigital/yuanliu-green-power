@@ -1,175 +1,123 @@
-<view class="header">
-  <view class="status-bar" style="height: {{statusBarHeight}}px;"></view>
-  <view class="header-main" style="height: {{navBarHeight}}px;">
-    <image class="header-logo" src="/assets/logo.png" mode="aspectFit"></image>
-    <view class="header-title-group">
-      <view class="header-title">源流绿电直连</view>
-      <view class="header-sub-wrap">
-        <text class="header-sub">政策合规自测工具</text>
-      </view>
-    </view>
-  </view>
-</view>
-
-<view class="body" style="margin-top: {{headerHeight}}px;">
-  <view class="policy-tag-bar">
-    <text class="policy-tag">发改能源〔2026〕688号</text>
-    <text class="policy-tag-sub">2026年5月14日施行</text>
-  </view>
-
-  <view class="step-indicator">
-    <view class="step-dot active">1</view>
-    <view class="step-line"></view>
-    <view class="step-dot">2</view>
-    <view class="step-line"></view>
-    <view class="step-dot">3</view>
-    <view class="step-line"></view>
-    <view class="step-dot">4</view>
-    <view class="step-line"></view>
-    <view class="step-dot">5</view>
-  </view>
-
-  <view class="policy-list">
-    <view class="policy-card step-card">
-      <view class="card-header step-card-header">
-        <text class="card-step-label">Step 1</text>
-        <text class="card-title step-card-title">项目基本信息</text>
-      </view>
-
-      <view class="input-row">
-        <text class="input-label">项目名称</text>
-        <input
-          class="input-field"
-          placeholder="请输入项目名称"
-          value="{{formData.projectName}}"
-          bindinput="onInput"
-          data-field="projectName"
-        />
-      </view>
-
-      <view class="input-row">
-        <text class="input-label">项目类型</text>
-        <view class="radio-group">
-          <view
-            class="radio-item {{formData.projectType === 'grid' ? 'active' : ''}}"
-            bindtap="onSelect"
-            data-field="projectType"
-            data-value="grid"
-          >
-            <text>并网型</text>
-          </view>
-          <view
-            class="radio-item {{formData.projectType === 'offgrid' ? 'active' : ''}}"
-            bindtap="onSelect"
-            data-field="projectType"
-            data-value="offgrid"
-          >
-            <text>离网型</text>
-          </view>
-        </view>
-      </view>
-
-      <view class="input-row">
-        <text class="input-label">新能源类型</text>
-        <view class="tag-group">
-          <view
-            class="tag-item {{formData.energyType === 'solar' ? 'active' : ''}}"
-            bindtap="onSelect"
-            data-field="energyType"
-            data-value="solar"
-          >
-            <text>光伏</text>
-          </view>
-          <view
-            class="tag-item {{formData.energyType === 'wind' ? 'active' : ''}}"
-            bindtap="onSelect"
-            data-field="energyType"
-            data-value="wind"
-          >
-            <text>风电</text>
-          </view>
-          <view
-            class="tag-item {{formData.energyType === 'biomass' ? 'active' : ''}}"
-            bindtap="onSelect"
-            data-field="energyType"
-            data-value="biomass"
-          >
-            <text>生物质</text>
-          </view>
-          <view
-            class="tag-item {{formData.energyType === 'combo' ? 'active' : ''}}"
-            bindtap="onSelect"
-            data-field="energyType"
-            data-value="combo"
-          >
-            <text>组合</text>
-          </view>
-        </view>
-      </view>
-
-      <view class="input-row">
-        <text class="input-label">用户类型</text>
-        <view class="tag-group">
-          <view
-            class="tag-item {{formData.userType === 'new' ? 'active' : ''}}"
-            bindtap="onSelect"
-            data-field="userType"
-            data-value="new"
-          >
-            <text>新建负荷</text>
-          </view>
-          <view
-            class="tag-item {{formData.userType === 'existing' ? 'active' : ''}}"
-            bindtap="onSelect"
-            data-field="userType"
-            data-value="existing"
-          >
-            <text>存量负荷</text>
-          </view>
-          <view
-            class="tag-item {{formData.userType === 'park' ? 'active' : ''}}"
-            bindtap="onSelect"
-            data-field="userType"
-            data-value="park"
-          >
-            <text>工业园区</text>
-          </view>
-          <view
-            class="tag-item {{formData.userType === 'incremental' ? 'active' : ''}}"
-            bindtap="onSelect"
-            data-field="userType"
-            data-value="incremental"
-          >
-            <text>增量配电网</text>
-          </view>
-        </view>
-      </view>
-
-      <view class="input-row input-row-last">
-        <text class="input-label">目标年份</text>
-        <view class="radio-group">
-          <view
-            class="radio-item {{formData.targetYear === 'pre2030' ? 'active' : ''}}"
-            bindtap="onSelect"
-            data-field="targetYear"
-            data-value="pre2030"
-          >
-            <text>2030年前</text>
-          </view>
-          <view
-            class="radio-item {{formData.targetYear === 'post2030' ? 'active' : ''}}"
-            bindtap="onSelect"
-            data-field="targetYear"
-            data-value="post2030"
-          >
-            <text>2030年后</text>
-          </view>
+<view class="page-container">
+  <view class="header">
+    <view class="status-bar" style="height: {{statusBarHeight}}px;"></view>
+    <view class="header-main" style="height: {{navBarHeight}}px;">
+      <image class="header-logo" src="/assets/logo.png" mode="aspectFit"></image>
+      <view class="header-title-group">
+        <view class="header-title">源流绿电直连</view>
+        <view class="header-sub-wrap">
+          <text class="header-sub">政策合规自测工具</text>
         </view>
       </view>
     </view>
   </view>
 
-  <view class="action-bar">
-    <button class="btn-primary" bindtap="onNext">下一步：现场踏勘</button>
+  <view
+    class="progress-bar-wrap"
+    wx:if="{{currentScreen > 0}}"
+    style="margin-top: {{headerHeight}}px;"
+  >
+    <view class="progress-track">
+      <view class="progress-fill" style="width: {{progressPercent}}%;"></view>
+    </view>
+    <text class="progress-text">{{progressText}}</text>
+  </view>
+
+  <view
+    class="screen-wrap {{currentScreen == 0 ? 'screen-wrap-p0' : ''}}"
+    style="margin-top: {{currentScreen > 0 ? 0 : headerHeight}}px;"
+  >
+    <view wx:if="{{currentScreen == 0}}" class="screen screen-p0">
+      <view class="p0-title">源流绿电直连 · 项目预评估工具</view>
+      <view class="policy-tag-bar p0-tag-bar">
+        <text class="policy-tag">发改能源〔2026〕688号</text>
+        <text class="policy-tag-sub">2026年5月14日施行</text>
+      </view>
+      <text class="p0-body">本工具基于《发改能源〔2026〕688号》，帮助您初步判断项目是否符合多用户绿电直连政策要求，并测算三项核心合规指标。</text>
+      <view class="p0-section-title">填写完成后将输出：</view>
+      <view class="p0-list">
+        <text class="p0-list-item">· 项目基本信息汇总</text>
+        <text class="p0-list-item">· 三项比例指标测算结果</text>
+        <text class="p0-list-item">· 政策符合性初步结论</text>
+        <text class="p0-list-item">· 不达标项整改建议</text>
+      </view>
+      <text class="p0-disclaimer">本工具结果仅供参考，最终以省级能源主管部门审核为准。不收集任何用户数据。</text>
+      <view class="btn-start-eval" catchtap="goStart">开始评估 →</view>
+    </view>
+    <view wx:if="{{currentScreen == 1}}" class="screen screen-p1">
+      <view class="p1-title">第一步：基本条件确认</view>
+      <text class="p1-sub">以下任一条件不满足，项目不适用本政策</text>
+      <view class="precheck-list">
+        <view class="precheck-card" wx:for="{{preCheckItems}}" wx:key="key">
+          <text class="precheck-text">{{item.text}}</text>
+          <view class="precheck-actions">
+            <view
+              class="precheck-btn precheck-btn-yes {{appState.preCheck[item.key] === true ? 'active-yes' : ''}}"
+              catchtap="onPreCheckSelect"
+              data-q="{{item.key}}"
+              data-value="yes"
+            >是</view>
+            <view
+              class="precheck-btn precheck-btn-no {{appState.preCheck[item.key] === false ? 'active-no' : ''}}"
+              catchtap="onPreCheckSelect"
+              data-q="{{item.key}}"
+              data-value="no"
+            >否</view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view wx:if="{{currentScreen == 2}}" class="screen">
+      <text>P2：疑点核查（待实现）</text>
+    </view>
+    <view wx:if="{{currentScreen == 3}}" class="screen">
+      <text>P3：项目类型（待实现）</text>
+    </view>
+    <view wx:if="{{currentScreen == 4}}" class="screen">
+      <text>P4：项目信息（待实现）</text>
+    </view>
+    <view wx:if="{{currentScreen == 5}}" class="screen">
+      <text>P5：用户列表（待实现）</text>
+    </view>
+    <view wx:if="{{currentScreen == 6}}" class="screen">
+      <text>P6：电源列表（待实现）</text>
+    </view>
+    <view wx:if="{{currentScreen == 7}}" class="screen">
+      <text>P7：储能配置（待实现）</text>
+    </view>
+    <view wx:if="{{currentScreen == 8}}" class="screen">
+      <text>P8：合规测算（待实现）</text>
+    </view>
+    <view wx:if="{{currentScreen == 9}}" class="screen">
+      <text>P9：结果输出（T12实现）</text>
+    </view>
+  </view>
+
+  <view class="bottom-nav bottom-nav--single" wx:if="{{currentScreen == 1}}">
+    <view
+      class="nav-btn nav-btn-next nav-btn-next-only {{preCheckDone ? '' : 'nav-btn-disabled'}}"
+      catchtap="goNext"
+    >下一项</view>
+  </view>
+
+  <view class="reject-modal-mask" wx:if="{{showRejectModal}}">
+    <view class="reject-modal">
+      <view class="reject-modal-title">⚠️ 不符合准入条件</view>
+      <text class="reject-modal-msg">{{rejectMsg}}</text>
+      <view class="reject-modal-actions">
+        <view class="reject-btn reject-btn-outline" catchtap="onRejectRetry">重新确认</view>
+        <view class="reject-btn reject-btn-danger" catchtap="onRejectExit">退出评估</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="bottom-nav" wx:if="{{currentScreen >= 2}}">
+    <view class="nav-btn nav-btn-prev" catchtap="goPrev">上一项</view>
+    <text class="nav-page-num">{{currentScreen}}/9</text>
+    <view class="nav-btn nav-btn-next" catchtap="goNext">{{currentScreen == 9 ? '完成' : '下一项'}}</view>
+  </view>
+
+  <view class="footer-credit {{currentScreen == 0 ? 'footer-credit-p0' : ''}}">
+    <text>源流 · 基于发改能源〔2026〕688号</text>
   </view>
 </view>

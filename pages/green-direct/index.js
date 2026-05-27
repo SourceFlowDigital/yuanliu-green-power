@@ -37,6 +37,65 @@ Page({
       { key: 'q6', text: '项目符合国家产业政策，不涉及违法违规活动' }
     ],
 
+    suspectCheckIncomplete: true,
+    suspectCheckItems: [
+      {
+        key: 'q1',
+        text: '项目风电/光伏规模是否已纳入或计划申报纳入省级新能源开发建设方案？',
+        options: [
+          { value: 'yes', label: '是' },
+          { value: 'no', label: '否' },
+          { value: 'uncertain', label: '不确定' }
+        ],
+        warnMsg: '风电/光伏规模须纳入省级开发建设方案，请尽快履行申报手续',
+        warnOn: ['no', 'uncertain']
+      },
+      {
+        key: 'q2',
+        text: '并网型项目是否能在消纳困难时段保证不向电网反送电？',
+        options: [
+          { value: 'yes', label: '是' },
+          { value: 'no', label: '否' },
+          { value: 'notapply', label: '不涉及' }
+        ],
+        warnMsg: '消纳困难时段反送电存在合规风险，建议配置储能或提升负荷调节能力',
+        warnOn: ['no']
+      },
+      {
+        key: 'q3',
+        text: '项目现有购电方式是否为直接市场交易（非电网代理购电）？',
+        options: [
+          { value: 'yes', label: '是' },
+          { value: 'no', label: '否' },
+          { value: 'nopower', label: '暂无用电' }
+        ],
+        warnMsg: '多用户绿电直连项目不得由电网代理购电，需变更为直接市场交易',
+        warnOn: ['no']
+      },
+      {
+        key: 'q4',
+        text: '涉及存量新能源：该项目是否尚未并网或存在消纳受限问题？',
+        options: [
+          { value: 'yes', label: '是' },
+          { value: 'no', label: '否' },
+          { value: 'notapply', label: '不涉及' }
+        ],
+        warnMsg: '已正常并网且无消纳受限的存量新能源项目转为直连需咨询省级能源主管部门',
+        warnOn: ['no']
+      },
+      {
+        key: 'q5',
+        text: '涉及分布式光伏：是否拟采用集中汇流方式参与直连？',
+        options: [
+          { value: 'yes', label: '是' },
+          { value: 'no', label: '否' },
+          { value: 'notapply', label: '不涉及' }
+        ],
+        warnMsg: '分布式光伏须通过集中汇流方式参与，分散接入方案需另行咨询',
+        warnOn: ['no']
+      }
+    ],
+
     appState: {
       preCheck: { q1: null, q2: null, q3: null, q4: null, q5: null, q6: null },
       suspectCheck: { q1: null, q2: null, q3: null, q4: null, q5: null },
@@ -91,6 +150,27 @@ Page({
     var cur = this._screenIndex()
     if (cur <= 0) return
     this._updateProgress(cur - 1)
+  },
+
+  onSuspectCheckSelect: function (e) {
+    var qKey = e.currentTarget.dataset.q
+    var value = e.currentTarget.dataset.value
+    if (!qKey || value === undefined || value === '') return
+    var suspectCheck = Object.assign({}, this.data.appState.suspectCheck)
+    suspectCheck[qKey] = value
+    this.setData({
+      'appState.suspectCheck': suspectCheck,
+      suspectCheckIncomplete: this._hasSuspectCheckIncomplete(suspectCheck)
+    })
+  },
+
+  _hasSuspectCheckIncomplete: function (suspectCheck) {
+    var keys = ['q1', 'q2', 'q3', 'q4', 'q5']
+    for (var i = 0; i < keys.length; i++) {
+      var v = suspectCheck[keys[i]]
+      if (v === null || v === undefined || v === '') return true
+    }
+    return false
   },
 
   onPreCheckSelect: function (e) {

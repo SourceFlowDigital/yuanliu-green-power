@@ -67,8 +67,26 @@
         </view>
       </view>
     </view>
-    <view wx:if="{{currentScreen == 2}}" class="screen">
-      <text>P2：疑点核查（待实现）</text>
+    <view wx:if="{{currentScreen == 2}}" class="screen screen-p2">
+      <view class="p2-title">第二步：注意事项确认</view>
+      <text class="p2-sub">以下情况不影响继续填写，但结果页将提示需进一步落实</text>
+      <view class="suspect-list">
+        <view class="suspect-card" wx:for="{{suspectCheckItems}}" wx:for-item="qitem" wx:key="key">
+          <text class="suspect-text">{{qitem.text}}</text>
+          <view class="suspect-options">
+            <view
+              wx:for="{{qitem.options}}"
+              wx:for-item="opt"
+              wx:key="value"
+              class="suspect-opt-btn {{appState.suspectCheck[qitem.key] === opt.value ? 'active-suspect' : ''}}"
+              catchtap="onSuspectCheckSelect"
+              data-q="{{qitem.key}}"
+              data-value="{{opt.value}}"
+            >{{opt.label}}</view>
+          </view>
+        </view>
+      </view>
+      <text class="suspect-hint" wx:if="{{suspectCheckIncomplete}}">建议全部作答，未作答项结果页将标注待确认</text>
     </view>
     <view wx:if="{{currentScreen == 3}}" class="screen">
       <text>P3：项目类型（待实现）</text>

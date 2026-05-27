@@ -329,6 +329,75 @@
   font-weight: 600;
 }
 
+/* P2 存疑项确认 */
+.screen-p2 { padding: 28rpx 28rpx 32rpx; }
+.p2-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #003060;
+  line-height: 1.4;
+  margin-bottom: 12rpx;
+}
+.p2-sub {
+  display: block;
+  font-size: 24rpx;
+  color: #6B7280;
+  line-height: 1.5;
+  margin-bottom: 24rpx;
+}
+.suspect-list { margin-top: 8rpx; }
+.suspect-card {
+  padding: 24rpx 20rpx;
+  margin-bottom: 16rpx;
+  background: #F8FAFC;
+  border-radius: 8rpx;
+  border: 1rpx solid #E0E8F0;
+  box-sizing: border-box;
+}
+.suspect-text {
+  display: block;
+  font-size: 26rpx;
+  color: #1F2933;
+  line-height: 1.55;
+  margin-bottom: 20rpx;
+}
+.suspect-options {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 12rpx;
+}
+.suspect-opt-btn {
+  flex: 1;
+  min-width: 0;
+  height: 64rpx;
+  padding: 0 12rpx;
+  border: 2rpx solid #DCE5EF;
+  border-radius: 8rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+  color: #6B7280;
+  background: #fff;
+  box-sizing: border-box;
+  text-align: center;
+}
+.suspect-opt-btn.active-suspect {
+  background: #D6A84F;
+  border-color: #D6A84F;
+  color: #fff;
+  font-weight: 600;
+}
+.suspect-hint {
+  display: block;
+  font-size: 22rpx;
+  color: #9CA3AF;
+  line-height: 1.5;
+  margin-top: 8rpx;
+  text-align: center;
+}
+
 /* 否决弹窗 */
 .reject-modal-mask {
   position: fixed;

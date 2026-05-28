@@ -15,9 +15,11 @@ page {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   min-height: 80vh;
-  padding: 0 40rpx 120rpx;
+  padding-top: 15vh;
+  padding-left: 40rpx;
+  padding-right: 40rpx;
   box-sizing: border-box;
 }
 .report-empty-logo {

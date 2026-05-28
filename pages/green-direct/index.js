@@ -1289,29 +1289,78 @@ Page({
     })
   },
 
-  onGenerateBasicReport: function () {
+  onGenerateReport: function () {
     var appState = this.data.appState || {}
-    var report = {
-      projectName: (appState.projectInfo && appState.projectInfo.name) || '',
-      timestamp: Date.now(),
-      finalResults: this.data.finalResults,
-      users: appState.users || [],
-      energySources: appState.energySources || [],
-      storage: appState.storage || {},
-      projectInfo: appState.projectInfo || {},
-      projectType: appState.projectType || {},
-      suspectWarnings: this._collectSuspectWarnings()
+    var projectInfo = appState.projectInfo || {}
+    var projectType = appState.projectType || {}
+    var fr = this.data.finalResults || {}
+    var name = projectInfo.name ? String(projectInfo.name).trim() : ''
+    var data = {
+      generateTime: Date.now(),
+      projectName: name || '未命名项目',
+      projectType: projectType.gridType || '',
+      province: projectInfo.province || '',
+      targetYear: projectType.targetYear || '',
+      industryTags: projectInfo.industryTypes || [],
+      userCount: (appState.users || []).length,
+      users: (appState.users || []).map(function (u) {
+        return {
+          name: u.name || '',
+          industry: u.industry || '',
+          otherIndustry: u.otherIndustry || '',
+          annualConsumption: u.annualConsumption || 0,
+          consumption2030: u.consumption2030 || 0,
+          hasRooftop: u.hasRooftop || false,
+          rooftopOwner: u.rooftopOwner || '',
+          rooftopStructure: u.rooftopStructure || '',
+          rooftopStructureCustom: u.rooftopStructureCustom || '',
+          rooftopCapacity: u.rooftopCapacity || 0,
+          rooftopHours: u.rooftopHours || 0,
+          rooftopGeneration: u.rooftopGeneration || 0
+        }
+      }),
+      energySources: (appState.energySources || []).map(function (s) {
+        return {
+          type: s.type || '',
+          capacity: s.capacity || 0,
+          annualHours: s.hours || 0,
+          annualGeneration: s.generation || 0,
+          projectStatus: s.isExisting || ''
+        }
+      }),
+      hasStorage: (appState.storage && appState.storage.hasStorage) || false,
+      storagePower: (appState.storage && appState.storage.power) || 0,
+      storageCapacity: (appState.storage && appState.storage.capacity) || 0,
+      storageCycles: (appState.storage && appState.storage.cyclesPerDay) || 0,
+      storagedays: (appState.storage && appState.storage.operateDays) || 0,
+      annualStorageEnergy: (appState.storage && appState.storage.annualStorageEnergy) ||
+        (this.data.p7Preview && this.data.p7Preview.annualStorageEnergy) || 0,
+      totalConsumption: fr.totalConsumption,
+      totalGeneration: fr.totalGeneration,
+      selfUse: fr.selfUseWithStorage,
+      gap: (this.data.p7Balance && this.data.p7Balance.gap) ||
+        (this.data.p7Preview && this.data.p7Preview.gap) || 0,
+      gapType: (this.data.p7Balance && this.data.p7Balance.gapType) ||
+        (this.data.p7Preview && this.data.p7Preview.gapKind) || '',
+      ratio1: fr.ratio1,
+      ratio1Pass: fr.ratio1Pass,
+      ratio2: fr.ratio2,
+      ratio2Pass: fr.ratio2Pass,
+      ratio2Threshold: fr.ratio2Threshold,
+      ratio3: fr.ratio3,
+      ratio3Pass: fr.ratio3Pass,
+      isOffgrid: fr.isOffgrid,
+      overallPass: fr.overallPass,
+      suggestions: fr.suggestions || [],
+      suspectWarnings: this.data.p10SuspectWarnings || []
     }
     try {
-      wx.setStorageSync('yuanliu_report_latest', report)
+      wx.setStorageSync('yuanliu_report_latest', data)
     } catch (e) {
       wx.showToast({ title: '保存失败', icon: 'none' })
       return
     }
-    wx.showToast({ title: '报告已生成', icon: 'success' })
-    setTimeout(function () {
-      wx.switchTab({ url: '/pages/report/index' })
-    }, 500)
+    wx.switchTab({ url: '/pages/report/index' })
   },
 
   onRequestAIReport: function () {

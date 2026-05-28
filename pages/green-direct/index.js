@@ -54,6 +54,7 @@ Page({
     p4Done: false,
     provinceIndex: 0,
     industrySelected: {},
+    p4OtherIndustry: '',
 
     p5Done: false,
     p5Summary: {
@@ -372,6 +373,17 @@ Page({
       wx.showToast({ title: '请完善所有电源的必填信息', icon: 'none' })
       return
     }
+    if (cur === 8) {
+      var storageCfg = this.data.appState.storage || {}
+      if (storageCfg.hasStorage === true && !this.data.storageCalcResult.show) {
+        wx.showToast({
+          title: '请先点击「计算配出效果」',
+          icon: 'none',
+          duration: 2000
+        })
+        return
+      }
+    }
     if (cur >= 10) return
     this._updateProgress(cur + 1)
   },
@@ -486,12 +498,28 @@ Page({
     })
   },
 
+  onP4OtherIndustryInput: function (e) {
+    var val = (e.detail && e.detail.value) ? String(e.detail.value) : ''
+    this.setData({ p4OtherIndustry: val })
+  },
+
+  onUserOtherIndustryInput: function (e) {
+    var idx = Number(e.currentTarget.dataset.index)
+    if (isNaN(idx) || idx < 0) return
+    var val = (e.detail && e.detail.value) ? String(e.detail.value) : ''
+    var users = (this.data.appState.users || []).slice()
+    if (idx >= users.length) return
+    users[idx] = Object.assign({}, users[idx], { otherIndustry: val })
+    this.setData({ 'appState.users': users })
+  },
+
   _createEmptyUser: function () {
     var ref = this.data.appState.projectInfo.refHours || {}
     return {
       id: Date.now(),
       name: '',
       industry: '',
+      otherIndustry: '',
       isAgriResident: null,
       productionShift: '',
       peakPeriod: '',
@@ -1171,6 +1199,20 @@ Page({
     var ratio2Pass = ratio2 >= ratio2Threshold
     var ratio3 = totalGeneration > 0 ? (gridFeedInWithStorage / totalGeneration * 100) : 0
     var ratio3Pass = ratio3 <= 20
+
+    var storageCalc = this.data.storageCalcResult || {}
+    if (storageCalc.show === true) {
+      var preview = this.data.p7Preview || {}
+      selfUseWithStorage = (p7.selfUse || 0) + (preview.annualStorageEnergy || 0)
+      gridFeedInWithStorage = Math.max(totalGeneration - selfUseWithStorage, 0)
+      ratio1 = storageCalc.afterRatio1
+      ratio1Pass = storageCalc.ratio1Pass
+      ratio2 = storageCalc.afterRatio2
+      ratio2Pass = storageCalc.ratio2Pass
+      ratio2Threshold = p7.ratio2Threshold || ratio2Threshold
+      ratio3 = totalGeneration > 0 ? (gridFeedInWithStorage / totalGeneration * 100) : 0
+      ratio3Pass = ratio3 <= 20
+    }
 
     var overallPass = ratio1Pass && ratio2Pass && (isOffgrid || ratio3Pass)
 

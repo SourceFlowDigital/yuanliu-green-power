@@ -225,6 +225,14 @@
             data-value="{{item.value}}"
           >{{item.label}}</view>
         </view>
+        <input
+          wx:if="{{industrySelected.other}}"
+          class="p4-input"
+          style="border:1rpx solid #CCCCCC;border-radius:8rpx;padding:20rpx 24rpx;background:#FFFFFF;margin-top:16rpx;width:100%;box-sizing:border-box;"
+          placeholder="请输入具体产业类型"
+          value="{{p4OtherIndustry}}"
+          bindinput="onP4OtherIndustryInput"
+        />
       </view>
     </view>
     <view wx:if="{{currentScreen == 5}}" class="screen-p5-wrap">
@@ -267,6 +275,15 @@
                 data-value="{{opt.value}}"
               >{{opt.label}}</view>
             </view>
+            <input
+              wx:if="{{user.industry === 'other'}}"
+              class="p4-input"
+              style="border:1rpx solid #CCCCCC;border-radius:8rpx;padding:20rpx 24rpx;background:#FFFFFF;margin-top:16rpx;width:100%;box-sizing:border-box;"
+              placeholder="请输入具体行业类型"
+              value="{{user.otherIndustry}}"
+              bindinput="onUserOtherIndustryInput"
+              data-index="{{uIdx}}"
+            />
           </view>
           <view class="p4-field user-field">
             <view class="p4-label"><text>是否农业/居民用电</text></view>
@@ -548,7 +565,7 @@
         </view>
         <view class="p8-surplus-tip">
           <text class="p8-surplus-tip-title">💡 配储建议</text>
-          <text class="p8-surplus-tip-line" wx:if="{{p7Preview.gapKind === 'surplus'}}">① 当前发电过剩，自发自用比例（指标一）可能低于60%门槛，建议配置储能以提升就近消纳能力</text>
+          <text class="p8-surplus-tip-line" wx:if="{{p7Preview.gapKind === 'surplus'}}">当前发电过剩，自发自用比例（指标一）可能低于60%门槛，建议配置储能以提升就近消纳能力</text>
           <text class="p8-surplus-tip-line" wx:else>消纳能力满足项目政策要求，请自行决定是否配置储能</text>
           <text class="p8-surplus-tip-policy">📋 政策依据：项目应通过合理配置储能、提升集控管理能力、挖掘负荷灵活调节潜力等方式提升消纳能力（688号文第六条）</text>
         </view>
@@ -616,7 +633,7 @@
             <text class="p7-days-hint">含年度停电检修时间，默认300天</text>
           </view>
           <text class="user-calc-line">预计年增加自发自用电量：{{p7Preview.annualStorageEnergy}} 万kWh</text>
-          <view class="p8-calc-btn" catchtap="onCalcStorage">计算配储效果</view>
+          <view class="p8-calc-btn" catchtap="onCalcStorage">计算配出效果</view>
         </view>
 
         <view class="p8-storage-compare" wx:if="{{storageCalcResult.show}}">

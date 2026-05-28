@@ -111,7 +111,9 @@ Page({
     storagedays: 0,
     annualStorageEnergy: 0,
     gap: 0,
-    gapType: ''
+    gapType: '',
+    preCheck: {},
+    suspectCheck: {}
   },
 
   _loadReport: function () {
@@ -135,7 +137,9 @@ Page({
         storagedays: 0,
         annualStorageEnergy: 0,
         gap: 0,
-        gapType: ''
+        gapType: '',
+        preCheck: {},
+        suspectCheck: {}
       })
       return
     }
@@ -163,7 +167,9 @@ Page({
       storagedays: report.storagedays || 0,
       annualStorageEnergy: report.annualStorageEnergy || 0,
       gap: report.gap || 0,
-      gapType: report.gapType || ''
+      gapType: report.gapType || '',
+      preCheck: report.preCheck || {},
+      suspectCheck: report.suspectCheck || {}
     })
   },
 

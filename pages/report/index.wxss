@@ -291,6 +291,39 @@ page {
   margin-bottom: 20rpx;
 }
 
+.section-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #003060;
+  margin-bottom: 20rpx;
+}
+
+.check-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 12rpx 0;
+  border-bottom: 1rpx solid #F0F4F8;
+}
+.check-item:last-child {
+  border-bottom: none;
+}
+.check-label {
+  font-size: 26rpx;
+  color: #374151;
+  flex: 1;
+  line-height: 1.5;
+  padding-right: 16rpx;
+}
+.check-value {
+  font-size: 26rpx;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.check-yes { color: #1a7c6e; }
+.check-no { color: #DC2626; }
+.check-neutral { color: #6B7280; }
+
 .section-list-item {
   padding-bottom: 24rpx;
   margin-bottom: 24rpx;

@@ -42,6 +42,80 @@
       </view>
 
       <view class="section-card">
+        <view class="section-title">基本条件确认</view>
+        <view class="check-item">
+          <text class="check-label">项目用电方均为工商业法人实体（不含居民或农业用户）</text>
+          <text class="check-value {{preCheck.q1 ? 'check-yes' : 'check-no'}}">
+            {{preCheck.q1 ? '✅ 是' : '❌ 否'}}
+          </text>
+        </view>
+        <view class="check-item">
+          <text class="check-label">项目用电方有2个或以上独立法人实体</text>
+          <text class="check-value {{preCheck.q2 ? 'check-yes' : 'check-no'}}">
+            {{preCheck.q2 ? '✅ 是' : '❌ 否'}}
+          </text>
+        </view>
+        <view class="check-item">
+          <text class="check-label">项目发电电源包含风电、光伏或生物质等新能源</text>
+          <text class="check-value {{preCheck.q3 ? 'check-yes' : 'check-no'}}">
+            {{preCheck.q3 ? '✅ 是' : '❌ 否'}}
+          </text>
+        </view>
+        <view class="check-item">
+          <text class="check-label">项目主责单位不是公共电网企业</text>
+          <text class="check-value {{preCheck.q4 ? 'check-yes' : 'check-no'}}">
+            {{preCheck.q4 ? '✅ 是' : '❌ 否'}}
+          </text>
+        </view>
+        <view class="check-item">
+          <text class="check-label">项目已成立或拟成立具备独立法人资格的主责单位</text>
+          <text class="check-value {{preCheck.q5 ? 'check-yes' : 'check-no'}}">
+            {{preCheck.q5 ? '✅ 是' : '❌ 否'}}
+          </text>
+        </view>
+        <view class="check-item">
+          <text class="check-label">项目符合国家产业政策，不涉及违法违规活动</text>
+          <text class="check-value {{preCheck.q6 ? 'check-yes' : 'check-no'}}">
+            {{preCheck.q6 ? '✅ 是' : '❌ 否'}}
+          </text>
+        </view>
+      </view>
+
+      <view class="section-card">
+        <view class="section-title">注意事项确认</view>
+        <view class="check-item">
+          <text class="check-label">风电/光伏规模是否已纳入或计划申报省级新能源开发建设方案</text>
+          <text class="check-value {{suspectCheck.q1 == 'yes' ? 'check-yes' : (suspectCheck.q1 == 'no' ? 'check-no' : 'check-neutral')}}">
+            {{suspectCheck.q1 == 'yes' ? '✅ 是' : suspectCheck.q1 == 'no' ? '❌ 否' : suspectCheck.q1 == 'uncertain' ? '❓ 不确定' : '➖ 不适用'}}
+          </text>
+        </view>
+        <view class="check-item">
+          <text class="check-label">并网型项目是否能在消纳困难时段保证不向电网反送电</text>
+          <text class="check-value {{suspectCheck.q2 == 'yes' ? 'check-yes' : (suspectCheck.q2 == 'no' ? 'check-no' : 'check-neutral')}}">
+            {{suspectCheck.q2 == 'yes' ? '✅ 是' : suspectCheck.q2 == 'no' ? '❌ 否' : suspectCheck.q2 == 'notapply' ? '➖ 不适用' : '— 未填写'}}
+          </text>
+        </view>
+        <view class="check-item">
+          <text class="check-label">项目现有购电方式是否为直接市场交易（非电网代理购电）</text>
+          <text class="check-value {{suspectCheck.q3 == 'yes' ? 'check-yes' : (suspectCheck.q3 == 'no' ? 'check-no' : 'check-neutral')}}">
+            {{suspectCheck.q3 == 'yes' ? '✅ 是' : suspectCheck.q3 == 'no' ? '❌ 否' : suspectCheck.q3 == 'nopower' ? '➖ 不适用' : '— 未填写'}}
+          </text>
+        </view>
+        <view class="check-item">
+          <text class="check-label">涉及存量新能源：该项目是否尚未并网或存在消纳受限问题</text>
+          <text class="check-value {{suspectCheck.q4 == 'yes' ? 'check-yes' : (suspectCheck.q4 == 'no' ? 'check-no' : 'check-neutral')}}">
+            {{suspectCheck.q4 == 'yes' ? '✅ 是' : suspectCheck.q4 == 'no' ? '❌ 否' : suspectCheck.q4 == 'notapply' ? '➖ 不适用' : '— 未填写'}}
+          </text>
+        </view>
+        <view class="check-item">
+          <text class="check-label">涉及分布式光伏：是否拟采用集中汇流方式参与直连</text>
+          <text class="check-value {{suspectCheck.q5 == 'yes' ? 'check-yes' : (suspectCheck.q5 == 'no' ? 'check-no' : 'check-neutral')}}">
+            {{suspectCheck.q5 == 'yes' ? '✅ 是' : suspectCheck.q5 == 'no' ? '❌ 否' : suspectCheck.q5 == 'notapply' ? '➖ 不适用' : '— 未填写'}}
+          </text>
+        </view>
+      </view>
+
+      <view class="section-card">
         <view class="section-card-title">用电端详情</view>
         <view class="section-list-item" wx:for="{{users}}" wx:for-item="user" wx:for-index="uIdx" wx:key="index">
           <view class="section-row">

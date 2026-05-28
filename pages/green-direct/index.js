@@ -1443,6 +1443,21 @@ Page({
       province: projectInfo.province || '',
       targetYear: projectType.targetYear || '',
       industryTags: projectInfo.industryTypes || [],
+      preCheck: {
+        q1: appState.preCheck.q1,
+        q2: appState.preCheck.q2,
+        q3: appState.preCheck.q3,
+        q4: appState.preCheck.q4,
+        q5: appState.preCheck.q5,
+        q6: appState.preCheck.q6
+      },
+      suspectCheck: {
+        q1: appState.suspectCheck.q1,
+        q2: appState.suspectCheck.q2,
+        q3: appState.suspectCheck.q3,
+        q4: appState.suspectCheck.q4,
+        q5: appState.suspectCheck.q5
+      },
       userCount: (appState.users || []).length,
       users: (appState.users || []).map(function (u) {
         return {

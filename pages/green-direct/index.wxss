@@ -1646,3 +1646,97 @@
   padding-bottom: calc(120rpx + constant(safe-area-inset-bottom));
   padding-bottom: calc(120rpx + env(safe-area-inset-bottom));
 }
+
+/* P8 储能页：发电过剩建议、重新计算、配储对比表 */
+.p8-surplus-tip {
+  margin-top: 20rpx;
+  padding: 24rpx;
+  background: #FFF8E7;
+  border-left: 3rpx solid #D6A84F;
+  border-radius: 8rpx;
+  box-sizing: border-box;
+}
+.p8-surplus-tip-title {
+  display: block;
+  font-size: 14px;
+  color: #5C4A1E;
+  font-weight: 600;
+  margin-bottom: 12rpx;
+}
+.p8-surplus-tip-line {
+  display: block;
+  font-size: 14px;
+  color: #5C4A1E;
+  line-height: 1.6;
+}
+.p8-surplus-tip-policy {
+  display: block;
+  margin-top: 16rpx;
+  font-size: 12px;
+  color: #888888;
+  line-height: 1.6;
+}
+.p8-calc-btn {
+  margin-top: 24rpx;
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  background: #003060;
+  color: #fff;
+  font-size: 30rpx;
+  font-weight: 600;
+  border-radius: 12rpx;
+}
+.p8-storage-compare {
+  margin-top: 24rpx;
+  padding: 24rpx;
+  background: #fff;
+  border-radius: 12rpx;
+  box-sizing: border-box;
+  box-shadow: 0 2rpx 12rpx rgba(0, 48, 96, 0.06);
+}
+.p8-compare-table {
+  overflow: hidden;
+  border-radius: 8rpx;
+}
+.p8-compare-row {
+  display: flex;
+  align-items: center;
+  border-bottom: 1rpx solid #E8EEF2;
+}
+.p8-compare-row:last-child {
+  border-bottom: none;
+}
+.p8-compare-head {
+  background: #F4F8FB;
+}
+.p8-compare-head .p8-compare-cell {
+  font-weight: 600;
+  color: #003060;
+}
+.p8-compare-cell {
+  flex: 1;
+  padding: 20rpx 12rpx;
+  font-size: 24rpx;
+  text-align: center;
+  box-sizing: border-box;
+}
+.p8-compare-label {
+  flex: 1.4;
+  text-align: left;
+  padding-left: 20rpx;
+  color: #333;
+  font-size: 22rpx;
+}
+.p8-compare-before {
+  color: #666666;
+}
+.p8-compare-after.pass {
+  color: #2E7D32;
+  font-weight: 600;
+}
+.p8-compare-after.fail {
+  color: #C62828;
+  font-weight: 600;
+}

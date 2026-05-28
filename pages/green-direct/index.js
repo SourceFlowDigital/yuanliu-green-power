@@ -185,6 +185,16 @@ Page({
       ratio2Threshold: 35
     },
 
+    storageCalcResult: {
+      show: false,
+      beforeRatio1: 0,
+      beforeRatio2: 0,
+      afterRatio1: 0,
+      afterRatio2: 0,
+      ratio1Pass: false,
+      ratio2Pass: false
+    },
+
     provinceEnergyData: {
       '北京': { solar: 1400, wind: 1800, price: 0.360 },
       '天津': { solar: 1350, wind: 1700, price: 0.365 },
@@ -1404,6 +1414,33 @@ Page({
     this._refreshP7(storage)
     var preview = this._calcP7Preview(storage)
     this.setData({ p7Preview: preview })
+  },
+
+  onCalcStorage: function () {
+    var balance = this.data.p7Balance || {}
+    var preview = this.data.p7Preview || {}
+    var selfBefore = balance.selfUse || 0
+    var totalGen = balance.totalGeneration || 0
+    var totalCons = balance.totalConsumption || 0
+    var storageExtra = preview.annualStorageEnergy || 0
+    var threshold = balance.ratio2Threshold || 35
+
+    var selfAfter = selfBefore + storageExtra
+    var afterRatio1 = totalGen > 0 ? this._round1(selfAfter / totalGen * 100) : 0
+    var afterRatio2Raw = totalCons > 0 ? (selfAfter / totalCons * 100) : 0
+    var afterRatio2 = this._round1(Math.min(afterRatio2Raw, 100))
+
+    this.setData({
+      storageCalcResult: {
+        show: true,
+        beforeRatio1: balance.ratio1 || 0,
+        beforeRatio2: balance.ratio2 || 0,
+        afterRatio1: afterRatio1,
+        afterRatio2: afterRatio2,
+        ratio1Pass: afterRatio1 >= 60,
+        ratio2Pass: afterRatio2 >= threshold
+      }
+    })
   },
 
   _hasSuspectCheckIncomplete: function (suspectCheck) {

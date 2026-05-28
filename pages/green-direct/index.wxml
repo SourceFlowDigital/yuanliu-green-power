@@ -546,6 +546,12 @@
           <text class="p7-gap-text p7-gap-{{p7Preview.gapKind}}" wx:elif="{{p7Preview.gapKind === 'short'}}">发电不足 {{p7Preview.gapAbs}} 万kWh</text>
           <text class="p7-gap-text p7-gap-{{p7Preview.gapKind}}" wx:else>发电量与用电量基本匹配</text>
         </view>
+        <view class="p8-surplus-tip">
+          <text class="p8-surplus-tip-title">💡 配储建议</text>
+          <text class="p8-surplus-tip-line" wx:if="{{p7Preview.gapKind === 'surplus'}}">① 当前发电过剩，自发自用比例（指标一）可能低于60%门槛，建议配置储能以提升就近消纳能力</text>
+          <text class="p8-surplus-tip-line" wx:else>消纳能力满足项目政策要求，请自行决定是否配置储能</text>
+          <text class="p8-surplus-tip-policy">📋 政策依据：项目应通过合理配置储能、提升集控管理能力、挖掘负荷灵活调节潜力等方式提升消纳能力（688号文第六条）</text>
+        </view>
       </view>
 
       <view class="p7-metric-card">
@@ -610,23 +616,26 @@
             <text class="p7-days-hint">含年度停电检修时间，默认300天</text>
           </view>
           <text class="user-calc-line">预计年增加自发自用电量：{{p7Preview.annualStorageEnergy}} 万kWh</text>
+          <view class="p8-calc-btn" catchtap="onCalcStorage">计算配储效果</view>
         </view>
 
-        <view class="p7-metric-card" wx:if="{{appState.storage.capacity}}">
-          <text class="p7-metric-title">配储后指标预估</text>
-          <view class="p7-metric-block">
-            <view class="p7-metric-row">
-              <text class="p7-metric-label">配储后指标一</text>
-              <text class="p7-metric-val {{p7Preview.ratio1After >= 60 ? 'pass' : 'fail'}}">{{p7Preview.ratio1After}}%</text>
+        <view class="p8-storage-compare" wx:if="{{storageCalcResult.show}}">
+          <view class="p8-compare-table">
+            <view class="p8-compare-row p8-compare-head">
+              <text class="p8-compare-cell p8-compare-label"></text>
+              <text class="p8-compare-cell">配储前</text>
+              <text class="p8-compare-cell">配储后</text>
             </view>
-            <text class="p7-metric-desc">自发自用电量 ÷ 新能源总发电量，政策要求≥60%\n比例偏低说明新能源装机过大，\n大量发电无法就地消纳</text>
-          </view>
-          <view class="p7-metric-block">
-            <view class="p7-metric-row">
-              <text class="p7-metric-label">配储后指标二</text>
-              <text class="p7-metric-val {{p7Preview.ratio2After >= p7Preview.ratio2Threshold ? 'pass' : 'fail'}}">{{p7Preview.ratio2After}}%</text>
+            <view class="p8-compare-row">
+              <text class="p8-compare-cell p8-compare-label">指标一（自发自用/总发电）</text>
+              <text class="p8-compare-cell p8-compare-before">{{storageCalcResult.beforeRatio1}}%</text>
+              <text class="p8-compare-cell p8-compare-after {{storageCalcResult.ratio1Pass ? 'pass' : 'fail'}}">{{storageCalcResult.afterRatio1}}% {{storageCalcResult.ratio1Pass ? '✅' : '❌'}}</text>
             </view>
-            <text class="p7-metric-desc">自发自用电量 ÷ 用户总用电量，\n2030年前要求≥35%，2030年后要求≥30%\n比例偏低说明绿电供应不足以覆盖用电需求</text>
+            <view class="p8-compare-row">
+              <text class="p8-compare-cell p8-compare-label">指标二（自发自用/总用电）</text>
+              <text class="p8-compare-cell p8-compare-before">{{storageCalcResult.beforeRatio2}}%</text>
+              <text class="p8-compare-cell p8-compare-after {{storageCalcResult.ratio2Pass ? 'pass' : 'fail'}}">{{storageCalcResult.afterRatio2}}% {{storageCalcResult.ratio2Pass ? '✅' : '❌'}}</text>
+            </view>
           </view>
         </view>
       </block>

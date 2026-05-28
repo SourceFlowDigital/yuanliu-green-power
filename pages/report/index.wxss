@@ -17,7 +17,7 @@ page {
   align-items: center;
   justify-content: flex-start;
   min-height: 80vh;
-  padding-top: 15vh;
+  padding-top: 5vh;
   padding-left: 40rpx;
   padding-right: 40rpx;
   box-sizing: border-box;

@@ -802,7 +802,7 @@
             <text class="p10-tag p10-tag-free">免费</text>
           </view>
           <text class="p10-report-desc">包含项目信息、指标测算结果、合规结论及整改建议</text>
-          <view class="p10-btn p10-btn-primary" catchtap="onGenerateBasicReport">生成基础报告</view>
+          <view class="p10-btn p10-btn-primary" catchtap="onGenerateReport">生成基础报告</view>
         </view>
 
         <view class="p10-report-card p10-report-card--ai">

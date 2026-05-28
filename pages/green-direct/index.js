@@ -969,6 +969,23 @@ Page({
     return Math.round(n * 10) / 10
   },
 
+  _buildP8StorageAdvice: function (gapKind, ratio1Before) {
+    var ratio1Pass = ratio1Before >= 60
+    if (gapKind === 'surplus') {
+      if (ratio1Pass) {
+        return '当前指标一已达标，发电略有盈余，配储可进一步提升消纳比例和项目经济性，可根据投资意愿决定'
+      }
+      return '当前发电过剩，自发自用比例（指标一）可能低于60%门槛，建议配置储能以提升就近消纳能力'
+    }
+    if (gapKind === 'short') {
+      if (ratio1Pass) {
+        return '当前指标一已达标，可根据负荷增长预期和投资意愿决定是否扩大电源规模'
+      }
+      return '当前自发自用比例不足60%，建议增加新能源装机规模或配置储能以提升消纳比例'
+    }
+    return '源荷匹配良好，可根据投资意愿决定是否在下一步配置储能'
+  },
+
   _calcP7Preview: function (storage) {
     var users = this.data.appState.users || []
     var sources = this.data.appState.energySources || []
@@ -1017,6 +1034,7 @@ Page({
     if (gap > 0) gapKind = 'surplus'
     else if (gap < 0) gapKind = 'short'
 
+    var ratio1BeforeRounded = this._round1(ratio1Before)
     return {
       totalGeneration: this._round1(totalGeneration),
       totalConsumption: this._round1(totalConsumption),
@@ -1024,13 +1042,14 @@ Page({
       gapAbs: this._round1(Math.abs(gap)),
       gapKind: gapKind,
       selfUseBeforeStorage: this._round1(selfBefore),
-      ratio1Before: this._round1(ratio1Before),
+      ratio1Before: ratio1BeforeRounded,
       ratio2Before: this._round1(ratio2Before),
       selfUseAfterStorage: this._round1(selfAfter),
       ratio1After: this._round1(ratio1After),
       ratio2After: this._round1(ratio2After),
       ratio2Threshold: ratio2Threshold,
-      annualStorageEnergy: annualStorage
+      annualStorageEnergy: annualStorage,
+      storageAdvice: this._buildP8StorageAdvice(gapKind, ratio1BeforeRounded)
     }
   },
 

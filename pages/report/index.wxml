@@ -10,11 +10,205 @@
     </view>
   </view>
 </view>
-<view class="body" style="margin-top: {{headerHeight}}px;">
-  <view class="surface-strip">
-    <text class="surface-strip-tip">测算报告</text>
+
+<view class="report-page" style="margin-top: {{headerHeight}}px;">
+  <view wx:if="{{!hasReport}}" class="report-empty">
+    <text class="report-empty-text">暂无报告，请先完成测算</text>
   </view>
-  <view class="policy-list">
-    <view class="empty"><text>报告功能开发中...</text></view>
-  </view>
+
+  <block wx:else>
+    <view class="report-hero">
+      <text class="report-hero-title">源流绿电直连 · 合规测算报告</text>
+      <text class="report-hero-sub">基于发改能源〔2026〕688号</text>
+      <text class="report-hero-time">生成时间：{{generateTimeStr}}</text>
+    </view>
+
+    <view class="report-body">
+      <view class="report-card">
+        <view class="report-card-title">项目基本信息</view>
+        <text class="report-line">项目名称：{{report.projectName}}</text>
+        <text class="report-line">项目类型：{{report.projectTypeLabel}}</text>
+        <text class="report-line">所在省份：{{report.province || '—'}}</text>
+        <text class="report-line">目标投产年份：{{report.targetYearLabel}}</text>
+        <text class="report-line">用电用户数：{{report.userCount}} 个</text>
+        <view class="report-tags-row">
+          <text class="report-line report-line-inline">产业类型：</text>
+          <text class="report-tag" wx:for="{{report.industryTagLabels}}" wx:key="*this">{{item}}</text>
+          <text class="report-line-muted" wx:if="{{!report.industryTagLabels.length}}">未填写</text>
+        </view>
+        <text class="report-line">年总发电量：{{report.totalGeneration}} 万kWh</text>
+        <text class="report-line">年总用电量：{{report.totalConsumption}} 万kWh</text>
+        <text class="report-line">自发自用电量：{{report.selfUse}} 万kWh</text>
+      </view>
+
+      <view class="section-card">
+        <view class="section-card-title">用电端详情</view>
+        <view class="section-list-item" wx:for="{{users}}" wx:for-item="user" wx:for-index="uIdx" wx:key="index">
+          <view class="section-row">
+            <text class="section-label">用户名称</text>
+            <text class="section-value">{{user.displayName}}</text>
+          </view>
+          <view class="section-row">
+            <text class="section-label">所属行业</text>
+            <text class="section-value">{{user.industryText}}</text>
+          </view>
+          <view class="section-row">
+            <text class="section-label">年用电量</text>
+            <text class="section-value">{{user.annualConsumption}} 万kWh</text>
+          </view>
+          <view class="section-row" wx:if="{{user.consumption2030}}">
+            <text class="section-label">2030年预测用电量</text>
+            <text class="section-value">{{user.consumption2030}} 万kWh</text>
+          </view>
+          <view class="section-row">
+            <text class="section-label">屋顶光伏意向</text>
+            <text class="section-value rooftop-yes" wx:if="{{user.hasRooftop}}">有意向</text>
+            <text class="section-value rooftop-no" wx:else>暂无</text>
+          </view>
+          <block wx:if="{{user.hasRooftop}}">
+            <view class="section-row">
+              <text class="section-label">预计可安装容量</text>
+              <text class="section-value">{{user.rooftopCapacity}} MW</text>
+            </view>
+            <view class="section-row">
+              <text class="section-label">年有效发电小时数</text>
+              <text class="section-value">{{user.rooftopHours}} h</text>
+            </view>
+            <view class="section-row">
+              <text class="section-label">预计年发电量</text>
+              <text class="section-value">{{user.rooftopGeneration}} 万kWh</text>
+            </view>
+          </block>
+        </view>
+        <text class="section-empty" wx:if="{{!users.length}}">暂无用电用户数据</text>
+      </view>
+
+      <view class="section-card">
+        <view class="section-card-title">发电端详情</view>
+        <view class="section-list-item" wx:for="{{energySources}}" wx:for-item="es" wx:key="index">
+          <view class="section-row">
+            <text class="section-label">电源类型</text>
+            <text class="section-value">{{es.typeLabel}}</text>
+          </view>
+          <view class="section-row">
+            <text class="section-label">装机容量</text>
+            <text class="section-value">{{es.capacity}} MW</text>
+          </view>
+          <view class="section-row">
+            <text class="section-label">年有效小时数</text>
+            <text class="section-value">{{es.annualHours}} h</text>
+          </view>
+          <view class="section-row">
+            <text class="section-label">年发电量</text>
+            <text class="section-value">{{es.annualGeneration}} 万kWh</text>
+          </view>
+          <view class="section-row">
+            <text class="section-label">项目状态</text>
+            <text class="section-value">{{es.projectStatusLabel}}</text>
+          </view>
+        </view>
+        <text class="section-empty" wx:if="{{!energySources.length}}">暂无电源数据</text>
+      </view>
+
+      <view class="section-card">
+        <view class="section-card-title">储能配置</view>
+        <block wx:if="{{hasStorage}}">
+          <view class="section-row">
+            <text class="section-label">储能功率</text>
+            <text class="section-value">{{storagePower}} MW</text>
+          </view>
+          <view class="section-row">
+            <text class="section-label">储能容量</text>
+            <text class="section-value">{{storageCapacity}} MWh</text>
+          </view>
+          <view class="section-row">
+            <text class="section-label">日充放次数</text>
+            <text class="section-value">{{storageCycles}} 次/天</text>
+          </view>
+          <view class="section-row">
+            <text class="section-label">年运行天数</text>
+            <text class="section-value">{{storagedays}} 天</text>
+          </view>
+          <view class="section-row">
+            <text class="section-label">年储能增量</text>
+            <text class="section-value">{{annualStorageEnergy}} 万kWh</text>
+          </view>
+        </block>
+        <text class="section-empty" wx:else>本项目未配置储能</text>
+      </view>
+
+      <view class="section-card">
+        <view class="section-card-title">源荷平衡</view>
+        <view class="section-row">
+          <text class="section-label">总发电量</text>
+          <text class="section-value">{{report.totalGeneration}} 万kWh</text>
+        </view>
+        <view class="section-row">
+          <text class="section-label">总用电量</text>
+          <text class="section-value">{{report.totalConsumption}} 万kWh</text>
+        </view>
+        <view class="section-row">
+          <text class="section-label">自发自用电量</text>
+          <text class="section-value">{{report.selfUse}} 万kWh</text>
+        </view>
+        <view class="section-row">
+          <text class="section-label">缺口/盈余</text>
+          <text class="section-value">{{gap}} 万kWh（{{report.gapTypeLabel}}）</text>
+        </view>
+      </view>
+
+      <view class="report-card">
+        <view class="report-card-title">三项核心指标</view>
+        <view class="report-metrics">
+          <view class="report-metric-item">
+            <text class="report-metric-name">指标一</text>
+            <text class="report-metric-desc">自发自用/总发电量</text>
+            <text class="report-metric-val {{report.ratio1Pass ? 'pass' : 'fail'}}">{{report.ratio1}}%</text>
+            <text class="report-metric-threshold">门槛 ≥60%</text>
+            <text class="report-metric-status {{report.ratio1Pass ? 'pass' : 'fail'}}">{{report.ratio1Pass ? '✅ 达标' : '❌ 不达标'}}</text>
+          </view>
+          <view class="report-metric-item">
+            <text class="report-metric-name">指标二</text>
+            <text class="report-metric-desc">自发自用/总用电量</text>
+            <text class="report-metric-val {{report.ratio2Pass ? 'pass' : 'fail'}}">{{report.ratio2}}%</text>
+            <text class="report-metric-threshold">门槛 ≥{{report.ratio2Threshold}}%</text>
+            <text class="report-metric-status {{report.ratio2Pass ? 'pass' : 'fail'}}">{{report.ratio2Pass ? '✅ 达标' : '❌ 不达标'}}</text>
+          </view>
+          <view class="report-metric-item" wx:if="{{!report.isOffgrid}}">
+            <text class="report-metric-name">指标三</text>
+            <text class="report-metric-desc">上网电量/总发电量</text>
+            <text class="report-metric-val {{report.ratio3Pass ? 'pass' : 'fail'}}">{{report.ratio3}}%</text>
+            <text class="report-metric-threshold">门槛 ≤20%</text>
+            <text class="report-metric-status {{report.ratio3Pass ? 'pass' : 'fail'}}">{{report.ratio3Pass ? '✅ 达标' : '❌ 不达标'}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="report-conclusion {{report.overallPass ? 'pass' : 'fail'}}">
+        <text wx:if="{{report.overallPass}}">✅ 项目符合688号文合规要求</text>
+        <text wx:else>❌ 存在不达标指标，需调整后重新测算</text>
+      </view>
+
+      <view class="report-card" wx:if="{{!report.overallPass && report.suggestions.length}}">
+        <view class="report-card-title">💡 整改建议</view>
+        <text class="report-suggest-item" wx:for="{{report.suggestions}}" wx:key="index">{{item.index}}. {{item.text}}</text>
+      </view>
+
+      <view class="report-card" wx:if="{{report.suspectWarnings.length}}">
+        <view class="report-card-title">⚠️ 待落实事项</view>
+        <text class="report-warn-item" wx:for="{{report.suspectWarnings}}" wx:key="key">⚠️ {{item.warnMsg}}</text>
+      </view>
+
+      <view class="report-ai-card">
+        <text class="report-ai-title">🤖 AI深度分析报告</text>
+        <text class="report-ai-desc">在基础报告基础上，增加基于688号文的专业政策解读和项目优化建议</text>
+        <view class="report-ai-btn" catchtap="onContactAI">了解AI报告服务</view>
+      </view>
+
+      <view class="report-footer">
+        <text>源流 · 基于发改能源〔2026〕688号</text>
+        <text class="report-footer-note">仅供参考，不构成法律意见</text>
+      </view>
+    </view>
+  </block>
 </view>

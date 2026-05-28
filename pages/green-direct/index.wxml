@@ -858,13 +858,14 @@
     </view>
   </view>
 
-  <view class="bottom-nav" wx:if="{{currentScreen >= 2}}">
+  <view class="bottom-nav" wx:if="{{currentScreen >= 2}}" style="{{currentScreen == 10 ? 'justify-content: center' : ''}}">
     <view class="nav-btn nav-btn-prev" catchtap="goPrev">上一项</view>
-    <text class="nav-page-num">{{currentScreen}}/10</text>
+    <text class="nav-page-num" wx:if="{{currentScreen != 10}}">{{currentScreen}}/10</text>
     <view
+      wx:if="{{currentScreen != 10}}"
       class="nav-btn nav-btn-next {{(currentScreen == 3 && !p3Done) || (currentScreen == 4 && !p4Done) || (currentScreen == 5 && !p5Done) || (currentScreen == 6 && !p6Done) ? 'nav-btn-disabled' : ''}}"
       catchtap="goNext"
-    >{{currentScreen == 10 ? '完成' : '下一项'}}</view>
+    >下一项</view>
   </view>
 
   <view class="footer-credit {{currentScreen == 0 ? 'footer-credit-p0' : ''}}">

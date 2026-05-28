@@ -193,12 +193,76 @@ Page({
     var suggestions = report.suggestions || []
     var sugLines = []
     var i
+    var u
+    var es
+    var userLines = []
+    var energyLines = []
+    var storageLines = []
+    var users = this.data.users || []
+    var energySources = this.data.energySources || []
+    var gapVal = this.data.gap != null ? this.data.gap : report.gap
+    var gapTypeVal = this.data.gapType || report.gapType || ''
+
     for (i = 0; i < suggestions.length; i++) {
       var s = suggestions[i]
       var num = s.index != null ? s.index : (i + 1)
       sugLines.push(num + '. ' + (s.text || ''))
     }
     var sugText = sugLines.length ? sugLines.join('\n') : '无'
+
+    userLines.push('【用电端详情】')
+    if (users.length === 0) {
+      userLines.push('（暂无用电用户数据）')
+    } else {
+      for (i = 0; i < users.length; i++) {
+        u = users[i]
+        var industryLine = u.industry === 'other'
+          ? (u.otherIndustry || u.industryText || '其他')
+          : (u.industryText || USER_INDUSTRY_LABELS[u.industry] || u.industry || '—')
+        if (i > 0) userLines.push('')
+        userLines.push('用户' + (i + 1) + '：' + (u.displayName || u.name || '未命名'))
+        userLines.push('  行业：' + industryLine)
+        userLines.push('  年用电量：' + (u.annualConsumption != null ? u.annualConsumption : '—') + ' 万kWh')
+        if (u.consumption2030 > 0) {
+          userLines.push('  2030年预测：' + u.consumption2030 + ' 万kWh')
+        }
+        userLines.push('  屋顶光伏：' + (u.hasRooftop ? '有意向' : '暂无'))
+        if (u.hasRooftop) {
+          userLines.push('  可安装容量：' + (u.rooftopCapacity != null ? u.rooftopCapacity : '—') + ' MW / 年发电量：' +
+            (u.rooftopGeneration != null ? u.rooftopGeneration : '—') + ' 万kWh')
+        }
+      }
+    }
+
+    energyLines.push('【发电端详情】')
+    if (energySources.length === 0) {
+      energyLines.push('（暂无电源数据）')
+    } else {
+      for (i = 0; i < energySources.length; i++) {
+        es = energySources[i]
+        var ps = es.projectStatus
+        var statusText = ps === 'new' ? '新建' : (ps === 'existingUngrid' ? '存量未并网' :
+          (ps === 'existingLimited' ? '存量消纳受限' : (es.projectStatusLabel || ps || '—')))
+        if (i > 0) energyLines.push('')
+        energyLines.push('电源' + (i + 1) + '：' + (es.typeLabel || ENERGY_TYPE_LABELS[es.type] || es.type || '—'))
+        energyLines.push('  装机容量：' + (es.capacity != null ? es.capacity : '—') + ' MW')
+        energyLines.push('  年有效小时：' + (es.annualHours != null ? es.annualHours : '—') + ' h')
+        energyLines.push('  年发电量：' + (es.annualGeneration != null ? es.annualGeneration : '—') + ' 万kWh')
+        energyLines.push('  项目状态：' + statusText)
+      }
+    }
+
+    storageLines.push('【储能配置】')
+    if (!this.data.hasStorage) {
+      storageLines.push('本项目未配置储能')
+    } else {
+      storageLines.push('  储能功率：' + (this.data.storagePower != null ? this.data.storagePower : '—') + ' MW')
+      storageLines.push('  储能容量：' + (this.data.storageCapacity != null ? this.data.storageCapacity : '—') + ' MWh')
+      storageLines.push('  日充放次数：' + (this.data.storageCycles != null ? this.data.storageCycles : '—') + ' 次/天')
+      storageLines.push('  年运行天数：' + (this.data.storagedays != null ? this.data.storagedays : '—') + ' 天')
+      storageLines.push('  年储能增量：' + (this.data.annualStorageEnergy != null ? this.data.annualStorageEnergy : '—') + ' 万kWh')
+    }
+
     var lines = [
       '源流绿电直连 · 合规自测报告',
       '生成时间：' + formatCopyTime(report.generateTime),
@@ -206,11 +270,20 @@ Page({
       '项目类型：' + projectTypeLabel,
       '省份：' + (report.province || '—'),
       '目标年份：' + targetYearLabel,
-      '',
+      ''
+    ]
+    lines = lines.concat(userLines)
+    lines.push('')
+    lines = lines.concat(energyLines)
+    lines.push('')
+    lines = lines.concat(storageLines)
+    lines.push('')
+    lines = lines.concat([
       '【源荷平衡】',
       '总发电量：' + (report.totalGeneration != null ? report.totalGeneration : '—') + ' 万kWh',
       '总用电量：' + (report.totalConsumption != null ? report.totalConsumption : '—') + ' 万kWh',
       '自发自用：' + (report.selfUse != null ? report.selfUse : '—') + ' 万kWh',
+      '缺口/盈余：' + (gapVal != null ? gapVal : '—') + ' 万kWh（' + gapTypeLabel(gapTypeVal) + '）',
       '',
       '【三项指标】',
       '指标一（自发自用/总发电量）：' + (report.ratio1 != null ? report.ratio1 : '—') + '% ' + ratio1Icon + ' 门槛≥60%',
@@ -224,7 +297,7 @@ Page({
       sugText,
       '',
       '---源流 · 基于发改能源〔2026〕688号---'
-    ]
+    ])
     var text = lines.join('\n')
     wx.setClipboardData({
       data: text,

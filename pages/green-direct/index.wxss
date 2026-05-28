@@ -1677,6 +1677,52 @@
 }
 
 /* P8 储能页：发电过剩建议、重新计算、配储对比表 */
+.p8-metric-item {
+  margin-bottom: 8rpx;
+}
+.p8-preview-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8rpx;
+  gap: 16rpx;
+}
+.p8-preview-label {
+  flex: 1;
+  min-width: 0;
+  font-size: 24rpx;
+  color: #374151;
+  line-height: 1.45;
+  white-space: normal;
+  word-break: break-all;
+}
+.p8-preview-value {
+  font-size: 28rpx;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.p8-preview-desc {
+  display: block;
+  font-size: 22rpx;
+  color: #999999;
+  margin-top: 4rpx;
+  line-height: 1.5;
+  margin-bottom: 12rpx;
+  white-space: normal;
+  word-break: break-all;
+  overflow: visible;
+}
+.p8-desc-warn {
+  color: #D97706;
+}
+.p8-value-pass {
+  color: #1a7c6e;
+}
+.p8-value-fail {
+  color: #C0392B;
+}
 .p8-surplus-tip {
   margin-top: 20rpx;
   padding: 24rpx;

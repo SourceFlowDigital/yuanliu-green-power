@@ -185,6 +185,9 @@ Page({
       selfUseBeforeStorage: 0,
       ratio1Before: 0,
       ratio2Before: 0,
+      ratio3Before: 0,
+      ratio3PassBefore: true,
+      isOffgrid: false,
       selfUseAfterStorage: 0,
       ratio1After: 0,
       ratio2After: 0,
@@ -1046,8 +1049,16 @@ Page({
     return Math.round(n * 10) / 10
   },
 
-  _buildP8StorageAdvice: function (gapKind, ratio1Before) {
+  _buildP8StorageAdvice: function (gapKind, ratio1Before, ratio3Before, isOffgrid) {
     var ratio1Pass = ratio1Before >= 60
+    var ratio3Pass = isOffgrid ? true : ratio3Before <= 20
+
+    if (!ratio3Pass) {
+      if (gapKind === 'surplus') {
+        return '上网电量占比已超20%红线，必须配置储能或增加用电负荷以降低上网量，否则项目不合规'
+      }
+      return '上网电量占比超标，建议配置储能以提升自发自用比例，确保上网占比降至20%以内'
+    }
     if (gapKind === 'surplus') {
       if (ratio1Pass) {
         return '当前指标一已达标，发电略有盈余，配储可进一步提升消纳比例和项目经济性，可根据投资意愿决定'
@@ -1085,6 +1096,13 @@ Page({
     var selfBefore = totalGeneration >= totalConsumption ? totalConsumption : totalGeneration
     var ratio1Before = totalGeneration > 0 ? (selfBefore / totalGeneration * 100) : 0
     var ratio2Before = totalConsumption > 0 ? (selfBefore / totalConsumption * 100) : 0
+
+    var gridType = (projectType && projectType.gridType) || 'grid'
+    var isOffgrid = gridType === 'offgrid'
+    var gridFeedIn = Math.max(totalGeneration - selfBefore, 0)
+    var ratio3Before = totalGeneration > 0
+      ? Math.round(gridFeedIn / totalGeneration * 1000) / 10 : 0
+    var ratio3PassBefore = isOffgrid ? true : ratio3Before <= 20
 
     storage = storage || {}
     var annualStorage = 0
@@ -1125,8 +1143,16 @@ Page({
       ratio1After: this._round1(ratio1After),
       ratio2After: this._round1(ratio2After),
       ratio2Threshold: ratio2Threshold,
+      ratio3Before: ratio3Before,
+      ratio3PassBefore: ratio3PassBefore,
+      isOffgrid: isOffgrid,
       annualStorageEnergy: annualStorage,
-      storageAdvice: this._buildP8StorageAdvice(gapKind, ratio1BeforeRounded)
+      storageAdvice: this._buildP8StorageAdvice(
+        gapKind,
+        ratio1BeforeRounded,
+        ratio3Before,
+        isOffgrid
+      )
     }
   },
 

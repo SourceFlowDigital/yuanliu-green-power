@@ -598,6 +598,18 @@
           </view>
           <text class="p7-metric-desc">自发自用电量 ÷ 用户总用电量，\n2030年前要求≥35%，2030年后要求≥30%\n比例偏低说明绿电供应不足以覆盖用电需求</text>
         </view>
+        <view wx:if="{{!p7Preview.isOffgrid}}" class="p8-metric-item">
+          <view class="p8-preview-row">
+            <text class="p8-preview-label">指标三（上网电量/总发电量）</text>
+            <text class="p8-preview-value {{p7Preview.ratio3PassBefore ? 'p8-value-pass' : 'p8-value-fail'}}">
+              {{p7Preview.ratio3Before}}%
+            </text>
+          </view>
+          <text class="p8-preview-desc">上网电量 ÷ 新能源总发电量，政策要求 ≤20%</text>
+          <text class="p8-preview-desc {{p7Preview.ratio3PassBefore ? '' : 'p8-desc-warn'}}">
+            {{p7Preview.ratio3PassBefore ? '上网比例合规' : '上网比例超标，配储可降低上网量'}}
+          </text>
+        </view>
       </view>
 
       <view class="p4-field">

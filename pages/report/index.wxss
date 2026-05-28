@@ -204,6 +204,22 @@ page {
   margin-bottom: 0;
 }
 
+.copy-btn {
+  background-color: #003060;
+  color: #fff;
+  border-radius: 8px;
+  padding: 14px;
+  margin: 16px 16px 8px;
+  text-align: center;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+
+.copy-btn text {
+  color: #fff;
+  font-size: 15px;
+}
+
 .report-ai-card {
   background: #FFF8E7;
   border-left: 3rpx solid #D6A84F;

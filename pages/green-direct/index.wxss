@@ -1611,6 +1611,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 20rpx 32rpx;
+  padding-bottom: 20px;
   background: #fff;
   border-top: 1rpx solid #E0E8F0;
   box-shadow: 0 -4rpx 16rpx rgba(0, 48, 96, 0.06);

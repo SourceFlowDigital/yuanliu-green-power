@@ -199,6 +199,10 @@
         <text class="report-warn-item" wx:for="{{report.suspectWarnings}}" wx:key="key">⚠️ {{item.warnMsg}}</text>
       </view>
 
+      <view class="copy-btn" catchtap="onCopyReport">
+        <text>📋 一键复制报告内容</text>
+      </view>
+
       <view class="report-ai-card">
         <text class="report-ai-title">🤖 AI深度分析报告</text>
         <text class="report-ai-desc">在基础报告基础上，增加基于688号文的专业政策解读和项目优化建议</text>

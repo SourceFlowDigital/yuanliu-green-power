@@ -260,7 +260,7 @@ Page({
           { value: 'no', label: '否' },
           { value: 'uncertain', label: '不确定' }
         ],
-        warnMsg: '风电/光伏规模须纳入省级开发建设方案，请尽快履行申报手续',
+        warnMsg: '风电/光伏装机规模须纳入省级新能源开发建设方案，建议在项目核准前完成申报备案',
         warnOn: ['no', 'uncertain']
       },
       {
@@ -271,7 +271,7 @@ Page({
           { value: 'no', label: '否' },
           { value: 'notapply', label: '不涉及' }
         ],
-        warnMsg: '消纳困难时段反送电存在合规风险，建议配置储能或提升负荷调节能力',
+        warnMsg: '并网型项目在省级明确的消纳困难时段禁止向公共电网反送电，建议合理配置储能或签订负荷调节协议',
         warnOn: ['no']
       },
       {
@@ -282,7 +282,7 @@ Page({
           { value: 'no', label: '否' },
           { value: 'nopower', label: '暂无用电' }
         ],
-        warnMsg: '多用户绿电直连项目不得由电网代理购电，需变更为直接市场交易',
+        warnMsg: '本项目不得由电网企业代理购电，须以新型经营主体身份注册并直接参与电力市场交易',
         warnOn: ['no']
       },
       {
@@ -293,7 +293,7 @@ Page({
           { value: 'no', label: '否' },
           { value: 'notapply', label: '不涉及' }
         ],
-        warnMsg: '已正常并网且无消纳受限的存量新能源项目转为直连需咨询省级能源主管部门',
+        warnMsg: '存量新能源项目已正常并网且无消纳受限，转为直连模式须事先取得省级能源主管部门书面同意',
         warnOn: ['no']
       },
       {
@@ -304,7 +304,7 @@ Page({
           { value: 'no', label: '否' },
           { value: 'notapply', label: '不涉及' }
         ],
-        warnMsg: '分布式光伏须通过集中汇流方式参与，分散接入方案需另行咨询',
+        warnMsg: '分布式光伏参与多用户绿电直连须采用集中汇流方式，分散接入方案暂不适用本政策，请另行咨询省级主管部门',
         warnOn: ['no']
       }
     ],

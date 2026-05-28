@@ -243,7 +243,7 @@ Page({
     suspectCheckItems: [
       {
         key: 'q1',
-        text: '项目风电/光伏规模是否已纳入或计划申报纳入省级新能源开发建设方案？',
+        text: '项目涉及风电/光伏规模是否需要纳入或计划申报纳入省级新能源开发建设方案？',
         options: [
           { value: 'yes', label: '是' },
           { value: 'no', label: '否' },

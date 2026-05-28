@@ -456,8 +456,8 @@
   box-sizing: border-box;
 }
 .card-option-radio--selected {
-  border: none;
-  background: #003060;
+  border: 2rpx solid #D6A84F;
+  background: #D6A84F;
   display: flex;
   align-items: center;
   justify-content: center;

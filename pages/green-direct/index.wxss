@@ -1016,6 +1016,23 @@
   word-break: break-all;
   overflow: visible;
 }
+.p7-desc-warn {
+  color: #D97706;
+}
+.p7-metric-item {
+  margin-bottom: 8rpx;
+}
+.p7-metric-value {
+  font-size: 28rpx;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.p7-value-pass {
+  color: #1a7c6e;
+}
+.p7-value-fail {
+  color: #C0392B;
+}
 .p7-metric-block {
   margin-bottom: 4rpx;
 }

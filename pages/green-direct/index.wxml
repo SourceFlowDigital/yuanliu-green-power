@@ -538,6 +538,18 @@
           </view>
           <text class="p7-metric-desc">自发自用 ÷ 总用电量\n（2030年前≥35%，2030年后≥30%）\n反映绿电覆盖用电的比例</text>
         </view>
+        <view wx:if="{{!p7Balance.isOffgrid}}" class="p7-metric-item">
+          <view class="p7-metric-row">
+            <text class="p7-metric-label">指标三：上网电量/总发电量</text>
+            <text class="p7-metric-value {{p7Balance.ratio3Pass ? 'p7-value-pass' : 'p7-value-fail'}}">
+              {{p7Balance.ratio3}}%
+            </text>
+          </view>
+          <text class="p7-metric-desc">上网电量 ÷ 总发电量，并网型项目要求 ≤20%</text>
+          <text class="p7-metric-desc {{p7Balance.ratio3Pass ? '' : 'p7-desc-warn'}}">
+            {{p7Balance.ratio3Pass ? '上网比例合规' : '上网比例超标，需降低上网量'}}
+          </text>
+        </view>
       </view>
 
       <view

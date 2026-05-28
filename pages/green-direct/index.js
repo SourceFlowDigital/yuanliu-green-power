@@ -140,6 +140,10 @@ Page({
       ratio2Threshold: 35,
       ratio1Pass: false,
       ratio2Pass: false,
+      isOffgrid: false,
+      gridFeedIn: 0,
+      ratio3: 0,
+      ratio3Pass: true,
       conclusionType: 'failBoth',
       conclusionIcon: '',
       conclusionText: ''
@@ -1175,25 +1179,35 @@ Page({
     var ratio1Pass = ratio1 >= 60
     var ratio2Pass = ratio2 >= ratio2Threshold
 
+    var gridType = (projectType && projectType.gridType) || 'grid'
+    var isOffgrid = gridType === 'offgrid'
+    var gridFeedIn = Math.max(totalGeneration - selfUse, 0)
+    var ratio3 = totalGeneration > 0 ? Math.round(gridFeedIn / totalGeneration * 1000) / 10 : 0
+    var ratio3Pass = isOffgrid ? true : ratio3 <= 20
+
     var gapType = 'balanced'
     if (gap > 0) gapType = 'surplus'
     else if (gap < 0) gapType = 'deficit'
 
     var conclusionType = 'pass'
     var conclusionIcon = '✅'
-    var conclusionText = '源荷匹配良好，可根据投资意愿\n决定是否在下一步配置储能'
+    var conclusionText = '源荷匹配良好，可根据投资意愿决定是否在下一步配置储能'
     if (!ratio1Pass && !ratio2Pass) {
       conclusionType = 'failBoth'
       conclusionIcon = '❌'
-      conclusionText = '源荷匹配不足，建议返回调整\n新能源装机规模或用电负荷后重新测算'
+      conclusionText = '源荷匹配不足，建议返回调整新能源装机规模或用电负荷后重新测算'
     } else if (!ratio1Pass) {
       conclusionType = 'failRatio1'
       conclusionIcon = '⚠️'
-      conclusionText = '自发自用占发电量比例偏低，\n建议适当减少新能源装机规模，\n或在下一步配置储能提升消纳'
+      conclusionText = '自发自用占发电量比例偏低，建议适当减少新能源装机规模，或在下一步配置储能提升消纳'
     } else if (!ratio2Pass) {
       conclusionType = 'failRatio2'
       conclusionIcon = '⚠️'
-      conclusionText = '绿电消费占用电量比例偏低，\n建议适当增加内部用电负荷，\n或减少新能源装机规模'
+      conclusionText = '绿电消费占用电量比例偏低，建议适当增加内部用电负荷，或减少新能源装机规模'
+    } else if (!ratio3Pass) {
+      conclusionType = 'failRatio3'
+      conclusionIcon = '⚠️'
+      conclusionText = '上网电量占比超过20%红线，建议配置储能或增加用电负荷以提升就近消纳比例'
     }
 
     var byTypeFiltered = {}
@@ -1234,6 +1248,10 @@ Page({
         ratio2Threshold: ratio2Threshold,
         ratio1Pass: ratio1Pass,
         ratio2Pass: ratio2Pass,
+        isOffgrid: isOffgrid,
+        gridFeedIn: this._round1(gridFeedIn),
+        ratio3: ratio3,
+        ratio3Pass: ratio3Pass,
         conclusionType: conclusionType,
         conclusionIcon: conclusionIcon,
         conclusionText: conclusionText

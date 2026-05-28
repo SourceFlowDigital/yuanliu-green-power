@@ -1025,18 +1025,13 @@
   margin-bottom: 24rpx;
   font-size: 26rpx;
   line-height: 1.6;
-  display: flex;
-  flex-wrap: wrap;
+  box-sizing: border-box;
   white-space: normal;
   word-break: break-all;
-  box-sizing: border-box;
 }
 .p7-conclusion text {
-  display: block;
-  width: 100%;
   white-space: normal;
   word-break: break-all;
-  flex-shrink: 0;
 }
 .p7-conclusion-pass {
   background: #E8F5F0;

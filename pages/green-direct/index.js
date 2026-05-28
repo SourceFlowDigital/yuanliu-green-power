@@ -141,6 +141,7 @@ Page({
       ratio1Pass: false,
       ratio2Pass: false,
       conclusionType: 'failBoth',
+      conclusionIcon: '',
       conclusionText: ''
     },
 
@@ -1107,16 +1108,20 @@ Page({
     else if (gap < 0) gapType = 'deficit'
 
     var conclusionType = 'pass'
-    var conclusionText = '✅ 源荷匹配良好，可根据投资意愿\n决定是否在下一步配置储能'
+    var conclusionIcon = '✅'
+    var conclusionText = '源荷匹配良好，可根据投资意愿\n决定是否在下一步配置储能'
     if (!ratio1Pass && !ratio2Pass) {
       conclusionType = 'failBoth'
-      conclusionText = '❌ 源荷匹配不足，建议返回调整\n新能源装机规模或用电负荷后重新测算'
+      conclusionIcon = '❌'
+      conclusionText = '源荷匹配不足，建议返回调整\n新能源装机规模或用电负荷后重新测算'
     } else if (!ratio1Pass) {
       conclusionType = 'failRatio1'
-      conclusionText = '⚠️ 自发自用占发电量比例偏低，\n建议适当减少新能源装机规模，\n或在下一步配置储能提升消纳'
+      conclusionIcon = '⚠️'
+      conclusionText = '自发自用占发电量比例偏低，\n建议适当减少新能源装机规模，\n或在下一步配置储能提升消纳'
     } else if (!ratio2Pass) {
       conclusionType = 'failRatio2'
-      conclusionText = '⚠️ 绿电消费占用电量比例偏低，\n建议适当增加内部用电负荷，\n或减少新能源装机规模'
+      conclusionIcon = '⚠️'
+      conclusionText = '绿电消费占用电量比例偏低，\n建议适当增加内部用电负荷，\n或减少新能源装机规模'
     }
 
     var byTypeFiltered = {}
@@ -1158,6 +1163,7 @@ Page({
         ratio1Pass: ratio1Pass,
         ratio2Pass: ratio2Pass,
         conclusionType: conclusionType,
+        conclusionIcon: conclusionIcon,
         conclusionText: conclusionText
       }
     }, function () {

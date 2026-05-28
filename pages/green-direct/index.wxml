@@ -543,7 +543,7 @@
       <view
         class="p7-conclusion {{p7Balance.conclusionType === 'pass' ? 'p7-conclusion-pass' : (p7Balance.conclusionType === 'failBoth' ? 'p7-conclusion-fail' : 'p7-conclusion-warn')}}"
       >
-        <text>{{p7Balance.conclusionText}}</text>
+        <text>{{p7Balance.conclusionIcon}} {{p7Balance.conclusionText}}</text>
       </view>
 
       <view class="p7-disclaimer-card">

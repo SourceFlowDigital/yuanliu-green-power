@@ -854,9 +854,81 @@ Page({
   },
 
   _ensureP6Sources: function () {
-    var sources = this.data.appState.energySources || []
-    if (sources.length === 0) sources = [this._createEmptySource()]
-    var rooftopRef = this._calcRooftopFromUsers(this.data.appState.users || [])
+    var users = (this.data.appState.users || []).map(this._normalizeUser.bind(this))
+    var sources = (this.data.appState.energySources || []).slice()
+    var activeRooftopUserIds = {}
+    var i
+    var j
+    var user
+    var uid
+    var foundIdx
+    var cap
+    var hours
+    var gen
+    var label
+    var rooftopEntry
+
+    for (i = 0; i < users.length; i++) {
+      if (users[i].hasRooftop === true) {
+        activeRooftopUserIds[users[i].id] = true
+      }
+    }
+
+    sources = sources.filter(function (s) {
+      if (!s.fromRooftop) return true
+      return !!activeRooftopUserIds[s.rooftopUserId]
+    })
+
+    for (i = 0; i < users.length; i++) {
+      user = users[i]
+      if (user.hasRooftop !== true) continue
+      uid = user.id
+      foundIdx = -1
+      for (j = 0; j < sources.length; j++) {
+        if (sources[j].fromRooftop === true && sources[j].rooftopUserId === uid) {
+          foundIdx = j
+          break
+        }
+      }
+      cap = user.rooftopCapacity || ''
+      hours = user.rooftopHours || ''
+      gen = user.rooftopGeneration || 0
+      label = user.name && String(user.name).trim()
+        ? String(user.name).trim() + '屋顶光伏'
+        : '屋顶光伏'
+      rooftopEntry = {
+        type: 'rooftop',
+        capacity: cap,
+        hours: hours,
+        hoursCustom: !!String(hours || '').trim(),
+        generation: gen,
+        isExisting: 'new',
+        fromRooftop: true,
+        rooftopUserId: uid,
+        label: label
+      }
+      if (foundIdx >= 0) {
+        sources[foundIdx] = Object.assign({}, sources[foundIdx], rooftopEntry)
+      } else {
+        rooftopEntry.id = Date.now() + i + 1
+        sources.push(rooftopEntry)
+      }
+    }
+
+    var hasNonRooftop = false
+    for (i = 0; i < sources.length; i++) {
+      if (!sources[i].fromRooftop) {
+        hasNonRooftop = true
+        break
+      }
+    }
+    if (sources.length === 0) {
+      sources = [this._createEmptySource()]
+    } else if (!hasNonRooftop) {
+      var onlyRooftop = sources.slice()
+      sources = [this._createEmptySource()].concat(onlyRooftop)
+    }
+
     this._setEnergySources(sources)
     return sources
   },

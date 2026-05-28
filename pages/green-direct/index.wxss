@@ -660,8 +660,8 @@
 
 /* P5 用户信息 */
 .screen-wrap-p5 {
-  padding-bottom: calc(420rpx + constant(safe-area-inset-bottom));
-  padding-bottom: calc(420rpx + env(safe-area-inset-bottom));
+  padding-bottom: calc(180rpx + constant(safe-area-inset-bottom));
+  padding-bottom: calc(180rpx + env(safe-area-inset-bottom));
 }
 .screen-p5-wrap { padding: 0 0 24rpx; }
 .p5-page-head { padding: 0 0 20rpx; }
@@ -895,8 +895,8 @@
   position: fixed;
   left: 0;
   right: 0;
-  bottom: calc(220rpx + constant(safe-area-inset-bottom));
-  bottom: calc(220rpx + env(safe-area-inset-bottom));
+  bottom: calc(100rpx + constant(safe-area-inset-bottom));
+  bottom: calc(100rpx + env(safe-area-inset-bottom));
   z-index: 10000;
   padding: 0 24rpx;
   box-sizing: border-box;

@@ -12,11 +12,7 @@
 </view>
 
 <view class="report-page" style="margin-top: {{headerHeight}}px;">
-  <view wx:if="{{!hasReport}}" class="report-empty">
-    <text class="report-empty-text">暂无报告，请先完成测算</text>
-  </view>
-
-  <block wx:else>
+  <view wx:if="{{hasReport}}">
     <view class="report-hero">
       <text class="report-hero-title">源流绿电直连 · 合规测算报告</text>
       <text class="report-hero-sub">基于发改能源〔2026〕688号</text>
@@ -288,5 +284,17 @@
         <text class="report-footer-note">仅供参考，不构成法律意见</text>
       </view>
     </view>
-  </block>
+  </view>
+
+  <view wx:else class="report-empty-page">
+    <view class="report-empty-logo">
+      <image src="/assets/logo.png" class="empty-logo-img" mode="aspectFit"/>
+    </view>
+    <view class="report-empty-title">源流绿电直连</view>
+    <view class="report-empty-subtitle">政策合规自测工具</view>
+    <view class="report-empty-icon">📋</view>
+    <view class="report-empty-desc">完成合规自测后</view>
+    <view class="report-empty-desc">您的项目报告将在此展示</view>
+    <view class="report-empty-btn" catchtap="onGoToCheck">立即开始自测</view>
+  </view>
 </view>

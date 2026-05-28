@@ -123,7 +123,7 @@ Page({
     } catch (e) {
       raw = null
     }
-    if (!raw || typeof raw !== 'object') {
+    if (!raw || typeof raw !== 'object' || !raw.generateTime) {
       this.setData({
         report: null,
         hasReport: false,
@@ -311,6 +311,10 @@ Page({
         wx.showToast({ title: '已复制', icon: 'success', duration: 1500 })
       }
     })
+  },
+
+  onGoToCheck: function () {
+    wx.switchTab({ url: '/pages/green-direct/index' })
   },
 
   onContactAI: function () {

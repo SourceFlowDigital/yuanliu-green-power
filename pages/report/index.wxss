@@ -11,15 +11,52 @@ page {
   box-sizing: border-box;
 }
 
-.report-empty {
-  padding: 120rpx 48rpx;
+.report-empty-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  padding: 60rpx 40rpx;
+  box-sizing: border-box;
+}
+.report-empty-logo {
+  margin-bottom: 24rpx;
+}
+.empty-logo-img {
+  width: 120rpx;
+  height: 120rpx;
+}
+.report-empty-title {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #003060;
+  margin-bottom: 8rpx;
+}
+.report-empty-subtitle {
+  font-size: 26rpx;
+  color: #6B7280;
+  margin-bottom: 60rpx;
+}
+.report-empty-icon {
+  font-size: 80rpx;
+  margin-bottom: 24rpx;
+}
+.report-empty-desc {
+  font-size: 28rpx;
+  color: #6B7280;
+  line-height: 1.8;
   text-align: center;
 }
-
-.report-empty-text {
+.report-empty-btn {
+  margin-top: 60rpx;
+  background: #003060;
+  color: #fff;
   font-size: 30rpx;
-  color: #6B7280;
-  line-height: 1.6;
+  font-weight: 600;
+  padding: 24rpx 80rpx;
+  border-radius: 48rpx;
+  text-align: center;
 }
 
 .report-hero {

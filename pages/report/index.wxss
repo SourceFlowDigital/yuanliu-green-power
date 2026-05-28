@@ -17,7 +17,7 @@ page {
   align-items: center;
   justify-content: center;
   min-height: 80vh;
-  padding: 60rpx 40rpx;
+  padding: 0 40rpx 120rpx;
   box-sizing: border-box;
 }
 .report-empty-logo {

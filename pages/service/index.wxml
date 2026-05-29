@@ -28,7 +28,27 @@
     <text wx:if="{{!reportText}}" class="service-empty-tip">请先完成自测后再使用AI解读</text>
     <block wx:if="{{reportText}}">
       <view wx:if="{{aiLoading}}" class="service-ai-loading">AI分析中，请稍候…</view>
-      <text wx:if="{{aiContent && !aiLoading}}" class="service-ai-content">{{aiContent}}</text>
+      <view wx:if="{{aiBlocks.length && !aiLoading}}" class="service-ai-blocks">
+        <view class="service-ai-disclaimer" wx:if="{{aiContent}}">
+          <text class="service-ai-disclaimer-text">
+            本解读由 DeepSeek V3 模型生成，仅供参考，不构成法律意见。政策适用请以主管部门最终解释为准。
+          </text>
+        </view>
+        <block wx:for="{{aiBlocks}}" wx:for-item="block" wx:for-index="blockIdx" wx:key="blockIdx">
+          <view wx:if="{{block.type === 'divider'}}" class="service-ai-divider"></view>
+          <view wx:elif="{{block.type === 'heading'}}" class="service-ai-heading">{{block.text}}</view>
+          <view wx:elif="{{block.type === 'text'}}" class="service-ai-text">
+            <text wx:for="{{block.segments}}" wx:for-item="seg" wx:for-index="segIdx" wx:key="segIdx" class="{{seg.bold ? 'service-ai-bold' : 'service-ai-normal'}}">{{seg.text}}</text>
+          </view>
+          <view wx:elif="{{block.type === 'list'}}" class="service-ai-list">
+            <text class="service-ai-list-dot">·</text>
+            <view class="service-ai-list-content">
+              <text wx:for="{{block.segments}}" wx:for-item="seg" wx:for-index="segIdx" wx:key="segIdx" class="{{seg.bold ? 'service-ai-bold' : 'service-ai-normal'}}">{{seg.text}}</text>
+            </view>
+          </view>
+          <view wx:elif="{{block.type === 'empty'}}" class="service-ai-empty"></view>
+        </block>
+      </view>
       <view wx:if="{{aiError && !aiLoading}}" class="service-ai-error-wrap">
         <text class="service-ai-error">{{aiError}}</text>
         <view class="service-action-btn" bindtap="onStartAiAnalysis">重试</view>

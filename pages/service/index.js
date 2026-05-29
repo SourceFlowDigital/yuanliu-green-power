@@ -28,7 +28,66 @@ Page({
     reportExpanded: false,
     aiLoading: false,
     aiContent: '',
+    aiBlocks: [],
     aiError: ''
+  },
+
+  _parseSegments: function (line) {
+    var segments = []
+    var re = /\*\*(.+?)\*\*/g
+    var match
+    var lastIndex = 0
+    while ((match = re.exec(line)) !== null) {
+      if (match.index > lastIndex) {
+        segments.push({ bold: false, text: line.slice(lastIndex, match.index) })
+      }
+      segments.push({ bold: true, text: match[1] })
+      lastIndex = re.lastIndex
+    }
+    if (lastIndex < line.length) {
+      segments.push({ bold: false, text: line.slice(lastIndex) })
+    }
+    if (!segments.length) {
+      segments.push({ bold: false, text: line })
+    }
+    return segments
+  },
+
+  _parseMarkdown: function (text) {
+    if (!text) return []
+    var lines = String(text).split('\n')
+    var blocks = []
+    var i
+    var trimmed
+    var headingMatch
+    var listText
+    for (i = 0; i < lines.length; i++) {
+      trimmed = lines[i].trim()
+      if (trimmed === '') {
+        blocks.push({ type: 'empty' })
+        continue
+      }
+      if (trimmed.indexOf('===') === 0) {
+        blocks.push({ type: 'divider' })
+        continue
+      }
+      headingMatch = trimmed.match(/^\*\*(.+)\*\*$/)
+      if (headingMatch) {
+        blocks.push({ type: 'heading', text: headingMatch[1] })
+        continue
+      }
+      if (trimmed.indexOf('- ') === 0) {
+        listText = trimmed.slice(2)
+        blocks.push({
+          type: 'list',
+          text: listText,
+          segments: this._parseSegments(listText)
+        })
+        continue
+      }
+      blocks.push({ type: 'text', segments: this._parseSegments(lines[i]) })
+    }
+    return blocks
   },
 
   _loadReportText: function () {
@@ -130,10 +189,12 @@ Page({
     }
     var self = this
     var payload = this._buildAnalyzePayload(raw)
-    this.setData({ aiLoading: true, aiError: '', aiContent: '' })
+    this.setData({ aiLoading: true, aiError: '', aiContent: '', aiBlocks: [] })
     request.postAnalyze(payload).then(function (res) {
+      var content = res.content || ''
       self.setData({
-        aiContent: res.content || '',
+        aiContent: content,
+        aiBlocks: self._parseMarkdown(content),
         aiLoading: false,
         aiError: ''
       })

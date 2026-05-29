@@ -657,6 +657,12 @@
   border-color: #D6A84F;
   color: #fff;
 }
+.p4-industry-group + .p4-input {
+  height: 80rpx;
+  line-height: 80rpx;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
 
 /* P5 用户信息 */
 .screen-wrap-p5 {

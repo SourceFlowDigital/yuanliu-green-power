@@ -2,7 +2,7 @@
 
 .service-page {
   padding: 24rpx;
-  padding-bottom: calc(180rpx + env(safe-area-inset-bottom));
+  padding-bottom: calc(100rpx + env(safe-area-inset-bottom));
   box-sizing: border-box;
 }
 
@@ -63,13 +63,79 @@
   padding: 24rpx 0;
 }
 
-.service-ai-content {
+.service-ai-blocks {
+  width: 100%;
+}
+
+.service-ai-disclaimer {
+  background: #f4f8fb;
+  border: 1px solid #e0e0e0;
+  border-radius: 8rpx;
+  padding: 12rpx 24rpx 36rpx 24rpx;
+  margin-bottom: 16rpx;
+}
+
+.service-ai-disclaimer-text {
+  font-size: 22rpx;
+  color: #888;
+  line-height: 1.6;
   display: block;
+}
+
+.service-ai-divider {
+  height: 1px;
+  background: #e0e0e0;
+  margin: 8px 0;
+}
+
+.service-ai-heading {
+  font-weight: bold;
+  color: #003060;
+  font-size: 14px;
+  margin: 4px 0;
+  line-height: 1.8;
+}
+
+.service-ai-text {
   font-size: 14px;
   line-height: 1.8;
   color: #333;
-  white-space: pre-wrap;
   word-break: break-all;
+}
+
+.service-ai-list {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  font-size: 14px;
+  line-height: 1.8;
+  color: #333;
+  padding-left: 12px;
+  word-break: break-all;
+}
+
+.service-ai-list-dot {
+  flex-shrink: 0;
+  margin-right: 8px;
+  color: #333;
+}
+
+.service-ai-list-content {
+  flex: 1;
+}
+
+.service-ai-empty {
+  height: 8px;
+}
+
+.service-ai-bold {
+  font-weight: bold;
+  color: #003060;
+}
+
+.service-ai-normal {
+  font-weight: normal;
+  color: #333;
 }
 
 .service-ai-error-wrap {

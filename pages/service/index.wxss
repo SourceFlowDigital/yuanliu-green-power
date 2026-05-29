@@ -1,53 +1,97 @@
 @import "../../styles/shell.wxss";
 
-.ai-card {
-  background: #FFFFFF;
+.service-page {
+  padding: 24rpx;
+  padding-bottom: calc(180rpx + env(safe-area-inset-bottom));
+  box-sizing: border-box;
 }
 
-.ai-card-title {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+.service-card {
+  background: #fff;
+  border-left: 4px solid #003060;
+  border-radius: 8px;
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+  box-sizing: border-box;
+  box-shadow: 0 2rpx 12rpx rgba(0, 48, 96, 0.06);
+}
+
+.service-card-title {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #003060;
+  margin-bottom: 12rpx;
+}
+
+.service-card-sub {
+  display: block;
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 24rpx;
+}
+
+.service-empty-tip {
+  display: block;
+  font-size: 26rpx;
+  color: #999;
+  line-height: 1.6;
+}
+
+.service-toggle-btn {
+  font-size: 28rpx;
+  color: #003060;
+  font-weight: 600;
   margin-bottom: 16rpx;
 }
 
-.ai-icon {
-  font-size: 48rpx;
-  color: #003060;
-  margin-right: 12rpx;
-  line-height: 1;
+.service-report-text {
+  display: block;
+  font-size: 13px;
+  line-height: 1.8;
+  color: #444;
+  white-space: pre-wrap;
+  word-break: break-all;
 }
 
-.ai-card-title-text {
-  font-size: 30rpx;
-  font-weight: 600;
-  color: #1F2933;
-  line-height: 1.4;
+.service-ai-loading {
+  text-align: center;
+  font-size: 14px;
+  color: #999;
+  line-height: 1.8;
+  padding: 24rpx 0;
 }
 
-.ai-card-sub {
-  font-size: 26rpx;
-  color: #6B7280;
-  line-height: 1.6;
-  margin-bottom: 28rpx;
+.service-ai-content {
+  display: block;
+  font-size: 14px;
+  line-height: 1.8;
+  color: #333;
+  white-space: pre-wrap;
+  word-break: break-all;
 }
 
-.ai-card-btn {
+.service-ai-error-wrap {
+  text-align: center;
+}
+
+.service-ai-error {
+  display: block;
+  font-size: 14px;
+  color: #E74C3C;
+  line-height: 1.8;
+  margin-bottom: 24rpx;
+}
+
+.service-action-btn {
   width: 100%;
-  height: 88rpx;
-  margin: 0;
   background: #003060;
   color: #fff;
-  border-radius: 12rpx;
-  font-size: 30rpx;
+  font-size: 15px;
   font-weight: 600;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4rpx 16rpx rgba(0, 48, 96, 0.22);
-}
-
-.ai-card-btn::after {
-  border: none;
+  text-align: center;
+  border-radius: 8px;
+  padding: 14px;
+  box-sizing: border-box;
 }

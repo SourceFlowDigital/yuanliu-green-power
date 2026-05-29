@@ -10,18 +10,30 @@
     </view>
   </view>
 </view>
-<view class="body" style="margin-top: {{headerHeight}}px;">
-  <view class="surface-strip">
-    <text class="surface-strip-tip">AI分析</text>
+
+<view class="service-page" style="margin-top: {{headerHeight}}px;">
+  <view class="service-card">
+    <text class="service-card-title">📋 我的报告</text>
+    <text class="service-card-sub">点击查看本次自测完整报告</text>
+    <text wx:if="{{!reportText}}" class="service-empty-tip">暂无报告，请先完成自测</text>
+    <block wx:if="{{reportText}}">
+      <view class="service-toggle-btn" bindtap="onToggleReport">{{reportExpanded ? '收起' : '展开'}}</view>
+      <text wx:if="{{reportExpanded}}" class="service-report-text">{{reportText}}</text>
+    </block>
   </view>
-  <view class="policy-list">
-    <view class="policy-card ai-card">
-      <view class="ai-card-title">
-        <text class="iconfont-ai" style="font-size:40rpx;margin-right:8rpx;"></text>
-        <text class="ai-card-title-text">AI分析</text>
+
+  <view class="service-card">
+    <text class="service-card-title">⚡ AI解读</text>
+    <text class="service-card-sub">基于688号文，智能解读您的项目合规情况</text>
+    <text wx:if="{{!reportText}}" class="service-empty-tip">请先完成自测后再使用AI解读</text>
+    <block wx:if="{{reportText}}">
+      <view wx:if="{{aiLoading}}" class="service-ai-loading">AI分析中，请稍候…</view>
+      <text wx:if="{{aiContent && !aiLoading}}" class="service-ai-content">{{aiContent}}</text>
+      <view wx:if="{{aiError && !aiLoading}}" class="service-ai-error-wrap">
+        <text class="service-ai-error">{{aiError}}</text>
+        <view class="service-action-btn" bindtap="onStartAiAnalysis">重试</view>
       </view>
-      <view class="ai-card-sub">基于688号文，智能解读您的项目合规情况</view>
-      <button class="ai-card-btn" bindtap="onStartAi">开始AI解读</button>
-    </view>
+      <view wx:if="{{!aiLoading && !aiContent && !aiError}}" class="service-action-btn" bindtap="onStartAiAnalysis">开始AI解读</view>
+    </block>
   </view>
 </view>

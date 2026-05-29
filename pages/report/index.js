@@ -1,7 +1,6 @@
 var measureHeader = require('../../utils/headerLayout.js').measureHeader
 
-var INDUSTRY_LABELS = {
-  computing: '⭐ 算力设施',
+var INDUSTRY_LABELS = {  computing: '⭐ 算力设施',
   hydrogen: '⭐ 绿色氢氨醇',
   manufacturing: '工业制造',
   export: '出口外向型企业',
@@ -184,12 +183,9 @@ Page({
     this._loadReport()
   },
 
-  onCopyReport: function () {
+  _buildReportText: function () {
     var report = this.data.report
-    if (!report) {
-      wx.showToast({ title: '暂无报告', icon: 'none' })
-      return
-    }
+    if (!report) return ''
     var projectTypeLabel = report.projectType === 'grid' ? '并网型' : '离网型'
     var targetYearLabel = report.targetYear === 'pre2030' ? '2030年前' : '2030年后'
     var ratio1Icon = report.ratio1Pass ? '✅' : '❌'
@@ -304,7 +300,15 @@ Page({
       '',
       '---源流 · 基于发改能源〔2026〕688号---'
     ])
-    var text = lines.join('\n')
+    return lines.join('\n')
+  },
+
+  onCopyReport: function () {
+    if (!this.data.report) {
+      wx.showToast({ title: '暂无报告', icon: 'none' })
+      return
+    }
+    var text = this._buildReportText()
     wx.setClipboardData({
       data: text,
       success: function () {
@@ -318,12 +322,17 @@ Page({
   },
 
   onContactAI: function () {
-    wx.showModal({
-      title: 'AI深度分析报告',
-      content: '请联系顾问获取AI深度报告服务',
-      showCancel: false,
-      confirmText: '知道了',
-      confirmColor: '#D6A84F'
-    })
+    if (!this.data.report) {
+      wx.showToast({ title: '暂无报告', icon: 'none' })
+      return
+    }
+    var text = this._buildReportText()
+    try {
+      wx.setStorageSync('yuanliu_report_text', text)
+    } catch (e) {
+      wx.showToast({ title: '保存失败', icon: 'none' })
+      return
+    }
+    wx.switchTab({ url: '/pages/service/index' })
   }
 })

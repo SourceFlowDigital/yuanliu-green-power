@@ -1,5 +1,7 @@
 const config = require('./config.js')
 
+var AI_API_BASE = 'http://127.0.0.1:8000'
+
 function get(path, query) {
   return new Promise(function(resolve, reject) {
     var url = config.getApiBase() + path
@@ -29,4 +31,29 @@ function get(path, query) {
   })
 }
 
-module.exports = { get }
+function postAnalyze(payload) {
+  return new Promise(function(resolve, reject) {
+    wx.request({
+      url: AI_API_BASE + '/api/analyze',
+      method: 'POST',
+      header: {
+        'Content-Type': 'application/json'
+      },
+      data: payload,
+      timeout: 65000,
+      success: function(res) {
+        if (res.statusCode === 200 && res.data && res.data.success) {
+          resolve(res.data)
+        } else {
+          var detail = res.data && res.data.detail
+          reject(new Error(detail ? String(detail) : ('HTTP ' + res.statusCode)))
+        }
+      },
+      fail: function(err) {
+        reject(err)
+      }
+    })
+  })
+}
+
+module.exports = { get, postAnalyze }

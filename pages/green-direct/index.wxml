@@ -529,14 +529,14 @@
             <text class="p7-balance-label">指标一：自发自用/总发电量</text>
             <text class="p7-balance-metric-val {{p7Balance.ratio1Pass ? 'pass' : 'fail'}}">{{p7Balance.ratio1}}%（目标≥60%）</text>
           </view>
-          <text class="p7-metric-desc">自发自用 ÷ 总发电量（目标≥60%）\n反映新能源就地消纳程度</text>
+          <text class="p7-metric-desc">自发自用 ÷ 总发电量（目标≥60%），反映新能源就地消纳程度</text>
         </view>
         <view class="p7-balance-metric-block">
           <view class="p7-balance-metric-row">
             <text class="p7-balance-label">指标二：自发自用/总用电量</text>
             <text class="p7-balance-metric-val {{p7Balance.ratio2Pass ? 'pass' : 'fail'}}">{{p7Balance.ratio2}}%（目标≥{{p7Balance.ratio2Threshold}}%）</text>
           </view>
-          <text class="p7-metric-desc">自发自用 ÷ 总用电量\n（2030年前≥35%，2030年后≥30%）\n反映绿电覆盖用电的比例</text>
+          <text class="p7-metric-desc">自发自用 ÷ 总用电量（2030年前≥35%，2030年后≥30%），反映绿电覆盖用电的比例</text>
         </view>
         <view wx:if="{{!p7Balance.isOffgrid}}" class="p7-metric-item">
           <view class="p7-metric-row">
@@ -589,14 +589,14 @@
             <text class="p7-metric-label">指标一（自发自用/总发电量）</text>
             <text class="p7-metric-val {{p7Preview.ratio1Before >= 60 ? 'pass' : 'fail'}}">{{p7Preview.ratio1Before}}%</text>
           </view>
-          <text class="p7-metric-desc">自发自用电量 ÷ 新能源总发电量，政策要求≥60%\n比例偏低说明新能源装机过大，\n大量发电无法就地消纳</text>
+          <text class="p7-metric-desc">自发自用电量 ÷ 新能源总发电量，政策要求≥60%，比例偏低说明新能源装机过大，大量发电无法就地消纳</text>
         </view>
         <view class="p7-metric-block">
           <view class="p7-metric-row">
             <text class="p7-metric-label">指标二（自发自用/总用电量）</text>
             <text class="p7-metric-val {{p7Preview.ratio2Before >= p7Preview.ratio2Threshold ? 'pass' : 'fail'}}">{{p7Preview.ratio2Before}}%</text>
           </view>
-          <text class="p7-metric-desc">自发自用电量 ÷ 用户总用电量，\n2030年前要求≥35%，2030年后要求≥30%\n比例偏低说明绿电供应不足以覆盖用电需求</text>
+          <text class="p7-metric-desc">自发自用电量 ÷ 用户总用电量，2030年前要求≥35%，2030年后要求≥30%，比例偏低说明绿电供应不足以覆盖用电需求</text>
         </view>
         <view wx:if="{{!p7Preview.isOffgrid}}" class="p8-metric-item">
           <view class="p8-preview-row">

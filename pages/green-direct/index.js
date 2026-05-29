@@ -1379,13 +1379,17 @@ Page({
 
     if (!ratio2Pass) {
       var diff2 = this._round1(Math.max(0, ratio2Threshold - ratio2))
-      var needSelf2 = totalConsumption * ratio2Threshold / 100
+      var thresholdRatio2 = ratio2Threshold / 100
+      var needSelf2 = totalConsumption * thresholdRatio2
       var shortfall2 = this._round1(Math.max(0, needSelf2 - selfUseWithStorage))
-      suggestions.push({
-        index: sugIdx++,
-        text: '指标二不达标（差' + diff2 + '个百分点）：建议增加内部用电负荷约' + shortfall2 +
-          '万kWh，或适当减少新能源装机规模'
-      })
+      if (totalGeneration < totalConsumption) {
+        var maxConsumption2 = this._round1(selfUseWithStorage / thresholdRatio2)
+        suggestions.push({
+          index: sugIdx++,
+          text: '指标二不达标（差' + diff2 + '个百分点）：建议增加新能源装机，使年发电量提升约' + shortfall2 +
+            '万kWh，或减少内部用电负荷，使总用电量降低至' + maxConsumption2 + '万kWh以下'
+        })
+      }
     }
 
     if (!isOffgrid && !ratio3Pass) {

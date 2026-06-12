@@ -33,6 +33,12 @@
         <text class="action-text">《微信小程序隐私保护指引》</text>
         <text class="action-arrow">›</text>
       </view>
+      <view style="margin-top: 24rpx; padding-top: 20rpx; border-top: 1rpx solid #e8edf2; text-align: center;">
+        <text style="display: block; font-size: 22rpx; color: #9aa5b4; line-height: 1.8;">© 2026 宁夏源流数字服务有限公司 版权所有</text>
+        <navigator url="https://beian.miit.gov.cn" open-type="webview" style="display: block; margin-top: 4rpx;">
+          <text style="font-size: 22rpx; color: #9aa5b4;">宁ICP备2026001906号-1</text>
+        </navigator>
+      </view>
     </view>
   </view>
 </view>

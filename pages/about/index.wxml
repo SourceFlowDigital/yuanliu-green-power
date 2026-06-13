@@ -10,35 +10,96 @@
     </view>
   </view>
 </view>
-<view class="body" style="margin-top: {{headerHeight}}px;">
-  <view class="surface-strip">
-    <text class="surface-strip-tip">关于平台与服务说明</text>
-  </view>
-  <view class="policy-list">
-    <view wx:for="{{blocks}}" wx:key="title" class="policy-card about-block">
-      <view class="card-title">{{item.title}}</view>
-      <view class="about-p" wx:for="{{item.lines}}" wx:key="idx" wx:for-item="line" wx:for-index="idx">{{line}}</view>
+
+<view class="about-page" style="margin-top: {{headerHeight}}px;">
+
+  <!-- 1. 关注我们（视觉权重最高） -->
+  <view class="about-card about-follow-card">
+    <view class="follow-title">关注我们</view>
+    <view class="follow-wechat-row">
+      <image
+        class="follow-wechat-icon"
+        src="/assets/images/icon_wechat.png"
+        mode="aspectFit"
+      />
+      <text class="follow-wechat-text">关注公众号，新政策第一时间推送</text>
     </view>
-    <view class="policy-card about-actions">
-      <view class="card-title">协议</view>
-      <view class="action-row" bindtap="toTerms">
-        <text class="action-text">《用户协议》</text>
-        <text class="action-arrow">›</text>
+    <image
+      class="follow-qr-img"
+      src="/assets/images/qrcode.jpg"
+      mode="aspectFit"
+      show-menu-by-long-press="{{true}}"
+    />
+    <text class="follow-qr-tip">截图保存，用微信扫一扫关注</text>
+  </view>
+
+  <!-- 2. 联系我们 -->
+  <view class="about-card">
+    <view class="about-card-title">联系我们</view>
+    <view class="contact-table">
+      <view class="contact-row">
+        <text class="contact-label">公司</text>
+        <text class="contact-value">宁夏源流数字服务有限公司</text>
       </view>
-      <view class="action-row" bindtap="toPrivacyDoc">
-        <text class="action-text">《隐私政策》</text>
-        <text class="action-arrow">›</text>
+      <view class="contact-row">
+        <text class="contact-label">官网</text>
+        <text class="contact-value contact-link">www.sourceflower.com</text>
       </view>
-      <view class="action-row" bindtap="openWxPrivacyGuide">
-        <text class="action-text">《微信小程序隐私保护指引》</text>
-        <text class="action-arrow">›</text>
+      <view class="contact-row">
+        <text class="contact-label">邮箱</text>
+        <text class="contact-value">hello@sourceflower.com</text>
       </view>
-      <view style="margin-top: 24rpx; padding-top: 20rpx; border-top: 1rpx solid #e8edf2; text-align: center;">
-        <text style="display: block; font-size: 22rpx; color: #9aa5b4; line-height: 1.8;">© 2026 宁夏源流数字服务有限公司 版权所有</text>
-        <navigator url="https://beian.miit.gov.cn" open-type="webview" style="display: block; margin-top: 4rpx;">
-          <text style="font-size: 22rpx; color: #9aa5b4;">宁ICP备2026001906号-1</text>
-        </navigator>
+      <view class="contact-row">
+        <text class="contact-label">微信</text>
+        <text class="contact-value">SourceFlowDigital</text>
       </view>
     </view>
   </view>
+
+  <!-- 3. 平台简介 -->
+  <view class="about-card">
+    <view class="about-card-title">平台简介</view>
+    <text class="about-desc">源流绿电直连基于发改能源〔2026〕688号政策，面向新能源开发商、EPC单位及园区能源管理人员，提供项目数据测算与风险分析服务。</text>
+    <view class="about-features">
+      <text class="about-feature-item">基于688号文三项核心指标精准测算</text>
+      <text class="about-feature-item">覆盖光伏 / 风电 / 储能 / 多能源组合</text>
+      <text class="about-feature-item">支持并网 / 离网 / 多用户全场景</text>
+      <text class="about-feature-item">AI辅助项目风险分析与优化建议</text>
+      <text class="about-feature-item">一键生成测算报告，结果可导出分享</text>
+    </view>
+  </view>
+
+  <!-- 4. 法律协议 -->
+  <view class="about-card">
+    <view class="about-card-title">法律协议</view>
+    <view class="legal-list">
+      <view class="legal-row" bindtap="toTerms">
+        <text class="legal-text">《用户服务协议》</text>
+        <text class="legal-arrow">›</text>
+      </view>
+      <view class="legal-row" bindtap="toPrivacyDoc">
+        <text class="legal-text">《隐私政策》</text>
+        <text class="legal-arrow">›</text>
+      </view>
+      <view class="legal-row" bindtap="toThirdParty">
+        <text class="legal-text">《第三方信息共享清单》</text>
+        <text class="legal-arrow">›</text>
+      </view>
+      <view class="legal-row" bindtap="openWxPrivacyGuide">
+        <text class="legal-text">《微信小程序隐私保护指引》</text>
+        <text class="legal-arrow">›</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 5. 底部声明 -->
+  <view class="about-footer">
+    <text class="about-footer-disclaimer">本工具基于用户输入数据进行测算与分析，所有结果仅供参考，不构成行政审批结论或投资建议。</text>
+    <view class="about-footer-divider"></view>
+    <text class="about-footer-text">© 2026 宁夏源流数字服务有限公司 版权所有</text>
+    <navigator class="about-footer-text" url="https://beian.miit.gov.cn" open-type="webview">
+      宁ICP备2026001906号-1
+    </navigator>
+  </view>
+
 </view>

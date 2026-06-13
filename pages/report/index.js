@@ -191,7 +191,7 @@ Page({
     var ratio1Icon = report.ratio1Pass ? '✅' : '❌'
     var ratio2Icon = report.ratio2Pass ? '✅' : '❌'
     var ratio3Icon = report.ratio3Pass ? '✅' : '❌'
-    var overallText = report.overallPass ? '✅ 符合合规要求' : '❌ 存在不达标项'
+    var overallText = report.overallPass ? '✅ 三项指标满足门槛要求' : '⚠️ 存在未满足门槛的指标'
     var suggestions = report.suggestions || []
     var sugLines = []
     var i
@@ -266,7 +266,7 @@ Page({
     }
 
     var lines = [
-      '源流绿电直连 · 合规自测报告',
+      '源流绿电直连 · 项目测算报告',
       '生成时间：' + formatCopyTime(report.generateTime),
       '项目名称：' + (report.projectName || '—'),
       '项目类型：' + projectTypeLabel,
@@ -295,7 +295,7 @@ Page({
       '【综合结论】',
       overallText,
       '',
-      '【整改建议】',
+      '【优化建议】',
       sugText,
       '',
       '---源流 · 基于发改能源〔2026〕688号---'

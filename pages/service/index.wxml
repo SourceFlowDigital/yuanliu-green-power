@@ -5,7 +5,7 @@
     <view class="header-title-group">
       <view class="header-title">源流绿电直连</view>
       <view class="header-sub-wrap">
-        <text class="header-sub">政策合规自测工具</text>
+        <text class="header-sub">项目数据测算与风险分析工具</text>
       </view>
     </view>
   </view>
@@ -24,9 +24,12 @@
 
   <view class="service-card">
     <text class="service-card-title">⚡ AI解读</text>
-    <text class="service-card-sub">基于688号文，智能解读您的项目合规情况</text>
+    <text class="service-card-sub">基于688号文，AI辅助分析您的项目测算结果</text>
     <text wx:if="{{!reportText}}" class="service-empty-tip">请先完成自测后再使用AI解读</text>
     <block wx:if="{{reportText}}">
+      <view class="service-ai-disclaimer-top">
+        <text class="service-ai-disclaimer-top-text">⚠️ 以下分析由AI自动生成，基于用户输入数据测算，仅供参考，不构成行政审批结论、投资建议或法律意见。最终结果以当地省级能源主管部门正式审批为准。</text>
+      </view>
       <view wx:if="{{aiLoading}}" class="service-ai-loading">AI分析中，请稍候…</view>
       <view wx:if="{{aiBlocks.length && !aiLoading}}" class="service-ai-blocks">
         <view class="service-ai-disclaimer" wx:if="{{aiContent}}">

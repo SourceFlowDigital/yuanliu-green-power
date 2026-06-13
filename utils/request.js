@@ -1,6 +1,6 @@
 const config = require('./config.js')
 
-var AI_API_BASE = 'http://127.0.0.1:8000'
+var AI_API_BASE = 'https://green.sourceflower.com'
 
 function get(path, query) {
   return new Promise(function(resolve, reject) {

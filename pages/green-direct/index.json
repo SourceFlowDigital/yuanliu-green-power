@@ -1,6 +1,3 @@
 {
-  "navigationStyle": "custom",
-  "usingComponents": {
-    "embedded-tab-bar": "/components/embedded-tab-bar/embedded-tab-bar"
-  }
+  "navigationStyle": "custom"
 }

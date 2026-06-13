@@ -1,6 +1,6 @@
 /** 政策 API 基址：读取 app.js 的 USE_MOCK 开关动态切换 */
 function getApiBase() {
-  const fallback = 'http://127.0.0.1:8000/api/mock'
+  const fallback = 'https://green.sourceflower.com/api'
   try {
     const app = getApp()
     if (typeof app.getEffectiveApiBase === 'function') {
@@ -14,9 +14,9 @@ function getApiBase() {
   return fallback
 }
 
-/** 服务根（identity、资讯、纠错等）：始终返回生产 origin，不受 USE_MOCK 影响 */
+/** 服务根：始终返回生产 origin */
 function getApiOrigin() {
-  const fallback = 'http://127.0.0.1:8000'
+  const fallback = 'https://green.sourceflower.com'
   try {
     const app = getApp()
     const raw = app && app.globalData && app.globalData.apiOrigin
@@ -27,12 +27,9 @@ function getApiOrigin() {
   return fallback
 }
 
-/** 生产主机 https://ruienergy.top 上 FastAPI 的 X-API-Key 鉴权（与本地 127.0.0.1 联调无害） */
+/** 请求头透传（绿电直连后端无需额外鉴权头） */
 function withPolicyApiKeyHeader(header) {
-  return Object.assign(
-    { 'X-API-Key': 'ruijing-policy-2026' },
-    header || {}
-  )
+  return header || {}
 }
 
 module.exports = {

@@ -6,7 +6,7 @@
       <view class="header-title-group">
         <view class="header-title">源流绿电直连</view>
         <view class="header-sub-wrap">
-          <text class="header-sub">政策合规自测工具</text>
+          <text class="header-sub">项目数据测算与风险分析工具</text>
         </view>
       </view>
     </view>
@@ -33,15 +33,18 @@
         <text class="policy-tag">发改能源〔2026〕688号</text>
         <text class="policy-tag-sub">2026年5月14日施行</text>
       </view>
-      <text class="p0-body">本工具基于《发改能源〔2026〕688号》，帮助您初步判断项目是否符合多用户绿电直连政策要求，并测算三项核心合规指标。</text>
+      <text class="p0-body">本工具基于《发改能源〔2026〕688号》，帮助您初步测算项目关键指标，评估满足政策要求的程度与潜在风险。</text>
       <view class="p0-section-title">填写完成后将输出：</view>
       <view class="p0-list">
         <text class="p0-list-item">· 项目基本信息汇总</text>
         <text class="p0-list-item">· 三项比例指标测算结果</text>
         <text class="p0-list-item">· 政策符合性初步结论</text>
-        <text class="p0-list-item">· 不达标项整改建议</text>
+        <text class="p0-list-item">· 优化建议</text>
       </view>
-      <text class="p0-disclaimer">本工具结果仅供参考，最终以省级能源主管部门审核为准。不收集任何用户数据。</text>
+      <view class="p0-disclaimer-box">
+        <text class="p0-disclaimer-title">⚠️ 重要提示</text>
+        <text class="p0-disclaimer-text">本工具基于发改能源〔2026〕688号，对用户输入的测算参数进行AI辅助分析。所有结果仅供参考，不构成行政审批结论、投资建议或法律意见。最终结果以当地省级能源主管部门正式审批为准。项目数据仅用于AI分析，详见隐私政策。</text>
+      </view>
       <view class="btn-start-eval" catchtap="goStart">开始评估 →</view>
     </view>
     <view wx:if="{{currentScreen == 1}}" class="screen screen-p1">
@@ -105,7 +108,7 @@
             <text wx:if="{{appState.projectType.gridType === 'grid'}}">✓</text>
           </view>
           <view class="p3-card-title">并网型</view>
-          <text class="p3-card-desc">与大电网连接，电网作为备用，供电更可靠，需遵守上网电量等合规规则</text>
+          <text class="p3-card-desc">与大电网连接，电网作为备用，供电更可靠，需遵守上网电量等运行规则</text>
         </view>
 
         <view
@@ -547,7 +550,7 @@
           </view>
           <text class="p7-metric-desc">上网电量 ÷ 总发电量，并网型项目要求 ≤20%</text>
           <text class="p7-metric-desc {{p7Balance.ratio3Pass ? '' : 'p7-desc-warn'}}">
-            {{p7Balance.ratio3Pass ? '上网比例合规' : '上网比例超标，需降低上网量'}}
+            {{p7Balance.ratio3Pass ? '上网比例满足要求' : '上网比例超标，需降低上网量'}}
           </text>
         </view>
       </view>
@@ -607,7 +610,7 @@
           </view>
           <text class="p8-preview-desc">上网电量 ÷ 新能源总发电量，政策要求 ≤20%</text>
           <text class="p8-preview-desc {{p7Preview.ratio3PassBefore ? '' : 'p8-desc-warn'}}">
-            {{p7Preview.ratio3PassBefore ? '上网比例合规' : '上网比例超标，配储可降低上网量'}}
+            {{p7Preview.ratio3PassBefore ? '上网比例满足要求' : '上网比例超标，配储可降低上网量'}}
           </text>
         </view>
       </view>
@@ -769,11 +772,14 @@
       <view class="p10-title">第十步：测算结果</view>
 
       <view class="p10-banner p10-banner-pass" wx:if="{{finalResults.overallPass}}">
-        <text class="p10-banner-main">✅ 项目初步符合政策合规要求</text>
-        <text class="p10-banner-sub">建议推进可行性研究</text>
+        <text class="p10-banner-main">✅ 三项指标测算结果满足688号文门槛要求</text>
+        <text class="p10-banner-sub">建议推进可行性研究（测算结果仅供参考，以审批为准）</text>
       </view>
       <view class="p10-banner p10-banner-fail" wx:else>
-        <text class="p10-banner-main">❌ 存在不达标指标，需调整后重新测算</text>
+        <text class="p10-banner-main">⚠️ 存在指标未满足688号文门槛，建议调整后重新测算</text>
+      </view>
+      <view class="p10-disclaimer-top">
+        <text>⚠️ 本结果基于用户输入数据测算，仅供参考，不构成行政审批结论或投资建议。最终结果以当地省级能源主管部门正式审批为准。</text>
       </view>
 
       <view class="p10-metrics">
@@ -800,7 +806,7 @@
       </view>
 
       <view class="p10-section" wx:if="{{!finalResults.overallPass && finalResults.suggestions.length}}">
-        <view class="p10-section-title">💡 整改建议</view>
+        <view class="p10-section-title">💡 优化建议</view>
         <text class="p10-suggest-item" wx:for="{{finalResults.suggestions}}" wx:key="index">{{item.index}}. {{item.text}}</text>
       </view>
 
@@ -821,10 +827,10 @@
 
         <view class="p10-report-card">
           <view class="p10-report-head">
-            <text class="p10-report-title">📄 基础合规报告</text>
+            <text class="p10-report-title">📄 基础测算报告</text>
             <text class="p10-tag p10-tag-free">免费</text>
           </view>
-          <text class="p10-report-desc">包含项目信息、指标测算结果、合规结论及整改建议</text>
+          <text class="p10-report-desc">包含项目信息、指标测算结果、风险等级及优化建议</text>
           <view class="p10-btn p10-btn-primary" catchtap="onGenerateReport">生成基础报告</view>
         </view>
 
@@ -893,5 +899,31 @@
 
   <view class="footer-credit {{currentScreen == 0 ? 'footer-credit-p0' : ''}}">
     <text>源流 · 基于发改能源〔2026〕688号</text>
+  </view>
+
+  <!-- 隐私授权弹窗（首次启动阻断） -->
+  <view class="consent-mask" wx:if="{{!userConsent}}">
+    <view class="consent-modal">
+      <view class="consent-title">欢迎使用源流绿电直连</view>
+      <view class="consent-desc">
+        <text>本工具基于发改能源〔2026〕688号，提供绿电直连项目数据测算与AI辅助风险分析服务。</text>
+      </view>
+      <view class="consent-desc">
+        <text>使用前请阅读并同意以下协议：</text>
+      </view>
+      <view class="consent-links">
+        <text class="consent-link" catchtap="onOpenTerms">《用户服务协议》</text>
+        <text class="consent-link" catchtap="onOpenPrivacy">《隐私政策》</text>
+      </view>
+      <view class="consent-info">
+        <text>· 我们收集您填写的项目数据用于AI分析</text>
+        <text>· 不收集通讯录、相册、位置等个人信息</text>
+        <text>· 测算结果仅供参考，不构成审批意见</text>
+      </view>
+      <view class="consent-actions">
+        <view class="consent-btn consent-btn-deny" catchtap="onDenyConsent">不同意</view>
+        <view class="consent-btn consent-btn-agree" catchtap="onAgreeConsent">同意并继续</view>
+      </view>
+    </view>
   </view>
 </view>

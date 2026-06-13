@@ -67,6 +67,22 @@
   width: 100%;
 }
 
+.service-ai-disclaimer-top {
+  background: #FFF8E8;
+  border: 1rpx solid #F0D9A8;
+  border-left: 6rpx solid #D6A84F;
+  border-radius: 8rpx;
+  padding: 20rpx 24rpx;
+  margin-bottom: 24rpx;
+  box-sizing: border-box;
+}
+.service-ai-disclaimer-top-text {
+  font-size: 24rpx;
+  color: #B7791F;
+  line-height: 1.65;
+  display: block;
+}
+
 .service-ai-disclaimer {
   background: #f4f8fb;
   border: 1px solid #e0e0e0;

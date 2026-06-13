@@ -29,6 +29,8 @@ Page({
     currentScreen: 0,
     totalScreens: 11,
 
+    userConsent: false,
+
     progressPercent: 0,
     progressText: '',
 
@@ -348,11 +350,40 @@ Page({
   onLoad: function () {
     this.setData(measureHeader())
     this.setData({ progressText: '' })
+    // 检查隐私授权状态
+    var app = getApp()
+    this.setData({ userConsent: app.hasConsent() })
   },
 
   onShow: function () {
     var t = typeof this.getTabBar === 'function' && this.getTabBar()
     if (t) t.setData({ selected: 0 })
+    // 每次显示时同步授权状态
+    var app = getApp()
+    this.setData({ userConsent: app.hasConsent() })
+  },
+
+  onAgreeConsent: function () {
+    var app = getApp()
+    app.grantConsent()
+    this.setData({ userConsent: true })
+  },
+
+  onDenyConsent: function () {
+    wx.showModal({
+      title: '提示',
+      content: '需同意用户协议和隐私政策后方可使用本工具。',
+      showCancel: false,
+      confirmText: '知道了'
+    })
+  },
+
+  onOpenTerms: function () {
+    wx.navigateTo({ url: '/pages/legal/terms/terms' })
+  },
+
+  onOpenPrivacy: function () {
+    wx.navigateTo({ url: '/pages/legal/privacy/privacy' })
   },
 
   goStart: function () {
@@ -1055,19 +1086,19 @@ Page({
 
     if (!ratio3Pass) {
       if (gapKind === 'surplus') {
-        return '上网电量占比已超20%红线，必须配置储能或增加用电负荷以降低上网量，否则项目不合规'
+        return '上网电量占比已超20%上限，必须配置储能或增加用电负荷以降低上网量，否则项目存在较大风险'
       }
       return '上网电量占比超标，建议配置储能以提升自发自用比例，确保上网占比降至20%以内'
     }
     if (gapKind === 'surplus') {
       if (ratio1Pass) {
-        return '当前指标一已达标，发电略有盈余，配储可进一步提升消纳比例和项目经济性，可根据投资意愿决定'
+        return '当前指标一已满足门槛，发电略有盈余，配储可进一步提升消纳比例和项目经济性，可根据投资意愿决定'
       }
       return '当前发电过剩，自发自用比例（指标一）可能低于60%门槛，建议配置储能以提升就近消纳能力'
     }
     if (gapKind === 'short') {
       if (ratio1Pass) {
-        return '当前指标一已达标，可根据负荷增长预期和投资意愿决定是否扩大电源规模'
+        return '当前指标一已满足门槛，可根据负荷增长预期和投资意愿决定是否扩大电源规模'
       }
       return '当前自发自用比例不足60%，建议增加新能源装机规模或配置储能以提升消纳比例'
     }
@@ -1372,7 +1403,7 @@ Page({
       }
       suggestions.push({
         index: sugIdx++,
-        text: '指标一不达标（差' + diff1 + '个百分点）：建议减少新能源装机约' + reduceMW +
+        text: '指标一未满足门槛（差' + diff1 + '个百分点）：建议减少新能源装机约' + reduceMW +
           ' MW，或增加用电负荷约' + shortfall1 + '万kWh，或增加储能容量'
       })
     }
@@ -1386,7 +1417,7 @@ Page({
         var maxConsumption2 = this._round1(selfUseWithStorage / thresholdRatio2)
         suggestions.push({
           index: sugIdx++,
-          text: '指标二不达标（差' + diff2 + '个百分点）：建议增加新能源装机，使年发电量提升约' + shortfall2 +
+          text: '指标二未满足门槛（差' + diff2 + '个百分点）：建议增加新能源装机，使年发电量提升约' + shortfall2 +
             '万kWh，或减少内部用电负荷，使总用电量降低至' + maxConsumption2 + '万kWh以下'
         })
       }
@@ -1398,7 +1429,7 @@ Page({
       var excessFeed = this._round1(Math.max(0, gridFeedInWithStorage - maxFeed))
       suggestions.push({
         index: sugIdx++,
-        text: '指标三不达标（超出' + diff3 + '个百分点）：建议减少新能源装机规模，或增加内部用电负荷约' +
+        text: '指标三未满足门槛（超出' + diff3 + '个百分点）：建议减少新能源装机规模，或增加内部用电负荷约' +
           excessFeed + '万kWh'
       })
     }

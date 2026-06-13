@@ -14,7 +14,6 @@ page{background:#F4F8FB;}
 .header-title{display:inline-block;vertical-align:middle;font-size:44rpx;font-weight:700;line-height:1.32;letter-spacing:2rpx;color:transparent;background:linear-gradient(135deg,#E8C060,#003060);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
 
 .header-sub{display:block;margin-top:10rpx;font-size:28rpx;line-height:1.4;color:#607086;}
-.header-sub-demo{color:#88A3BD;}
 .header-sub-wrap{display:flex;flex-direction:column;margin-top:10rpx;}
 .header-sub-wrap .header-sub{margin-top:0;}
 .header-sub-wrap .header-sub+.header-sub{margin-top:4rpx;font-size:24rpx;}

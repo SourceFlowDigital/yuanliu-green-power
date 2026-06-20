@@ -37,7 +37,8 @@ function postAnalyze(payload) {
       url: AI_API_BASE + '/api/analyze',
       method: 'POST',
       header: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'X-Api-Token': 'ylGreen-8fX2mK9p-2026'
       },
       data: payload,
       timeout: 65000,

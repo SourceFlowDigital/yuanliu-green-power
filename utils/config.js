@@ -27,9 +27,11 @@ function getApiOrigin() {
   return fallback
 }
 
-/** 请求头透传（绿电直连后端无需额外鉴权头） */
+/** 请求头注入 Token（Nginx 鉴权） */
 function withPolicyApiKeyHeader(header) {
-  return header || {}
+  var base = header || {}
+  base['X-Api-Token'] = 'ylGreen-8fX2mK9p-2026'
+  return base
 }
 
 module.exports = {

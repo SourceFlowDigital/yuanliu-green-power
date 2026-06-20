@@ -581,6 +581,7 @@
   padding: 0 24rpx;
   font-size: 28rpx;
   color: #1F2933;
+  text-align: center;
   box-sizing: border-box;
 }
 .p4-picker {

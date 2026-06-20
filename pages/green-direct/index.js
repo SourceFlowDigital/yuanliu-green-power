@@ -1555,20 +1555,22 @@ Page({
   },
 
   onRequestAIReport: function () {
+    var self = this
     wx.showModal({
-      title: '获取AI深度分析报告',
-      content: '请添加源流顾问微信，获取服务后即可使用AI深度分析功能。顾问将在工作时间内为您提供专业服务。',
-      confirmText: '联系顾问',
-      cancelText: '稍后再说',
-      confirmColor: '#D6A84F',
+      title: 'AI深度分析报告',
+      content: '购买后将基于您的项目数据，生成688号文合规预审专业报告。\n\n价格：¥1.99 / 次',
+      confirmText: '立即支付',
+      cancelText: '暂不购买',
       success: function (res) {
-        if (!res.confirm) return
-        wx.setClipboardData({
-          data: '源流绿电顾问微信号：[预留占位WEIXIN_ID]',
-          success: function () {
-            wx.showToast({ title: '微信号已复制，请添加顾问', icon: 'none' })
-          }
-        })
+        if (res.confirm) {
+          // mock支付成功，待接入 wx.requestVirtualPayment
+          wx.showLoading({ title: '支付处理中...' })
+          setTimeout(function () {
+            wx.hideLoading()
+            wx.showToast({ title: '支付成功', icon: 'success' })
+            // TODO: 支付成功后跳转报告页并触发AI分析
+          }, 1500)
+        }
       }
     })
   },

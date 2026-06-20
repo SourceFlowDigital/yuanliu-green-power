@@ -419,3 +419,22 @@ page {
   color: #999;
   line-height: 1.6;
 }
+.report-ai-pay-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16rpx;
+}
+.report-ai-price {
+  font-size: 32rpx;
+  color: #D6A84F;
+  font-weight: bold;
+}
+.report-ai-btn-pay {
+  background: #D6A84F;
+  color: #003060;
+  font-weight: 500;
+  padding: 16rpx 32rpx;
+  border-radius: 8rpx;
+}

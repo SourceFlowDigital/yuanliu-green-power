@@ -1942,3 +1942,33 @@
   background: #003060;
   color: #fff;
 }
+.p10-ai-pay-card {
+  background: #1a2a3a;
+  border: 1rpx solid #D6A84F;
+  border-radius: 12rpx;
+  padding: 24rpx;
+  margin-top: 16rpx;
+}
+.p10-ai-pay-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+.p10-ai-pay-label {
+  font-size: 28rpx;
+  color: #D6A84F;
+  font-weight: 500;
+}
+.p10-ai-pay-price {
+  font-size: 32rpx;
+  color: #D6A84F;
+  font-weight: bold;
+}
+.p10-ai-pay-desc {
+  font-size: 24rpx;
+  color: #8899aa;
+  margin-bottom: 20rpx;
+  line-height: 1.5;
+}

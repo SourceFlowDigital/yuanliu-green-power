@@ -322,17 +322,23 @@ Page({
   },
 
   onContactAI: function () {
-    if (!this.data.report) {
-      wx.showToast({ title: '暂无报告', icon: 'none' })
-      return
-    }
-    var text = this._buildReportText()
-    try {
-      wx.setStorageSync('yuanliu_report_text', text)
-    } catch (e) {
-      wx.showToast({ title: '保存失败', icon: 'none' })
-      return
-    }
-    wx.switchTab({ url: '/pages/service/index' })
+    var self = this
+    wx.showModal({
+      title: 'AI深度分析报告',
+      content: '购买后将基于您的项目数据，生成688号文合规预审专业报告。\n\n价格：¥1.99 / 次',
+      confirmText: '立即支付',
+      cancelText: '暂不购买',
+      success: function (res) {
+        if (res.confirm) {
+          // mock支付成功，待接入 wx.requestVirtualPayment
+          wx.showLoading({ title: '支付处理中...' })
+          setTimeout(function () {
+            wx.hideLoading()
+            wx.showToast({ title: '支付成功', icon: 'success' })
+            // TODO: 支付成功后触发AI分析
+          }, 1500)
+        }
+      }
+    })
   }
 })

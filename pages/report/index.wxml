@@ -276,7 +276,10 @@
       <view class="report-ai-card">
         <text class="report-ai-title">🤖 AI深度分析报告</text>
         <text class="report-ai-desc">在基础报告基础上，增加基于688号文的专业政策解读和项目优化建议</text>
-        <view class="report-ai-btn" catchtap="onContactAI">了解AI报告服务</view>
+        <view class="report-ai-pay-row">
+          <text class="report-ai-price">¥1.99 / 次</text>
+          <view class="report-ai-btn report-ai-btn-pay" catchtap="onContactAI">立即购买 AI 分析</view>
+        </view>
       </view>
 
       <view class="report-footer">

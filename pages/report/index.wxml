@@ -276,9 +276,19 @@
       <view class="report-ai-card">
         <text class="report-ai-title">🤖 AI深度分析报告</text>
         <text class="report-ai-desc">在基础报告基础上，增加基于688号文的专业政策解读和项目优化建议</text>
-        <view class="report-ai-pay-row">
+        <view class="report-ai-pay-row" wx:if="{{!aiPaid}}">
           <text class="report-ai-price">¥1.99 / 次</text>
           <view class="report-ai-btn report-ai-btn-pay" catchtap="onContactAI">立即购买 AI 分析</view>
+        </view>
+        <view class="report-ai-pay-row" wx:else>
+          <view class="report-ai-btn report-ai-btn-active" catchtap="onDoAIAnalyze">生成 AI 分析报告</view>
+        </view>
+        <view class="report-ai-result" wx:if="{{aiLoading}}">
+          <text class="report-ai-loading">AI 分析中，请稍候...</text>
+        </view>
+        <view class="report-ai-result" wx:elif="{{aiResult}}">
+          <text class="report-ai-content">{{aiResult}}</text>
+          <view class="report-ai-btn report-ai-btn-pdf" catchtap="onDownloadPDF">下载 PDF 分析报告</view>
         </view>
       </view>
 

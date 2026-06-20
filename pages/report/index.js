@@ -1,4 +1,5 @@
 var measureHeader = require('../../utils/headerLayout.js').measureHeader
+var payment = require('../../utils/payment.js')
 
 var INDUSTRY_LABELS = {  computing: '⭐ 算力设施',
   hydrogen: '⭐ 绿色氢氨醇',
@@ -112,7 +113,10 @@ Page({
     gap: 0,
     gapType: '',
     preCheck: {},
-    suspectCheck: {}
+    suspectCheck: {},
+    aiPaid: false,
+    aiResult: null,
+    aiLoading: false
   },
 
   _loadReport: function () {
@@ -170,6 +174,12 @@ Page({
       preCheck: report.preCheck || {},
       suspectCheck: report.suspectCheck || {}
     })
+    var paidKey = 'yuanliu_ai_paid_' + (report.generateTime || '')
+    var alreadyPaid = false
+    try {
+      alreadyPaid = wx.getStorageSync(paidKey) === true
+    } catch (e) {}
+    this.setData({ aiPaid: alreadyPaid })
   },
 
   onLoad: function () {
@@ -321,6 +331,87 @@ Page({
     wx.switchTab({ url: '/pages/green-direct/index' })
   },
 
+  onDoAIAnalyze: function () {
+    var self = this
+    var report = this.data.report || {}
+    if (!report.generateTime) {
+      wx.showToast({ title: '报告数据异常，请重新生成', icon: 'none' })
+      return
+    }
+    self.setData({ aiLoading: true, aiResult: null })
+    wx.showLoading({ title: 'AI分析中...' })
+    var request = require('../../utils/request.js')
+    request.postAnalyze({ report: report })
+      .then(function (res) {
+        wx.hideLoading()
+        var aiContent = (res && res.result) ? res.result : '分析完成，请查看结果'
+        self.setData({ aiLoading: false, aiResult: aiContent })
+      })
+      .catch(function (err) {
+        wx.hideLoading()
+        self.setData({ aiLoading: false })
+        wx.showToast({ title: 'AI分析失败，请重试', icon: 'none' })
+      })
+  },
+
+  onDownloadPDF: function () {
+    var self = this
+    var report = this.data.report || {}
+    var aiResult = this.data.aiResult || ''
+    if (!aiResult) {
+      wx.showToast({ title: '请先生成AI分析报告', icon: 'none' })
+      return
+    }
+    wx.showLoading({ title: 'PDF生成中...' })
+    wx.request({
+      url: 'https://green.sourceflower.com/api/generate-pdf',
+      method: 'POST',
+      header: {
+        'Content-Type': 'application/json',
+        'X-Api-Token': 'ylGreen-8fX2mK9p-2026'
+      },
+      data: {
+        projectName: report.projectName || '未命名项目',
+        aiContent: aiResult
+      },
+      timeout: 30000,
+      success: function (res) {
+        if (res.statusCode === 200 && res.data && res.data.success) {
+          var fileUrl = 'https://green.sourceflower.com' + res.data.downloadUrl
+          wx.downloadFile({
+            url: fileUrl,
+            header: { 'X-Api-Token': 'ylGreen-8fX2mK9p-2026' },
+            success: function (dlRes) {
+              wx.hideLoading()
+              if (dlRes.statusCode === 200) {
+                wx.openDocument({
+                  filePath: dlRes.tempFilePath,
+                  fileType: 'pdf',
+                  fail: function () {
+                    wx.showToast({ title: '无法打开PDF，请稍后重试', icon: 'none' })
+                  }
+                })
+              } else {
+                wx.showToast({ title: 'PDF下载失败', icon: 'none' })
+              }
+            },
+            fail: function () {
+              wx.hideLoading()
+              wx.showToast({ title: 'PDF下载失败，请重试', icon: 'none' })
+            }
+          })
+        } else {
+          wx.hideLoading()
+          wx.showToast({ title: 'PDF生成失败，请重试', icon: 'none' })
+        }
+      },
+      fail: function () {
+        wx.hideLoading()
+        wx.showToast({ title: '网络异常，请重试', icon: 'none' })
+      }
+    })
+  },
+
   onContactAI: function () {
     var self = this
     wx.showModal({
@@ -330,13 +421,25 @@ Page({
       cancelText: '暂不购买',
       success: function (res) {
         if (res.confirm) {
-          // mock支付成功，待接入 wx.requestVirtualPayment
           wx.showLoading({ title: '支付处理中...' })
-          setTimeout(function () {
-            wx.hideLoading()
-            wx.showToast({ title: '支付成功', icon: 'success' })
-            // TODO: 支付成功后触发AI分析
-          }, 1500)
+          payment.requestPayment({
+            productDesc: 'AI深度分析报告',
+            onSuccess: function () {
+              wx.hideLoading()
+              var report = self.data.report || {}
+              var paidKey = 'yuanliu_ai_paid_' + (report.generateTime || '')
+              try {
+                wx.setStorageSync(paidKey, true)
+              } catch (e) {}
+              self.setData({ aiPaid: true })
+              wx.showToast({ title: '支付成功', icon: 'success' })
+            },
+            onFail: function (err) {
+              wx.hideLoading()
+              if (err && err.message === 'USER_CANCEL') return
+              wx.showToast({ title: '支付失败，请重试', icon: 'none' })
+            }
+          })
         }
       }
     })

@@ -1,4 +1,5 @@
 var measureHeader = require('../../utils/headerLayout.js').measureHeader
+var payment = require('../../utils/payment.js')
 
 var PRE_CHECK_REJECT = {
   q1: '政策明确规定多用户不包括居民和农业用户，您的项目暂不适用本政策。',
@@ -1563,13 +1564,19 @@ Page({
       cancelText: '暂不购买',
       success: function (res) {
         if (res.confirm) {
-          // mock支付成功，待接入 wx.requestVirtualPayment
           wx.showLoading({ title: '支付处理中...' })
-          setTimeout(function () {
-            wx.hideLoading()
-            wx.showToast({ title: '支付成功', icon: 'success' })
-            // TODO: 支付成功后跳转报告页并触发AI分析
-          }, 1500)
+          payment.requestPayment({
+            productDesc: 'AI深度分析报告',
+            onSuccess: function () {
+              wx.hideLoading()
+              self.onGenerateReport()
+            },
+            onFail: function (err) {
+              wx.hideLoading()
+              if (err && err.message === 'USER_CANCEL') return
+              wx.showToast({ title: '支付失败，请重试', icon: 'none' })
+            }
+          })
         }
       }
     })

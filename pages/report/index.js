@@ -344,7 +344,8 @@ Page({
     request.postAnalyze({ report: report })
       .then(function (res) {
         wx.hideLoading()
-        var aiContent = (res && res.result) ? res.result : '分析完成，请查看结果'
+        var resultText = (res && res.result) ? String(res.result).replace(/\r\n/g, '\n').replace(/\r/g, '\n') : ''
+        var aiContent = resultText || '分析完成，请查看结果'
         self.setData({ aiLoading: false, aiResult: aiContent })
       })
       .catch(function (err) {

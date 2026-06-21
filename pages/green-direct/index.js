@@ -362,6 +362,32 @@ Page({
     // 每次显示时同步授权状态
     var app = getApp()
     this.setData({ userConsent: app.hasConsent() })
+
+    // 检查是否有待确认的支付订单（用户从微信支付页返回）
+    var pendingOrder = ''
+    try {
+      pendingOrder = wx.getStorageSync('yuanliu_pending_order')
+    } catch (e) { }
+
+    if (pendingOrder) {
+      var self = this
+      wx.showLoading({ title: '确认支付中...' })
+      payment.confirmOrder(pendingOrder, {
+        onSuccess: function (result) {
+          wx.hideLoading()
+          wx.removeStorageSync('yuanliu_pending_order')
+          // 触发原有支付成功后的逻辑
+          self.onGenerateReport({ aiPaid: true, autoAnalyze: true })
+        },
+        onFail: function (err) {
+          wx.hideLoading()
+          wx.removeStorageSync('yuanliu_pending_order')
+          if (err && err.message !== 'USER_CANCEL') {
+            wx.showToast({ title: '支付确认失败，请联系客服', icon: 'none' })
+          }
+        }
+      })
+    }
   },
 
   onAgreeConsent: function () {

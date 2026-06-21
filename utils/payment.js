@@ -73,7 +73,7 @@ function doVirtualPayment(orderData, params) {
     paySig: orderData.pay_sig,
     signature: orderData.signature,
     success: function () {
-      confirmOrder(orderData.out_trade_no, params)
+      wx.setStorageSync('yuanliu_pending_order', orderData.out_trade_no)
     },
     fail: function (err) {
       // 用户取消支付 errCode=1001，不算错误
@@ -110,4 +110,4 @@ function confirmOrder(outTradeNo, params) {
   })
 }
 
-module.exports = { requestPayment }
+module.exports = { requestPayment, confirmOrder }

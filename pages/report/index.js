@@ -1,4 +1,4 @@
-﻿var measureHeader = require('../../utils/headerLayout.js').measureHeader
+var measureHeader = require('../../utils/headerLayout.js').measureHeader
 var payment = require('../../utils/payment.js')
 
 var INDUSTRY_LABELS = {  computing: '⭐ 算力设施',
@@ -388,15 +388,20 @@ Page({
       method: 'POST',
       header: {
         'Content-Type': 'application/json',
-        'X-Api-Token': 'ylGreen-8Xf2mK9p-2026'
+        'X-Api-Token': 'ylGreen-8fX2mK9p-2026'
       },
       data: {
         projectName: report.projectName || '未命名项目',
         aiContent: aiResult
       },
-      timeout: 30000,
       success: function (res) {
         wx.hideLoading()
+        // 临时调试弹窗，调试完成后删除
+        wx.showModal({
+          title: '调试:PDF请求返回',
+          content: 'status:' + res.statusCode + ' data:' + JSON.stringify(res.data).substring(0, 100),
+          showCancel: false
+        })
         if (res.statusCode === 200 && res.data && res.data.success) {
           var fileUrl = 'https://green.sourceflower.com' + res.data.downloadUrl
           var projectName = report.projectName || '绿电直连合规报告'
@@ -421,8 +426,14 @@ Page({
           wx.showToast({ title: 'PDF生成失败，请重试', icon: 'none' })
         }
       },
-      fail: function () {
+      fail: function (err) {
         wx.hideLoading()
+        // 临时调试弹窗，调试完成后删除
+        wx.showModal({
+          title: '调试:PDF请求失败',
+          content: JSON.stringify(err).substring(0, 150),
+          showCancel: false
+        })
         wx.showToast({ title: '网络异常，请重试', icon: 'none' })
       }
     })
@@ -435,7 +446,7 @@ Page({
       wx.downloadFile({
         url: fileUrl,
         filePath: filePath,
-        header: { 'X-Api-Token': 'ylGreen-8Xf2mK9p-2026' },
+        header: { 'X-Api-Token': 'ylGreen-8fX2mK9p-2026' },
         success: function (dlRes) {
           wx.hideLoading()
           if (dlRes.statusCode === 200) {

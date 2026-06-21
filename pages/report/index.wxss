@@ -285,7 +285,11 @@ page {
 }
 
 .report-ai-content {
-  white-space: pre-wrap;
+  padding: 12px;
+  background: #FFFDF5;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.6;
 }
 
 .report-ai-btn {

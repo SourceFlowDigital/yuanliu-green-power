@@ -287,7 +287,7 @@
           <text class="report-ai-loading">AI 分析中，请稍候...</text>
         </view>
         <view class="report-ai-result" wx:elif="{{aiResult}}">
-          <text class="report-ai-content">{{aiResult}}</text>
+          <rich-text class="report-ai-content" nodes="{{aiResultHtml}}"></rich-text>
           <view class="report-ai-btn report-ai-btn-pdf" catchtap="onDownloadPDF">下载 PDF 分析报告</view>
         </view>
       </view>

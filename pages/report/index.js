@@ -94,6 +94,84 @@ function enrichReport(raw) {
   return r
 }
 
+function markdownToHtml(md) {
+  if (!md) return ''
+  var html = md
+  html = html.replace(/&/g, '&amp;')
+  html = html.replace(/</g, '&lt;')
+  html = html.replace(/>/g, '&gt;')
+
+  var lines = html.split('\n')
+  var result = []
+  for (var i = 0; i < lines.length; i++) {
+    var line = lines[i].trim()
+
+    if (!line) {
+      result.push('<view style="height:8px"></view>')
+      continue
+    }
+
+    if (line === '---' || line === '***') {
+      result.push('<view style="border-top:1px solid #e0e0e0;margin:8px 0"></view>')
+      continue
+    }
+
+    if (line === '===') {
+      result.push('<view style="border-top:2px solid #003060;margin:12px 0"></view>')
+      continue
+    }
+
+    if (line.startsWith('### ')) {
+      var text = line.substring(4)
+      text = inlineFormat(text)
+      result.push('<view style="font-size:15px;font-weight:bold;color:#003060;margin:12px 0 6px 0">' + text + '</view>')
+      continue
+    }
+
+    if (line.startsWith('## ')) {
+      var text = line.substring(3)
+      text = inlineFormat(text)
+      result.push('<view style="font-size:16px;font-weight:bold;color:#003060;margin:14px 0 6px 0">' + text + '</view>')
+      continue
+    }
+
+    if (line.startsWith('# ')) {
+      var text = line.substring(2)
+      text = inlineFormat(text)
+      result.push('<view style="font-size:17px;font-weight:bold;color:#003060;margin:16px 0 8px 0">' + text + '</view>')
+      continue
+    }
+
+    if (line.startsWith('- ') || line.startsWith('* ')) {
+      var text = line.substring(2)
+      text = inlineFormat(text)
+      result.push('<view style="display:flex;flex-direction:row;margin:3px 0"><text style="color:#D6A84F;margin-right:6px">•</text><text style="flex:1;color:#333;font-size:14px;line-height:1.6">' + text + '</text></view>')
+      continue
+    }
+
+    var numMatch = line.match(/^(\d+)\.\s+(.+)/)
+    if (numMatch) {
+      var num = numMatch[1]
+      var text = inlineFormat(numMatch[2])
+      result.push('<view style="display:flex;flex-direction:row;margin:3px 0"><text style="color:#D6A84F;margin-right:6px;min-width:16px">' + num + '.</text><text style="flex:1;color:#333;font-size:14px;line-height:1.6">' + text + '</text></view>')
+      continue
+    }
+
+    var text = inlineFormat(line)
+    result.push('<view style="color:#333;font-size:14px;line-height:1.6;margin:3px 0">' + text + '</view>')
+  }
+  return result.join('')
+}
+
+function inlineFormat(text) {
+  if (!text) return ''
+  text = text.replace(/\*\*(.+?)\*\*/g, '<text style="font-weight:bold;color:#003060">$1</text>')
+  text = text.replace(/✅\s*/g, '<text style="color:#1a7c6e;font-weight:bold">[达标] </text>')
+  text = text.replace(/❌\s*/g, '<text style="color:#CC0000;font-weight:bold">[不达标] </text>')
+  text = text.replace(/⚠️\s*/g, '<text style="color:#E67E00;font-weight:bold">[注意] </text>')
+  return text
+}
+
 Page({
   data: {
     statusBarHeight: 0,
@@ -116,6 +194,7 @@ Page({
     suspectCheck: {},
     aiPaid: false,
     aiResult: null,
+    aiResultHtml: '',
     aiLoading: false
   },
 
@@ -178,6 +257,7 @@ Page({
     }
     if (isNewReport) {
       nextState.aiResult = null
+      nextState.aiResultHtml = ''
       nextState.aiLoading = false
     }
     this.setData(nextState)
@@ -356,7 +436,7 @@ Page({
       wx.showToast({ title: '报告数据异常，请重新生成', icon: 'none' })
       return
     }
-    self.setData({ aiLoading: true, aiResult: null })
+    self.setData({ aiLoading: true, aiResult: null, aiResultHtml: '' })
     wx.showLoading({ title: 'AI分析中...' })
     var request = require('../../utils/request.js')
     request.postAnalyze({ report: report })
@@ -364,7 +444,11 @@ Page({
         wx.hideLoading()
         var resultText = (res && res.result) ? String(res.result).replace(/\r\n/g, '\n').replace(/\r/g, '\n') : ''
         var aiContent = resultText || '分析完成，请查看结果'
-        self.setData({ aiLoading: false, aiResult: aiContent })
+        self.setData({
+          aiLoading: false,
+          aiResult: aiContent,
+          aiResultHtml: markdownToHtml(aiContent)
+        })
       })
       .catch(function (err) {
         wx.hideLoading()

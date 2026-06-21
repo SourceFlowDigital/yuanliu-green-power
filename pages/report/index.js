@@ -392,9 +392,7 @@ Page({
       },
       data: {
         projectName: report.projectName || '未命名项目',
-        aiContent: aiResult,
-        baseReportText: self._buildReportText(),
-        report: report
+        aiContent: aiResult
       },
       timeout: 30000,
       success: function (res) {

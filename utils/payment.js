@@ -64,13 +64,13 @@ function createOrder(code, params) {
 
 function doVirtualPayment(orderData, params) {
   wx.requestVirtualPayment({
-    offerId: orderData.offerId,
+    offerId: orderData.offer_id,
     currencyType: 'CNY',
     buyQuantity: 1,
     env: orderData.env || 0,
     mode: 'short_series_goods',
-    signData: orderData.signData,
-    paySig: orderData.paySig,
+    signData: orderData.sign_data,
+    paySig: orderData.pay_sig,
     signature: orderData.signature,
     success: function () {
       confirmOrder(orderData.out_trade_no, params)
@@ -95,7 +95,7 @@ function confirmOrder(outTradeNo, params) {
     },
     timeout: 10000,
     success: function (res) {
-      if (res.statusCode === 200 && res.data && res.data.paid) {
+      if (res.statusCode === 200 && res.data && res.data.status === 'paid') {
         params.onSuccess({
           out_trade_no: outTradeNo,
           order: res.data

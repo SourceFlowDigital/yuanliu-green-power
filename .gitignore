@@ -3,3 +3,5 @@
 *.log
 project.private.config.json
 node_modules/
+WORK_LOG.md
+assets/AI图标.zip

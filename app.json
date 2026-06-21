@@ -1,8 +1,10 @@
 {
   "pages": [
+    "pages/news/index",
+    "pages/news/detail",
+    "pages/webview/index",
     "pages/green-direct/index",
     "pages/report/index",
-    "pages/service/index",
     "pages/about/index",
     "pages/legal/terms/terms",
     "pages/legal/privacy/privacy",
@@ -21,16 +23,16 @@
     "backgroundColor": "#FFFFFF",
     "list": [
       {
+        "pagePath": "pages/news/index",
+        "text": "资讯"
+      },
+      {
         "pagePath": "pages/green-direct/index",
         "text": "自测"
       },
       {
         "pagePath": "pages/report/index",
         "text": "报告"
-      },
-      {
-        "pagePath": "pages/service/index",
-        "text": "服务"
       },
       {
         "pagePath": "pages/about/index",

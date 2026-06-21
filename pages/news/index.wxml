@@ -1,0 +1,56 @@
+<view class="header">
+  <view class="status-bar" style="height: {{statusBarHeight}}px;"></view>
+  <view class="header-main" style="height: {{navBarHeight}}px;">
+    <image class="header-logo" src="/assets/logo.png" mode="aspectFit"></image>
+    <view class="header-title-group">
+      <view class="header-title">源流绿电直连</view>
+      <view class="header-sub-wrap">
+        <text class="header-sub">绿电直连政策与行业动态</text>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="news-page" style="margin-top: {{headerHeight}}px;">
+  <view class="category-tabs">
+    <view
+      wx:for="{{tabs}}"
+      wx:key="value"
+      class="category-tab {{activeCategory === item.value ? 'category-tab-active' : ''}}"
+      data-value="{{item.value}}"
+      bindtap="onTabTap"
+    >
+      <text>{{item.label}}</text>
+    </view>
+  </view>
+
+  <view class="news-list" wx:if="{{list.length}}">
+    <view
+      wx:for="{{list}}"
+      wx:key="id"
+      class="news-card"
+      data-id="{{item.id}}"
+      bindtap="onCardTap"
+    >
+      <view class="news-card-top">
+        <text class="news-tag">{{item.category}}</text>
+        <text class="news-date">{{item.pub_date}}</text>
+      </view>
+      <view class="news-title">{{item.title}}</view>
+      <view class="news-meta">{{item.source}}</view>
+      <view class="news-summary">{{item.summary}}</view>
+    </view>
+  </view>
+
+  <view class="state-box" wx:if="{{!loading && !list.length}}">
+    <text>{{errorText || '暂无资讯，请稍后再试'}}</text>
+  </view>
+
+  <view class="loading-text" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <view class="loading-text" wx:if="{{!loading && list.length && finished}}">
+    <text>已加载全部资讯</text>
+  </view>
+</view>

@@ -1,0 +1,29 @@
+<view class="header">
+  <view class="status-bar" style="height: {{statusBarHeight}}px;"></view>
+  <view class="header-main" style="height: {{navBarHeight}}px;">
+    <view class="back-btn" bindtap="onBack">‹</view>
+    <view class="header-title-group detail-header-title">
+      <view class="header-title">资讯详情</view>
+      <view class="header-sub-wrap">
+        <text class="header-sub">公开信息索引</text>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="detail-page" style="margin-top: {{headerHeight}}px;">
+  <view wx:if="{{article}}" class="detail-card">
+    <view class="detail-meta-row">
+      <text class="detail-tag">{{article.category || '新闻'}}</text>
+      <text class="detail-date">{{article.pub_date}}</text>
+    </view>
+    <view class="detail-title">{{article.title}}</view>
+    <view class="detail-source">{{article.source}}</view>
+    <view class="detail-summary">{{article.summary}}</view>
+    <view class="open-btn" bindtap="onOpenOriginal">查看原文</view>
+  </view>
+
+  <view class="state-box" wx:if="{{!loading && !article}}">
+    <text>{{errorText || '资讯不存在'}}</text>
+  </view>
+</view>

@@ -157,7 +157,9 @@ Page({
     for (var j = 0; j < sourcesRaw.length; j++) {
       energySources.push(enrichEnergySource(sourcesRaw[j]))
     }
-    this.setData({
+    var currentReport = this.data.report || {}
+    var isNewReport = currentReport.generateTime !== report.generateTime
+    var nextState = {
       report: report,
       hasReport: true,
       generateTimeStr: formatReportTime(report.generateTime),
@@ -173,7 +175,12 @@ Page({
       gapType: report.gapType || '',
       preCheck: report.preCheck || {},
       suspectCheck: report.suspectCheck || {}
-    })
+    }
+    if (isNewReport) {
+      nextState.aiResult = null
+      nextState.aiLoading = false
+    }
+    this.setData(nextState)
     var paidKey = 'yuanliu_ai_paid_' + (report.generateTime || '')
     var autoKey = 'yuanliu_ai_auto_analyze_' + (report.generateTime || '')
     var alreadyPaid = false
@@ -184,7 +191,7 @@ Page({
     } catch (e) {}
     var self = this
     this.setData({ aiPaid: alreadyPaid }, function () {
-      if (alreadyPaid && autoAnalyze && !self.data.aiLoading && !self.data.aiResult) {
+      if (alreadyPaid && autoAnalyze && !self.data.aiLoading) {
         try {
           wx.removeStorageSync(autoKey)
         } catch (e) {}

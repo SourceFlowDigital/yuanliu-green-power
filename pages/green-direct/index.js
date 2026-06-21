@@ -1558,7 +1558,12 @@ Page({
       wx.showToast({ title: '保存失败', icon: 'none' })
       return
     }
-    wx.switchTab({ url: '/pages/report/index' })
+    wx.navigateTo({
+      url: '/pages/report/index',
+      fail: function () {
+        wx.switchTab({ url: '/pages/report/index' })
+      }
+    })
   },
 
   onRequestAIReport: function () {

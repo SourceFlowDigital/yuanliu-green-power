@@ -1466,7 +1466,7 @@ Page({
     })
   },
 
-  onGenerateReport: function () {
+  onGenerateReport: function (options) {
     var appState = this.data.appState || {}
     var projectInfo = appState.projectInfo || {}
     var projectType = appState.projectType || {}
@@ -1548,6 +1548,12 @@ Page({
     }
     try {
       wx.setStorageSync('yuanliu_report_latest', data)
+      if (options && options.aiPaid) {
+        wx.setStorageSync('yuanliu_ai_paid_' + data.generateTime, true)
+      }
+      if (options && options.autoAnalyze) {
+        wx.setStorageSync('yuanliu_ai_auto_analyze_' + data.generateTime, true)
+      }
     } catch (e) {
       wx.showToast({ title: '保存失败', icon: 'none' })
       return
@@ -1569,7 +1575,7 @@ Page({
             productDesc: 'AI深度分析报告',
             onSuccess: function () {
               wx.hideLoading()
-              self.onGenerateReport()
+              self.onGenerateReport({ aiPaid: true, autoAnalyze: true })
             },
             onFail: function (err) {
               wx.hideLoading()

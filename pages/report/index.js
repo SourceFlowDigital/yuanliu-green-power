@@ -175,11 +175,22 @@ Page({
       suspectCheck: report.suspectCheck || {}
     })
     var paidKey = 'yuanliu_ai_paid_' + (report.generateTime || '')
+    var autoKey = 'yuanliu_ai_auto_analyze_' + (report.generateTime || '')
     var alreadyPaid = false
+    var autoAnalyze = false
     try {
       alreadyPaid = wx.getStorageSync(paidKey) === true
+      autoAnalyze = wx.getStorageSync(autoKey) === true
     } catch (e) {}
-    this.setData({ aiPaid: alreadyPaid })
+    var self = this
+    this.setData({ aiPaid: alreadyPaid }, function () {
+      if (alreadyPaid && autoAnalyze && !self.data.aiLoading && !self.data.aiResult) {
+        try {
+          wx.removeStorageSync(autoKey)
+        } catch (e) {}
+        self.onDoAIAnalyze()
+      }
+    })
   },
 
   onLoad: function () {
@@ -432,8 +443,9 @@ Page({
               try {
                 wx.setStorageSync(paidKey, true)
               } catch (e) {}
-              self.setData({ aiPaid: true })
-              wx.showToast({ title: '支付成功', icon: 'success' })
+              self.setData({ aiPaid: true }, function () {
+                self.onDoAIAnalyze()
+              })
             },
             onFail: function (err) {
               wx.hideLoading()

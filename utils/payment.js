@@ -68,6 +68,7 @@ function doVirtualPayment(orderData, params) {
     currencyType: 'CNY',
     buyQuantity: 1,
     env: orderData.env || 0,
+    mode: 'short_series_goods',
     signData: orderData.signData,
     paySig: orderData.paySig,
     signature: orderData.signature,

@@ -396,12 +396,6 @@ Page({
       },
       success: function (res) {
         wx.hideLoading()
-        // 临时调试弹窗，调试完成后删除
-        wx.showModal({
-          title: '调试:PDF请求返回',
-          content: 'status:' + res.statusCode + ' data:' + JSON.stringify(res.data).substring(0, 100),
-          showCancel: false
-        })
         if (res.statusCode === 200 && res.data && res.data.success) {
           var fileUrl = 'https://green.sourceflower.com' + res.data.downloadUrl
           var projectName = report.projectName || '绿电直连合规报告'
@@ -428,12 +422,6 @@ Page({
       },
       fail: function (err) {
         wx.hideLoading()
-        // 临时调试弹窗，调试完成后删除
-        wx.showModal({
-          title: '调试:PDF请求失败',
-          content: JSON.stringify(err).substring(0, 150),
-          showCancel: false
-        })
         wx.showToast({ title: '网络异常，请重试', icon: 'none' })
       }
     })

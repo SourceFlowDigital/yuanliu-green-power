@@ -1,3 +1,5 @@
+﻿// ⚠️ SANDBOX_ONLY: doVirtualPayment success回调已跳过查单
+// 上线前必须恢复查单逻辑，参考 confirmOrder 函数
 var API_BASE = 'https://green.sourceflower.com'
 var API_TOKEN = 'ylGreen-8fX2mK9p-2026'
 
@@ -73,7 +75,12 @@ function doVirtualPayment(orderData, params) {
     paySig: orderData.pay_sig,
     signature: orderData.signature,
     success: function () {
-      wx.setStorageSync('yuanliu_pending_order', orderData.out_trade_no)
+      // SANDBOX_ONLY: 沙箱环境跳过查单，直接信任支付回调
+      // 上线前必须恢复为查单逻辑
+      params.onSuccess({
+        out_trade_no: orderData.out_trade_no,
+        order: { status: 'paid' }
+      })
     },
     fail: function (err) {
       // 用户取消支付 errCode=1001，不算错误

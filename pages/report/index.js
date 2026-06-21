@@ -1,4 +1,4 @@
-var measureHeader = require('../../utils/headerLayout.js').measureHeader
+﻿var measureHeader = require('../../utils/headerLayout.js').measureHeader
 var payment = require('../../utils/payment.js')
 
 var INDUSTRY_LABELS = {  computing: '⭐ 算力设施',
@@ -381,13 +381,14 @@ Page({
       wx.showToast({ title: '请先生成AI分析报告', icon: 'none' })
       return
     }
+
     wx.showLoading({ title: 'PDF生成中...' })
     wx.request({
       url: 'https://green.sourceflower.com/api/generate-pdf',
       method: 'POST',
       header: {
         'Content-Type': 'application/json',
-        'X-Api-Token': 'ylGreen-8fX2mK9p-2026'
+        'X-Api-Token': 'ylGreen-8Xf2mK9p-2026'
       },
       data: {
         projectName: report.projectName || '未命名项目',
@@ -397,32 +398,28 @@ Page({
       },
       timeout: 30000,
       success: function (res) {
+        wx.hideLoading()
         if (res.statusCode === 200 && res.data && res.data.success) {
           var fileUrl = 'https://green.sourceflower.com' + res.data.downloadUrl
-          wx.downloadFile({
-            url: fileUrl,
-            header: { 'X-Api-Token': 'ylGreen-8fX2mK9p-2026' },
-            success: function (dlRes) {
-              wx.hideLoading()
-              if (dlRes.statusCode === 200) {
-                wx.openDocument({
-                  filePath: dlRes.tempFilePath,
-                  fileType: 'pdf',
-                  fail: function () {
-                    wx.showToast({ title: '无法打开PDF，请稍后重试', icon: 'none' })
-                  }
-                })
-              } else {
-                wx.showToast({ title: 'PDF下载失败', icon: 'none' })
+          var projectName = report.projectName || '绿电直连合规报告'
+
+          // iOS系统提示
+          var systemInfo = wx.getSystemInfoSync()
+          var isIOS = systemInfo.platform === 'ios'
+          if (isIOS) {
+            wx.showModal({
+              title: '温馨提示',
+              content: 'iOS系统限制，PDF预览后无法直接保存到手机。\n您可以通过右上角菜单「转发给朋友」或「用其他应用打开」来保存或分享报告。',
+              confirmText: '我知道了',
+              showCancel: false,
+              success: function () {
+                doDownloadPDF(fileUrl, projectName)
               }
-            },
-            fail: function () {
-              wx.hideLoading()
-              wx.showToast({ title: 'PDF下载失败，请重试', icon: 'none' })
-            }
-          })
+            })
+            return
+          }
+          doDownloadPDF(fileUrl, projectName)
         } else {
-          wx.hideLoading()
           wx.showToast({ title: 'PDF生成失败，请重试', icon: 'none' })
         }
       },
@@ -431,6 +428,40 @@ Page({
         wx.showToast({ title: '网络异常，请重试', icon: 'none' })
       }
     })
+
+    function doDownloadPDF(fileUrl, projectName) {
+      var cleanName = (projectName || '绿电直连合规报告').replace(/\s/g, '')
+      var filePath = wx.env.USER_DATA_PATH + '/' + cleanName + '.pdf'
+
+      wx.showLoading({ title: 'PDF下载中...' })
+      wx.downloadFile({
+        url: fileUrl,
+        filePath: filePath,
+        header: { 'X-Api-Token': 'ylGreen-8Xf2mK9p-2026' },
+        success: function (dlRes) {
+          wx.hideLoading()
+          if (dlRes.statusCode === 200) {
+            wx.openDocument({
+              filePath: dlRes.filePath,
+              fileType: 'pdf',
+              showMenu: true,
+              success: function () {
+                console.log('PDF打开成功')
+              },
+              fail: function () {
+                wx.showToast({ title: '无法打开PDF，请稍后重试', icon: 'none' })
+              }
+            })
+          } else {
+            wx.showToast({ title: 'PDF下载失败', icon: 'none' })
+          }
+        },
+        fail: function () {
+          wx.hideLoading()
+          wx.showToast({ title: 'PDF下载失败，请重试', icon: 'none' })
+        }
+      })
+    }
   },
 
   onContactAI: function () {

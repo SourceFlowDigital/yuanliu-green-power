@@ -267,14 +267,13 @@ Page({
     suspectCheckItems: [
       {
         key: 'q1',
-        text: '项目风电/光伏规模是否已纳入或计划申报纳入省级新能源开发建设方案？',
+        text: '项目风电/光伏规模是否已纳入省级新能源开发建设方案？',
         options: [
           { value: 'yes', label: '是' },
-          { value: 'no', label: '否' },
-          { value: 'uncertain', label: '不确定' }
+          { value: 'no', label: '否' }
         ],
-        warnMsg: '风电/光伏装机规模须纳入省级新能源开发建设方案，建议在项目核准前完成申报备案',
-        warnOn: ['no', 'uncertain']
+        warnMsg: '根据688号文件第二条，项目新能源规模须纳入省级新能源发电开发建设方案，建议先完成规划纳入后再推进项目。',
+        warnOn: ['no']
       },
       {
         key: 'q2',

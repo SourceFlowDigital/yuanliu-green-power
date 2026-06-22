@@ -1,3 +1,4 @@
+var config = require('../../utils/config.js')
 var measureHeader = require('../../utils/headerLayout.js').measureHeader
 var payment = require('../../utils/payment.js')
 
@@ -528,7 +529,7 @@ Page({
       method: 'POST',
       header: {
         'Content-Type': 'application/json',
-        'X-Api-Token': 'ylGreen-8fX2mK9p-2026'
+        'X-Api-Token': config.API_TOKEN
       },
       data: {
         projectName: report.projectName || '未命名项目',
@@ -576,7 +577,7 @@ Page({
       wx.downloadFile({
         url: fileUrl,
         filePath: filePath,
-        header: { 'X-Api-Token': 'ylGreen-8fX2mK9p-2026' },
+        header: { 'X-Api-Token': config.API_TOKEN },
         success: function (dlRes) {
           wx.hideLoading()
           if (dlRes.statusCode === 200) {

@@ -2,7 +2,6 @@
   "pages": [
     "pages/news/index",
     "pages/news/detail",
-    "pages/webview/index",
     "pages/green-direct/index",
     "pages/report/index",
     "pages/about/index",

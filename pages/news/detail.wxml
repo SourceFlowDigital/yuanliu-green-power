@@ -2,8 +2,9 @@
   <view class="status-bar" style="height: {{statusBarHeight}}px;"></view>
   <view class="header-main" style="height: {{navBarHeight}}px;">
     <view class="back-btn" bindtap="onBack">‹</view>
-    <view class="header-title-group detail-header-title">
-      <view class="header-title">资讯详情</view>
+    <image class="header-logo" src="/assets/logo.png" mode="aspectFit"></image>
+    <view class="header-title-group">
+      <view class="header-title">源流绿电直连</view>
       <view class="header-sub-wrap">
         <text class="header-sub">公开信息索引</text>
       </view>
@@ -19,8 +20,42 @@
     </view>
     <view class="detail-title">{{article.title}}</view>
     <view class="detail-source">{{article.source}}</view>
-    <view class="detail-summary">{{article.summary}}</view>
-    <view class="open-btn" bindtap="onOpenOriginal">查看原文</view>
+
+    <view wx:if="{{article.category !== '政策' && article.excerpt}}" class="excerpt-card">
+      <text class="excerpt-label">原文导读</text>
+      <text class="excerpt-text">{{article.excerpt}}</text>
+    </view>
+    <view wx:if="{{article.category !== '政策' && keywordList.length}}" class="keyword-bar">
+      <text class="keyword-label">关键词</text>
+      <view class="keyword-tags">
+        <text wx:for="{{keywordList}}" wx:key="index" class="keyword-tag">{{item}}</text>
+      </view>
+    </view>
+    <view wx:if="{{article.category !== '政策' && article.summary}}" class="ai-block">
+      <view class="ai-block-head"><view class="ai-block-mark"></view><text class="ai-block-title">要点摘要</text></view>
+      <view class="ai-block-content">{{article.summary}}</view>
+      <text class="ai-disclaimer">* 以上内容由AI生成，仅供参考</text>
+    </view>
+
+    <view wx:if="{{article.category === '政策' && article.background}}" class="ai-block">
+      <view class="ai-block-head"><view class="ai-block-mark"></view><text class="ai-block-title">政策背景</text></view>
+      <view class="ai-block-content">{{article.background}}</view>
+    </view>
+    <view wx:if="{{article.category === '政策' && article.key_clauses}}" class="ai-block">
+      <view class="ai-block-head"><view class="ai-block-mark"></view><text class="ai-block-title">关键条款</text></view>
+      <view class="ai-block-content">{{article.key_clauses}}</view>
+    </view>
+    <view wx:if="{{article.category === '政策' && article.action_suggestion}}" class="ai-block">
+      <view class="ai-block-head"><view class="ai-block-mark"></view><text class="ai-block-title">行动建议</text></view>
+      <view class="ai-block-content">{{article.action_suggestion}}</view>
+    </view>
+    <view wx:if="{{article.category === '政策' && article.summary}}" class="ai-block">
+      <view class="ai-block-head"><view class="ai-block-mark"></view><text class="ai-block-title">综合摘要</text></view>
+      <view class="ai-block-content">{{article.summary}}</view>
+      <text class="ai-disclaimer">* 以上内容由AI生成，仅供参考</text>
+    </view>
+
+    <view class="open-btn" bindtap="onOpenOriginal">复制原文链接</view>
   </view>
 
   <view class="state-box" wx:if="{{!loading && !article}}">

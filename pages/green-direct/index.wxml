@@ -354,7 +354,7 @@
           </view>
           <view class="p4-field user-field" wx:if="{{user.hasExpansionPlan === true}}">
             <view class="p4-label"><text>预期年增减率（%/年，可为负）</text></view>
-            <input class="p4-input" type="digit" placeholder="如：5 或 -3" placeholder-style="color:#BBBBBB" value="{{user.expansionRate || ''}}" bindinput="onUserInput" data-id="{{user.id}}" data-field="expansionRate" />
+            <input class="p4-input" type="text" placeholder="如：5 或 -3" placeholder-style="color:#BBBBBB" value="{{user.expansionRate || ''}}" bindinput="onUserInput" data-id="{{user.id}}" data-field="expansionRate" />
             <text class="user-calc-line">预计2030年用电量：{{user.consumption2030}} 万kWh</text>
           </view>
         </view>

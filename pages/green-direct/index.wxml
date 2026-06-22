@@ -137,12 +137,12 @@
             class="p3-year-btn {{appState.projectType.targetYear === 'pre2030' ? 'active' : ''}}"
             catchtap="onSelectTargetYear"
             data-value="pre2030"
-          >2030年前（含2030年）</view>
+          >2030年前（不含2030年）</view>
           <view
             class="p3-year-btn {{appState.projectType.targetYear === 'post2030' ? 'active' : ''}}"
             catchtap="onSelectTargetYear"
             data-value="post2030"
-          >2030年后</view>
+          >2030年及以后</view>
         </view>
         <text class="p3-year-note">影响自发自用占总用电量比例门槛：2030年前≥35%，2030年后≥30%</text>
       </view>

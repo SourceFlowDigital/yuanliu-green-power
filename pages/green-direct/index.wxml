@@ -244,20 +244,33 @@
         <text class="p5-sub">请逐个录入项目内用电用户，每个用户须为独立法人实体</text>
       </view>
 
-      <view class="user-card" wx:for="{{appState.users}}" wx:for-item="user" wx:for-index="uIdx" wx:key="id">
-        <view class="user-card-head">
-          <text class="user-card-title">用户{{uIdx + 1}}</text>
-          <view class="user-card-actions">
-            <text class="user-action-btn" catchtap="onCopyUser" data-id="{{user.id}}">复制</text>
-            <text
-              class="user-action-btn user-action-del"
-              wx:if="{{appState.users.length > 1}}"
-              catchtap="onDeleteUser"
-              data-id="{{user.id}}"
-            >删除</text>
+      <view class="p5-count-panel">
+        <view class="p5-count-title">请输入项目内用电用户数量</view>
+        <text class="p5-count-sub">每个用户须为独立法人实体</text>
+        <input
+          class="p5-count-input"
+          type="number"
+          min="1"
+          placeholder="请输入用户数量"
+          placeholder-style="color:#9CA3AF"
+          value="{{p5UserCountInput}}"
+          bindinput="onUserCountInput"
+          bindblur="onUserCountCommit"
+          bindconfirm="onUserCountCommit"
+        />
+      </view>
+
+      <view class="user-card {{expandedUserId === user.id ? 'user-card-expanded' : 'user-card-collapsed'}}" wx:for="{{appState.users}}" wx:for-item="user" wx:for-index="uIdx" wx:key="id">
+        <view class="user-card-head" catchtap="onToggleUserCard" data-id="{{user.id}}">
+          <view class="user-card-title-group">
+            <text class="user-card-title">用户{{uIdx + 1}}</text>
+            <text class="user-card-name" wx:if="{{user.confirmed && user.name}}">{{user.name}}</text>
+            <text class="user-card-status" wx:elif="{{user.confirmed}}">已填写</text>
           </view>
+          <text class="user-expand-btn">{{expandedUserId === user.id ? '收起' : '展开'}}</text>
         </view>
 
+        <block wx:if="{{expandedUserId === user.id}}">
         <view class="user-module">
           <text class="user-module-title">基本信息</text>
           <view class="p4-field user-field">
@@ -403,9 +416,9 @@
             <text class="user-calc-line">预计年发电量：{{user.rooftopGeneration}} 万kWh</text>
           </block>
         </view>
+        <view class="btn-user-confirm" catchtap="onConfirmUserCard" data-id="{{user.id}}">确认</view>
+        </block>
       </view>
-
-      <view class="btn-add-user" catchtap="onAddUser">+ 添加用户</view>
     </view>
     <view wx:if="{{currentScreen == 6}}" class="screen-p6-wrap">
       <view class="p6-page-head">

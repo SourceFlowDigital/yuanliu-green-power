@@ -60,6 +60,8 @@ Page({
     p4OtherIndustry: '',
 
     p5Done: false,
+    p5UserCountInput: '1',
+    expandedUserId: '',
     p5Summary: {
       userCount: 0,
       totalAnnual: 0,
@@ -334,6 +336,7 @@ Page({
         parkType: '',
         industryTypes: []
       },
+      user_count: 0,
       users: [],
       energySources: [],
       storage: {
@@ -582,7 +585,7 @@ Page({
   _createEmptyUser: function () {
     var ref = this.data.appState.projectInfo.refHours || {}
     return {
-      id: Date.now(),
+      id: Date.now() + Math.floor(Math.random() * 100000),
       name: '',
       industry: '',
       otherIndustry: '',
@@ -601,7 +604,8 @@ Page({
       rooftopStructureCustom: '',
       rooftopCapacity: '',
       rooftopHours: '',
-      rooftopGeneration: 0
+      rooftopGeneration: 0,
+      confirmed: false
     }
   },
 
@@ -610,6 +614,45 @@ Page({
     if (users.length === 0) users = [this._createEmptyUser()]
     this._setUsers(users)
     return users
+  },
+
+  _normalizeUserCount: function (value) {
+    var count = parseInt(value, 10)
+    if (isNaN(count) || count < 1) count = 1
+    return count
+  },
+
+  onUserCountInput: function (e) {
+    var val = e.detail && e.detail.value !== undefined ? String(e.detail.value) : ''
+    this.setData({ p5UserCountInput: val })
+  },
+
+  onUserCountCommit: function (e) {
+    var val = e.detail && e.detail.value !== undefined ? e.detail.value : this.data.p5UserCountInput
+    var count = this._normalizeUserCount(val)
+    var users = (this.data.appState.users || []).slice()
+    var current = users.length
+    var i
+    if (count > current) {
+      for (i = current; i < count; i++) {
+        users.push(this._createEmptyUser())
+      }
+    } else if (count < current) {
+      users = users.slice(0, count)
+    }
+    var expandedUserId = this.data.expandedUserId
+    var stillExists = false
+    for (i = 0; i < users.length; i++) {
+      if (_matchId(users[i].id, expandedUserId)) {
+        stillExists = true
+        break
+      }
+    }
+    this.setData({
+      p5UserCountInput: String(count),
+      expandedUserId: stillExists ? expandedUserId : ''
+    })
+    this._setUsers(users)
   },
 
   _calcUser2030: function (user) {
@@ -642,6 +685,7 @@ Page({
     u.refRooftopHours = ref.solar || 0
     u.consumption2030 = this._calcUser2030(u)
     u.rooftopGeneration = this._calcUserRooftopGen(u)
+    u.confirmed = !!u.confirmed
     return u
   },
 
@@ -680,9 +724,25 @@ Page({
     var normalized = users.map(this._normalizeUser.bind(this))
     this.setData({
       'appState.users': normalized,
+      'appState.user_count': normalized.length,
+      p5UserCountInput: String(normalized.length || 1),
       p5Summary: this._calcP5Summary(normalized),
       p5Done: this._validateP5Users(normalized)
     })
+  },
+
+  onToggleUserCard: function (e) {
+    var userId = e.currentTarget.dataset.id
+    if (!userId) return
+    var expandedUserId = _matchId(this.data.expandedUserId, userId) ? '' : userId
+    this.setData({ expandedUserId: expandedUserId })
+  },
+
+  onConfirmUserCard: function (e) {
+    var userId = e.currentTarget.dataset.id
+    if (!userId) return
+    this._patchUser(userId, { confirmed: true })
+    this.setData({ expandedUserId: '' })
   },
 
   _patchUser: function (userId, patch) {
@@ -1520,6 +1580,7 @@ Page({
         q4: appState.suspectCheck.q4,
         q5: appState.suspectCheck.q5
       },
+      user_count: appState.user_count || (appState.users || []).length,
       userCount: (appState.users || []).length,
       users: (appState.users || []).map(function (u) {
         return {

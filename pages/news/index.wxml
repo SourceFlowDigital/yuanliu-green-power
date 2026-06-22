@@ -54,3 +54,28 @@
     <text>已加载全部资讯</text>
   </view>
 </view>
+
+<view class="consent-mask" wx:if="{{!userConsent}}">
+  <view class="consent-modal">
+    <view class="consent-title">欢迎使用源流绿电直连</view>
+    <view class="consent-desc">
+      <text>本工具基于发改能源〔2026〕688号，提供绿电直连项目数据测算与AI辅助风险分析服务。</text>
+    </view>
+    <view class="consent-desc">
+      <text>使用前请阅读并同意以下协议：</text>
+    </view>
+    <view class="consent-links">
+      <navigator url="/pages/legal/terms/terms" class="consent-link">《用户服务协议》</navigator>
+      <navigator url="/pages/legal/privacy/privacy" class="consent-link">《隐私政策》</navigator>
+    </view>
+    <view class="consent-info">
+      <text>· 我们收集您填写的项目数据用于AI分析</text>
+      <text>· 不收集通讯录、相册、位置等个人信息</text>
+      <text>· 测算结果仅供参考，不构成审批意见</text>
+    </view>
+    <view class="consent-actions">
+      <view class="consent-btn consent-btn-deny" bindtap="onDenyConsent">不同意</view>
+      <view class="consent-btn consent-btn-agree" bindtap="onAgreeConsent">同意并继续</view>
+    </view>
+  </view>
+</view>

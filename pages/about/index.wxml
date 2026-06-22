@@ -47,7 +47,7 @@
       </view>
       <view class="contact-row">
         <text class="contact-label">邮箱</text>
-        <text class="contact-value">hello@sourceflower.com</text>
+        <text class="contact-value">contact@sourceflower.com</text>
       </view>
       <view class="contact-row">
         <text class="contact-label">微信</text>

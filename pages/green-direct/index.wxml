@@ -847,21 +847,6 @@
           <view class="p10-btn p10-btn-primary" catchtap="onGenerateReport">生成基础报告</view>
         </view>
 
-        <view class="p10-report-card p10-report-card--ai">
-          <view class="p10-report-head">
-            <text class="p10-report-title">🤖 AI深度分析报告</text>
-            <text class="p10-tag p10-tag-paid">增值服务</text>
-          </view>
-          <text class="p10-report-desc">在基础报告基础上，增加基于688号文的专业政策解读和项目优化建议</text>
-          <view class="p10-ai-pay-card">
-            <view class="p10-ai-pay-row">
-              <text class="p10-ai-pay-label">🤖 AI深度分析报告</text>
-              <text class="p10-ai-pay-price">¥1.99</text>
-            </view>
-            <text class="p10-ai-pay-desc">基于688号文专业政策解读，输出优化建议与风险提示</text>
-            <view class="p10-btn p10-btn-gold" catchtap="onRequestAIReport">立即购买 AI 分析报告</view>
-          </view>
-        </view>
       </view>
     </view>
   </view>

@@ -47,7 +47,8 @@ function createOrder(code, params) {
     },
     data: {
       code: code,
-      product_desc: params.productDesc || 'AI深度分析报告'
+      product_desc: params.productDesc || 'AI深度分析报告',
+      amount: params.amount || 1990
     },
     timeout: 15000,
     success: function (res) {

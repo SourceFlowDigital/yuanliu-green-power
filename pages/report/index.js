@@ -582,7 +582,7 @@ Page({
     var self = this
     wx.showModal({
       title: 'AI深度分析报告',
-      content: '购买后将基于您的项目数据，生成688号文合规预审专业报告。\n\n价格：¥1.99 / 次',
+      content: '购买后将基于您的项目数据，生成688号文合规预审专业报告。\n\n价格：¥19.9 / 次',
       confirmText: '立即支付',
       cancelText: '暂不购买',
       success: function (res) {
@@ -590,6 +590,7 @@ Page({
           wx.showLoading({ title: '支付处理中...' })
           payment.requestPayment({
             productDesc: 'AI深度分析报告',
+            amount: 1990,
             onSuccess: function () {
               wx.hideLoading()
               var report = self.data.report || {}

@@ -1350,10 +1350,6 @@
   margin-bottom: 20rpx;
   box-shadow: 0 4rpx 16rpx rgba(0, 48, 96, 0.06);
 }
-.p10-report-card--ai {
-  border-color: #F0D9A8;
-  background: #FFFCF5;
-}
 .p10-report-head {
   display: flex;
   flex-direction: row;
@@ -1376,10 +1372,6 @@
   color: #1a7c6e;
   background: #E8F5F0;
 }
-.p10-tag-paid {
-  color: #D6A84F;
-  background: #FDF6E8;
-}
 .p10-report-desc {
   display: block;
   font-size: 24rpx;
@@ -1398,11 +1390,6 @@
   background: #003060;
   color: #fff;
 }
-.p10-btn-gold {
-  background: #D6A84F;
-  color: #fff;
-}
-
 /* P9 汇总确认 */
 .screen-wrap-p9 {
   padding-bottom: calc(200rpx + env(safe-area-inset-bottom));
@@ -2021,34 +2008,4 @@
 .consent-btn-agree {
   background: #003060;
   color: #fff;
-}
-.p10-ai-pay-card {
-  background: #1a2a3a;
-  border: 1rpx solid #D6A84F;
-  border-radius: 12rpx;
-  padding: 24rpx;
-  margin-top: 16rpx;
-}
-.p10-ai-pay-row {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12rpx;
-}
-.p10-ai-pay-label {
-  font-size: 28rpx;
-  color: #D6A84F;
-  font-weight: 500;
-}
-.p10-ai-pay-price {
-  font-size: 32rpx;
-  color: #D6A84F;
-  font-weight: bold;
-}
-.p10-ai-pay-desc {
-  font-size: 24rpx;
-  color: #8899aa;
-  margin-bottom: 20rpx;
-  line-height: 1.5;
 }

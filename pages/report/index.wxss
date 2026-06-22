@@ -284,6 +284,17 @@ page {
   margin-bottom: 24rpx;
 }
 
+.report-sample-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 64rpx;
+  margin-bottom: 18rpx;
+  font-size: 26rpx;
+  color: #003060;
+  text-decoration: underline;
+}
+
 .report-ai-content {
   padding: 12px;
   background: #FFFDF5;
@@ -445,4 +456,64 @@ page {
   font-weight: 500;
   padding: 16rpx 32rpx;
   border-radius: 8rpx;
+}
+
+.sample-report-mask {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 30000;
+  background: #000000;
+}
+
+.sample-report-close {
+  position: fixed;
+  top: calc(28rpx + env(safe-area-inset-top));
+  right: 28rpx;
+  z-index: 30002;
+  width: 72rpx;
+  height: 72rpx;
+  line-height: 68rpx;
+  text-align: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+  color: #FFFFFF;
+  font-size: 52rpx;
+  font-weight: 300;
+}
+
+.sample-report-swiper {
+  width: 100vw;
+  height: 100vh;
+}
+
+.sample-report-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sample-report-image {
+  width: 100vw;
+  height: 100vh;
+}
+
+.sample-report-page {
+  position: fixed;
+  left: 50%;
+  bottom: calc(42rpx + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  z-index: 30002;
+  min-width: 96rpx;
+  height: 48rpx;
+  line-height: 48rpx;
+  padding: 0 20rpx;
+  border-radius: 24rpx;
+  background: rgba(255, 255, 255, 0.16);
+  color: #FFFFFF;
+  font-size: 26rpx;
+  text-align: center;
+  box-sizing: border-box;
 }

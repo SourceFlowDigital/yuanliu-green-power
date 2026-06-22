@@ -276,6 +276,7 @@
       <view class="report-ai-card">
         <text class="report-ai-title">🤖 AI深度分析报告</text>
         <text class="report-ai-desc">在基础报告基础上，增加基于688号文的专业政策解读和项目优化建议</text>
+        <view class="report-sample-link" catchtap="onOpenSampleReport">查看示例报告</view>
         <view class="report-ai-pay-row" wx:if="{{!aiPaid}}">
           <text class="report-ai-price">¥1.99 / 次</text>
           <view class="report-ai-btn report-ai-btn-pay" catchtap="onContactAI">立即购买 AI 分析</view>
@@ -309,5 +310,21 @@
     <view class="report-empty-desc">完成项目自测后</view>
     <view class="report-empty-desc">您的项目报告将在此展示</view>
     <view class="report-empty-btn" catchtap="onGoToCheck">立即开始自测</view>
+  </view>
+
+  <view class="sample-report-mask" wx:if="{{showSampleReport}}" catchtouchmove="noop">
+    <view class="sample-report-close" catchtap="onCloseSampleReport">×</view>
+    <swiper
+      class="sample-report-swiper"
+      current="{{sampleReportIndex}}"
+      bindchange="onSampleReportChange"
+      duration="260"
+      circular="{{false}}"
+    >
+      <swiper-item wx:for="{{sampleReportImages}}" wx:key="*this" class="sample-report-item">
+        <image class="sample-report-image" src="{{item}}" mode="aspectFit"></image>
+      </swiper-item>
+    </swiper>
+    <view class="sample-report-page">{{sampleReportIndex + 1}}/{{sampleReportImages.length}}</view>
   </view>
 </view>

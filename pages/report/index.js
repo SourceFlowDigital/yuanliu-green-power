@@ -34,6 +34,16 @@ var PROJECT_STATUS_LABELS = {
   existingLimited: '存量消纳受限'
 }
 
+var SAMPLE_REPORT_IMAGES = [
+  'https://green.sourceflower.com/static/sample/sample_p1.jpg',
+  'https://green.sourceflower.com/static/sample/sample_p2.jpg',
+  'https://green.sourceflower.com/static/sample/sample_p3.jpg',
+  'https://green.sourceflower.com/static/sample/sample_p4.jpg',
+  'https://green.sourceflower.com/static/sample/sample_p5.jpg',
+  'https://green.sourceflower.com/static/sample/sample_p6.jpg',
+  'https://green.sourceflower.com/static/sample/sample_p7.jpg'
+]
+
 function gapTypeLabel(t) {
   if (t === 'surplus') return '盈余'
   if (t === 'deficit' || t === 'short') return '缺口'
@@ -195,7 +205,10 @@ Page({
     aiPaid: false,
     aiResult: null,
     aiResultHtml: '',
-    aiLoading: false
+    aiLoading: false,
+    sampleReportImages: SAMPLE_REPORT_IMAGES,
+    showSampleReport: false,
+    sampleReportIndex: 0
   },
 
   _loadReport: function () {
@@ -428,6 +441,24 @@ Page({
   onGoToCheck: function () {
     wx.switchTab({ url: '/pages/green-direct/index' })
   },
+
+  onOpenSampleReport: function () {
+    this.setData({
+      showSampleReport: true,
+      sampleReportIndex: 0
+    })
+  },
+
+  onCloseSampleReport: function () {
+    this.setData({ showSampleReport: false })
+  },
+
+  onSampleReportChange: function (e) {
+    var current = e.detail && typeof e.detail.current === 'number' ? e.detail.current : 0
+    this.setData({ sampleReportIndex: current })
+  },
+
+  noop: function () {},
 
   onDoAIAnalyze: function () {
     var self = this

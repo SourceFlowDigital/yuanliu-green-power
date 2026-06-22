@@ -321,8 +321,10 @@ Page({
             self.onDoAIAnalyze()
           })
         },
-        onFail: function () {
+        onFail: function (err) {
           // 查单失败不阻塞，正常加载已保存的报告
+          console.log('[查单恢复] 确认失败', err && err.message || '');
+          wx.showToast({ title: '支付确认失败，请稍后重试', icon: 'none', duration: 2000 });
         }
       })
     }
@@ -616,7 +618,7 @@ Page({
           wx.showLoading({ title: '支付处理中...' })
           payment.requestPayment({
             productDesc: 'AI深度分析报告',
-            amount: 1990,
+            amount: config.PAYMENT_AMOUNT,
             onSuccess: function (result) {
               wx.hideLoading()
               var report = self.data.report || {}

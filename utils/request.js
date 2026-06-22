@@ -1,6 +1,6 @@
 const config = require('./config.js')
 
-var AI_API_BASE = 'https://green.sourceflower.com'
+var AI_API_BASE = config.BASE_URL
 
 function get(path, query) {
   return new Promise(function(resolve, reject) {

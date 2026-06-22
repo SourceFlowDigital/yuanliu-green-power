@@ -1,3 +1,4 @@
+var config = require('../../utils/config.js')
 var measureHeader = require('../../utils/headerLayout.js').measureHeader
 var payment = require('../../utils/payment.js')
 
@@ -1664,7 +1665,7 @@ Page({
           wx.showLoading({ title: '支付处理中...' })
           payment.requestPayment({
             productDesc: 'AI深度分析报告',
-            amount: 1990,
+            amount: config.PAYMENT_AMOUNT,
             onSuccess: function () {
               wx.hideLoading()
               self.onGenerateReport({ aiPaid: true, autoAnalyze: true })

@@ -1,6 +1,6 @@
 ﻿// 支付模块 v2.0 — 生产环境完整支付 + 查单流程
 var config = require('./config.js')
-var API_BASE = 'https://green.sourceflower.com'
+var API_BASE = config.BASE_URL
 var API_TOKEN = config.API_TOKEN
 
 /**
@@ -48,7 +48,7 @@ function createOrder(code, params) {
     data: {
       code: code,
       product_desc: params.productDesc || 'AI深度分析报告',
-      amount: params.amount || 1990
+      amount: params.amount || config.PAYMENT_AMOUNT
     },
     timeout: 15000,
     success: function (res) {

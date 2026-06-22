@@ -17,7 +17,7 @@ function _matchId(a, b) {
 }
 
 function _emptyIfZero(val) {
-  if (val === 0 || val === '0' || val === null || val === undefined) return ''
+  if (val === 0 || val === null || val === undefined) return ''
   return val
 }
 

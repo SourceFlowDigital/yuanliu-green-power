@@ -33,6 +33,7 @@
   font-size: 26rpx;
   color: #5E6D7F;
   line-height: 1.85;
+  text-indent: 2em;
 }
 
 /* ===== 1. 关注我们 ===== */

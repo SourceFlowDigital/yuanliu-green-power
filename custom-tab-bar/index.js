@@ -3,7 +3,7 @@ Component({
     selected: 0,
     currentPath: '/pages/news/index',
     color: '#6B7280',
-    selectedColor: '#D6A84F',
+    selectedColor: '#003060',
     list: [
       {
         pagePath: '/pages/news/index',

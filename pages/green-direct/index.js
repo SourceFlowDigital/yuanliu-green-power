@@ -358,7 +358,7 @@ Page({
 
   onShow: function () {
     var t = typeof this.getTabBar === 'function' && this.getTabBar()
-    if (t) t.setData({ selected: 0 })
+    if (t) t.setData({ currentPath: '/' + this.route, selected: 1 })
     // 每次显示时同步授权状态
     var app = getApp()
     this.setData({ userConsent: app.hasConsent() })

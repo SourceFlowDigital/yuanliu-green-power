@@ -55,7 +55,9 @@ Page({
     }
 
     var tab = typeof this.getTabBar === 'function' && this.getTabBar()
-    if (tab && typeof tab.updateSelected === 'function') tab.updateSelected()
+    if (tab) {
+      tab.setData({ currentPath: '/' + this.route, selected: 0 })
+    }
   },
 
   onAgreeConsent: function () {

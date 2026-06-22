@@ -14,7 +14,7 @@ Page({
 
   onShow() {
     const t = typeof this.getTabBar === 'function' && this.getTabBar()
-    if (t) t.setData({ selected: 3 })
+    if (t) t.setData({ currentPath: '/' + this.route, selected: 3 })
   },
 
   toTerms() {

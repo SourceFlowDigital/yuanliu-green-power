@@ -287,7 +287,7 @@ Page({
 
   onShow: function () {
     var t = typeof this.getTabBar === 'function' && this.getTabBar()
-    if (t) t.setData({ selected: 1 })
+    if (t) t.setData({ currentPath: '/' + this.route, selected: 2 })
     this._loadReport()
   },
 

@@ -2,8 +2,8 @@ Component({
   data: {
     selected: 0,
     currentPath: '/pages/news/index',
-    color: '#6B7280',
-    selectedColor: '#003060',
+    color: '#003060',
+    selectedColor: '#D6A84F',
     list: [
       {
         pagePath: '/pages/news/index',

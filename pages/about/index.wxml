@@ -32,7 +32,7 @@
     </view>
     <image
       class="follow-qr-img"
-      src="/assets/images/qrcode.jpg"
+      src="/assets/qr_subscription.png"
       mode="aspectFit"
       show-menu-by-long-press="{{true}}"
     />

@@ -30,12 +30,15 @@ function getApiOrigin() {
 /** 请求头注入 Token（Nginx 鉴权） */
 function withPolicyApiKeyHeader(header) {
   var base = header || {}
-  base['X-Api-Token'] = 'ylGreen-8fX2mK9p-2026'
+  base['X-Api-Token'] = API_TOKEN
   return base
 }
 
+var API_TOKEN = 'ylGreen-8fX2mK9p-2026'
+
 module.exports = {
-  getApiBase,
-  getApiOrigin,
-  withPolicyApiKeyHeader,
+  API_TOKEN: API_TOKEN,
+  getApiBase: getApiBase,
+  getApiOrigin: getApiOrigin,
+  withPolicyApiKeyHeader: withPolicyApiKeyHeader,
 }

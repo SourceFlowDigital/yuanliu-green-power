@@ -1,7 +1,7 @@
-﻿// ⚠️ SANDBOX_ONLY: doVirtualPayment success回调已跳过查单
-// 上线前必须恢复查单逻辑，参考 confirmOrder 函数
+﻿// 支付模块 v2.0 — 生产环境完整支付 + 查单流程
+var config = require('./config.js')
 var API_BASE = 'https://green.sourceflower.com'
-var API_TOKEN = 'ylGreen-8fX2mK9p-2026'
+var API_TOKEN = config.API_TOKEN
 
 /**
  * 完整支付流程
@@ -76,12 +76,7 @@ function doVirtualPayment(orderData, params) {
     paySig: orderData.pay_sig,
     signature: orderData.signature,
     success: function () {
-      // SANDBOX_ONLY: 沙箱环境跳过查单，直接信任支付回调
-      // 上线前必须恢复为查单逻辑
-      params.onSuccess({
-        out_trade_no: orderData.out_trade_no,
-        order: { status: 'paid' }
-      })
+      confirmOrder(orderData.out_trade_no, params)
     },
     fail: function (err) {
       // 用户取消支付 errCode=1001，不算错误

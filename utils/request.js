@@ -38,7 +38,7 @@ function postAnalyze(payload) {
       method: 'POST',
       header: {
         'Content-Type': 'application/json',
-        'X-Api-Token': 'ylGreen-8fX2mK9p-2026'
+        'X-Api-Token': config.API_TOKEN
       },
       data: payload,
       timeout: 65000,

@@ -476,7 +476,9 @@ Page({
       },
       data: {
         projectName: report.projectName || '未命名项目',
-        aiContent: aiResult
+        aiContent: aiResult,
+        report: this.data.report,
+        baseReportText: this.data.baseReportText || ''
       },
       success: function (res) {
         wx.hideLoading()

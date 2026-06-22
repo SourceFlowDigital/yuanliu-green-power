@@ -28,6 +28,13 @@
   line-height: 1.4;
 }
 
+.about-disclaimer-text {
+  display: block;
+  font-size: 26rpx;
+  color: #5E6D7F;
+  line-height: 1.85;
+}
+
 /* ===== 1. 关注我们 ===== */
 .about-follow-card {
   text-align: center;
@@ -181,20 +188,11 @@
   flex-shrink: 0;
 }
 
-/* ===== 5. 底部声明 ===== */
+/* ===== 6. 底部信息 ===== */
 .about-footer {
   margin-top: 8rpx;
   padding: 36rpx 16rpx 48rpx;
   text-align: center;
-}
-
-.about-footer-disclaimer {
-  display: block;
-  font-size: 22rpx;
-  color: #9CA3AF;
-  line-height: 1.7;
-  margin-bottom: 24rpx;
-  padding: 0 16rpx;
 }
 
 .about-footer-divider {

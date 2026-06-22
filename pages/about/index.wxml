@@ -13,7 +13,13 @@
 
 <view class="about-page" style="margin-top: {{headerHeight}}px;">
 
-  <!-- 1. 关注我们（视觉权重最高） -->
+  <!-- 1. 免责声明 -->
+  <view class="about-card">
+    <view class="about-card-title">免责声明</view>
+    <text class="about-disclaimer-text">本报告由源流绿电直连自测工具根据用户填报数据自动生成，仅供项目前期合规预审参考，不构成正式法律意见或政策认定。报告所引用政策条款以发改能源〔2026〕688号文件原文为准，地方实施细则以各省级能源主管部门发布的规定为准。用户应结合实际项目情况自行判断，源流数字不对报告内容的准确性及完整性承担法律责任。</text>
+  </view>
+
+  <!-- 2. 关注我们（视觉权重最高） -->
   <view class="about-card about-follow-card">
     <view class="follow-title">关注我们</view>
     <view class="follow-wechat-row">
@@ -33,7 +39,7 @@
     <text class="follow-qr-tip">截图保存，用微信扫一扫关注</text>
   </view>
 
-  <!-- 2. 联系我们 -->
+  <!-- 3. 联系我们 -->
   <view class="about-card">
     <view class="about-card-title">联系我们</view>
     <view class="contact-table">
@@ -56,7 +62,7 @@
     </view>
   </view>
 
-  <!-- 3. 平台简介 -->
+  <!-- 4. 平台简介 -->
   <view class="about-card">
     <view class="about-card-title">平台简介</view>
     <text class="about-desc">源流绿电直连基于发改能源〔2026〕688号政策，面向新能源开发商、EPC单位及园区能源管理人员，提供项目数据测算与风险分析服务。</text>
@@ -69,7 +75,7 @@
     </view>
   </view>
 
-  <!-- 4. 法律协议 -->
+  <!-- 5. 法律协议 -->
   <view class="about-card">
     <view class="about-card-title">法律协议</view>
     <view class="legal-list">
@@ -92,9 +98,8 @@
     </view>
   </view>
 
-  <!-- 5. 底部声明 -->
+  <!-- 6. 底部信息 -->
   <view class="about-footer">
-    <text class="about-footer-disclaimer">本工具基于用户输入数据进行测算与分析，所有结果仅供参考，不构成行政审批结论或投资建议。</text>
     <view class="about-footer-divider"></view>
     <text class="about-footer-text">© 2026 宁夏源流数字服务有限公司 版权所有</text>
     <navigator class="about-footer-text" url="https://beian.miit.gov.cn" open-type="webview">

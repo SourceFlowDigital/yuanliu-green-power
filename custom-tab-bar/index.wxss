@@ -27,3 +27,9 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.tab-bar-icon-img {
+  width: 48rpx;
+  height: 48rpx;
+  display: block;
+}

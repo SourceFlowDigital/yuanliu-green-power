@@ -8,8 +8,8 @@ Component({
       {
         pagePath: '/pages/news/index',
         name: '资讯',
-        iconName: 'liebiao',
-        unicode: ''
+        iconPath: '/assets/tab/news.png',
+        selectedIconPath: '/assets/tab/news-active.png'
       },
       {
         pagePath: '/pages/green-direct/index',

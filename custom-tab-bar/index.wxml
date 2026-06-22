@@ -7,7 +7,14 @@
     data-index="{{index}}"
     bindtap="switchTab"
   >
+    <image
+      wx:if="{{item.iconPath}}"
+      class="tab-bar-icon-img"
+      src="{{item.pagePath === currentPath ? item.selectedIconPath : item.iconPath}}"
+      mode="aspectFit"
+    ></image>
     <text
+      wx:else
       class="iconfont"
       style="color: {{item.pagePath === currentPath ? selectedColor : color}}; font-size: 48rpx;"
     >{{item.unicode}}</text>

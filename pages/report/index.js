@@ -306,14 +306,14 @@ Page({
     // 查单恢复：检测是否有未完成的支付订单
     var self = this
     try {
-      var pendingTradeNo = wx.getStorageSync('yuanliu_ai_out_trade_no')
+      var pendingTradeNo = wx.getStorageSync('yuanliu_pending_order')
     } catch (e) {
       var pendingTradeNo = null
     }
     if (pendingTradeNo && !this.data.aiPaid && !this.data.aiResult) {
       payment.confirmOrder(pendingTradeNo, {
         onSuccess: function (result) {
-          try { wx.removeStorageSync('yuanliu_ai_out_trade_no') } catch (e) {}
+          try { wx.removeStorageSync('yuanliu_pending_order') } catch (e) {}
           var report = self.data.report || {}
           var paidKey = 'yuanliu_ai_paid_' + (report.generateTime || '')
           try { wx.setStorageSync(paidKey, true) } catch (e) {}
@@ -626,7 +626,7 @@ Page({
               var tradeNo = result && result.out_trade_no
               try {
                 wx.setStorageSync(paidKey, true)
-                if (tradeNo) wx.setStorageSync('yuanliu_ai_out_trade_no', tradeNo)
+                if (tradeNo) wx.setStorageSync('yuanliu_pending_order', tradeNo)
               } catch (e) {}
               self.setData({ aiPaid: true }, function () {
                 self.onDoAIAnalyze()

@@ -458,6 +458,22 @@ page {
   border-radius: 8rpx;
 }
 
+.report-ai-btn-recover {
+  flex: 1;
+  background: #fff;
+  color: #003060;
+  font-weight: 500;
+  border: 2rpx solid #003060;
+  padding: 16rpx 32rpx;
+  border-radius: 8rpx;
+  text-align: center;
+}
+
+.report-ai-btn-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
 .refund-entry {
   padding: 18rpx 0 8rpx;
   text-align: center;

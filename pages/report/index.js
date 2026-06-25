@@ -213,7 +213,8 @@ Page({
     retryFailCount: 0,
     showRefundModal: false,
     showSwitchingModal: false,
-    pendingTradeNo: ''
+    pendingTradeNo: '',
+    recoveringPayment: false
   },
 
   _loadReport: function () {
@@ -655,6 +656,34 @@ Page({
             }
           })
         }
+      }
+    })
+  },
+
+  onRecoverPayment: function () {
+    var self = this
+    var tradeNo = this.data.pendingTradeNo || wx.getStorageSync('yuanliu_pending_order') || ''
+    if (!tradeNo) {
+      wx.showToast({ title: '未找到订单号', icon: 'none' })
+      return
+    }
+    self.setData({ recoveringPayment: true })
+    wx.showLoading({ title: '查询中...' })
+    payment.confirmOrder(tradeNo, {
+      onSuccess: function (result) {
+        wx.hideLoading()
+        try { wx.removeStorageSync('yuanliu_pending_order') } catch (e) {}
+        var report = self.data.report || {}
+        var paidKey = 'yuanliu_ai_paid_' + (report.generateTime || '')
+        try { wx.setStorageSync(paidKey, true) } catch (e) {}
+        self.setData({ aiPaid: true, recoveringPayment: false }, function () {
+          self.onDoAIAnalyze()
+        })
+      },
+      onFail: function (err) {
+        wx.hideLoading()
+        self.setData({ recoveringPayment: false })
+        wx.showToast({ title: err.message || '查询失败，请稍后重试', icon: 'none' })
       }
     })
   },

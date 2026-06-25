@@ -82,7 +82,7 @@ Page({
       },
       data: {
         order_id: data.outTradeNo,
-        invoice_type: data.productName,
+        product_name: data.productName,
         title: data.title.trim(),
         tax_number: data.taxNumber.trim(),
         recipient_email: data.recipientEmail.trim(),

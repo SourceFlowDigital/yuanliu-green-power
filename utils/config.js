@@ -34,8 +34,6 @@ function withPolicyApiKeyHeader(header) {
   return base
 }
 
-var API_TOKEN = 'ylGreen-8fX2mK9p-2026'
-
 // FA4 + FA5: 集中常量 — API 基址、固定价格
 var BASE_URL = 'https://green.sourceflower.com'
 var PAYMENT_AMOUNT = 1990  // 单位：分，¥19.9

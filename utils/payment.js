@@ -76,10 +76,11 @@ function doVirtualPayment(orderData, params) {
     paySig: orderData.pay_sig,
     signature: orderData.signature,
     success: function () {
+      wx.showToast({ title: '支付成功', icon: 'success', duration: 1500 })
       confirmOrder(orderData.out_trade_no, params)
     },
     fail: function (err) {
-      // 用户取消支付 errCode=1001，不算错误
+      wx.showToast({ title: '支付失败，请重试', icon: 'none', duration: 2000 })
       if (err && (err.errCode === 1001 || err.errMsg && err.errMsg.indexOf('cancel') !== -1)) {
         params.onFail(new Error('USER_CANCEL'))
       } else {

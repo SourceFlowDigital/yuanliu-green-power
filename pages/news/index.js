@@ -38,7 +38,6 @@ Page({
     refreshing: false,
     finished: false,
     errorText: '',
-    userConsent: true
   },
 
   onLoad: function () {
@@ -47,32 +46,10 @@ Page({
   },
 
   onShow: function () {
-    var app = getApp()
-    if (!app.hasConsent()) {
-      this.setData({ userConsent: false })
-    } else {
-      this.setData({ userConsent: true })
-    }
-
     var tab = typeof this.getTabBar === 'function' && this.getTabBar()
     if (tab) {
       tab.setData({ currentPath: '/' + this.route, selected: 0 })
     }
-  },
-
-  onAgreeConsent: function () {
-    var app = getApp()
-    app.grantConsent()
-    this.setData({ userConsent: true })
-  },
-
-  onDenyConsent: function () {
-    wx.showModal({
-      title: '需要您的同意',
-      content: '您需要同意服务协议才能使用本工具。',
-      showCancel: false,
-      confirmText: '我知道了'
-    })
   },
 
   onTabTap: function (e) {

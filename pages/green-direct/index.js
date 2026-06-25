@@ -31,8 +31,6 @@ Page({
     currentScreen: 0,
     totalScreens: 11,
 
-    userConsent: false,
-
     progressPercent: 0,
     progressText: '',
 
@@ -354,17 +352,11 @@ Page({
   onLoad: function () {
     this.setData(measureHeader())
     this.setData({ progressText: '' })
-    // 检查隐私授权状态
-    var app = getApp()
-    this.setData({ userConsent: app.hasConsent() })
   },
 
   onShow: function () {
     var t = typeof this.getTabBar === 'function' && this.getTabBar()
     if (t) t.setData({ currentPath: '/' + this.route, selected: 1 })
-    // 每次显示时同步授权状态
-    var app = getApp()
-    this.setData({ userConsent: app.hasConsent() })
 
     // 检查是否有待确认的支付订单（用户从微信支付页返回）
     var pendingOrder = ''
@@ -391,29 +383,6 @@ Page({
         }
       })
     }
-  },
-
-  onAgreeConsent: function () {
-    var app = getApp()
-    app.grantConsent()
-    this.setData({ userConsent: true })
-  },
-
-  onDenyConsent: function () {
-    wx.showModal({
-      title: '提示',
-      content: '需同意用户协议和隐私政策后方可使用本工具。',
-      showCancel: false,
-      confirmText: '知道了'
-    })
-  },
-
-  onOpenTerms: function () {
-    wx.navigateTo({ url: '/pages/legal/terms/terms' })
-  },
-
-  onOpenPrivacy: function () {
-    wx.navigateTo({ url: '/pages/legal/privacy/privacy' })
   },
 
   goStart: function () {

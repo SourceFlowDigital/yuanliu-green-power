@@ -673,6 +673,48 @@ Page({
     this.setData({ showRefundModal: false })
   },
 
+  onRefundApply: function () {
+    var tradeNo = this.data.pendingTradeNo || wx.getStorageSync('yuanliu_pending_order') || ''
+    if (!tradeNo) {
+      wx.showToast({ title: '未找到订单号', icon: 'none' })
+      return
+    }
+    var self = this
+    wx.showModal({
+      title: '申请退款确认',
+      content: '订单号：' + tradeNo + '\n退款金额：¥19.90\n原因：报告未成功生成',
+      confirmText: '确认申请',
+      cancelText: '取消',
+      success: function (res) {
+        if (res.confirm) {
+          wx.showLoading({ title: '提交中...' })
+          wx.request({
+            url: 'https://green.sourceflower.com/api/refund/apply',
+            method: 'POST',
+            header: {
+              'Content-Type': 'application/json',
+              'X-Api-Token': config.API_TOKEN
+            },
+            data: { out_trade_no: tradeNo },
+            success: function (res) {
+              wx.hideLoading()
+              if (res.statusCode === 200 && res.data && res.data.success) {
+                wx.showToast({ title: '退款申请已提交', icon: 'success' })
+              } else {
+                var msg = (res.data && res.data.detail) || '申请失败，请稍后重试'
+                wx.showToast({ title: msg, icon: 'none', duration: 2500 })
+              }
+            },
+            fail: function () {
+              wx.hideLoading()
+              wx.showToast({ title: '申请失败，请稍后重试', icon: 'none' })
+            }
+          })
+        }
+      }
+    })
+  },
+
   onApplyInvoice: function () {
     var tradeNo = wx.getStorageSync('yuanliu_pending_order') || ''
     if (!tradeNo) {

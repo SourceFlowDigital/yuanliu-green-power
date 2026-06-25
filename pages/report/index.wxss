@@ -458,6 +458,17 @@ page {
   border-radius: 8rpx;
 }
 
+.refund-entry {
+  padding: 18rpx 0 8rpx;
+  text-align: center;
+}
+
+.refund-entry-text {
+  font-size: 24rpx;
+  color: #999;
+  text-decoration: underline;
+}
+
 .sample-report-mask {
   position: fixed;
   left: 0;

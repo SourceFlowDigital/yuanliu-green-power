@@ -288,6 +288,9 @@
         <view class="report-ai-pay-row" wx:else>
           <view class="report-ai-btn report-ai-btn-active" catchtap="onDoAIAnalyze">生成 AI 分析报告</view>
         </view>
+        <view class="refund-entry" wx:if="{{pendingTradeNo && aiPaid && !aiResult && !aiLoading}}" catchtap="onRefundApply">
+          <text class="refund-entry-text">已付款但未收到报告？申请退款</text>
+        </view>
         <view class="report-ai-result" wx:if="{{aiLoading}}">
           <text class="report-ai-loading">AI 分析中，请稍候...</text>
         </view>

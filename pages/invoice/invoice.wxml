@@ -1,0 +1,54 @@
+<view class="invoice-page">
+  <view class="invoice-form">
+
+    <!-- 订单号（只读） -->
+    <view class="form-item">
+      <view class="form-label">订单号</view>
+      <view class="form-value-readonly">{{outTradeNo}}</view>
+    </view>
+
+    <!-- 发票类型 -->
+    <view class="form-item">
+      <view class="form-label">发票类型</view>
+      <picker mode="selector" range="{{invoiceTypes}}" value="{{invoiceType === '增值税专用发票' ? 1 : 0}}" bindchange="onSelectType">
+        <view class="form-picker">{{invoiceType}}</view>
+      </picker>
+    </view>
+
+    <!-- 发票抬头 -->
+    <view class="form-item">
+      <view class="form-label">发票抬头 <text class="form-required">*</text></view>
+      <input class="form-input" placeholder="请输入发票抬头" value="{{title}}" bindinput="onInputTitle" maxlength="100" />
+    </view>
+
+    <!-- 纳税人识别号 -->
+    <view class="form-item">
+      <view class="form-label">
+        纳税人识别号
+        <text wx:if="{{invoiceType === '增值税专用发票'}}" class="form-required">*</text>
+        <text wx:else class="form-optional">（选填）</text>
+      </view>
+      <input class="form-input" placeholder="请输入纳税人识别号" value="{{taxNumber}}" bindinput="onInputTaxNumber" maxlength="30" />
+    </view>
+
+    <!-- 接收发票邮箱 -->
+    <view class="form-item">
+      <view class="form-label">接收发票邮箱 <text class="form-required">*</text></view>
+      <input class="form-input" type="text" placeholder="请输入邮箱地址" value="{{recipientEmail}}" bindinput="onInputEmail" maxlength="100" />
+    </view>
+
+    <!-- 备注 -->
+    <view class="form-item">
+      <view class="form-label">备注 <text class="form-optional">（选填）</text></view>
+      <textarea class="form-textarea" placeholder="如有特殊要求请在此备注" value="{{remark}}" bindinput="onInputRemark" maxlength="200" />
+    </view>
+
+    <!-- 提交按钮 -->
+    <view class="form-submit-wrap">
+      <button class="form-submit-btn" bindtap="onSubmit" disabled="{{submitting}}" loading="{{submitting}}">
+        {{submitting ? '提交中...' : '提交申请'}}
+      </button>
+    </view>
+
+  </view>
+</view>

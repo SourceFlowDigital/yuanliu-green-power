@@ -671,5 +671,16 @@ Page({
 
   onCloseRefundModal: function () {
     this.setData({ showRefundModal: false })
+  },
+
+  onApplyInvoice: function () {
+    var tradeNo = wx.getStorageSync('yuanliu_pending_order') || ''
+    if (!tradeNo) {
+      wx.showToast({ title: '未找到订单号', icon: 'none' })
+      return
+    }
+    wx.navigateTo({
+      url: '/pages/invoice/invoice?out_trade_no=' + tradeNo
+    })
   }
 })

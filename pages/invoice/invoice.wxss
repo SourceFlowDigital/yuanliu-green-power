@@ -1,0 +1,102 @@
+@import "../../styles/shell.wxss";
+
+page {
+  background: #F4F8FB;
+  font-family: "PingFang SC", -apple-system, sans-serif;
+}
+
+.invoice-page {
+  min-height: 100vh;
+  padding: 24rpx;
+  box-sizing: border-box;
+}
+
+.invoice-form {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 32rpx;
+  box-sizing: border-box;
+  box-shadow: 0 2rpx 12rpx rgba(0, 48, 96, 0.06);
+}
+
+.form-item {
+  margin-bottom: 32rpx;
+}
+
+.form-item:last-child {
+  margin-bottom: 0;
+}
+
+.form-label {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #003060;
+  margin-bottom: 12rpx;
+}
+
+.form-required {
+  color: #CC0000;
+  font-size: 24rpx;
+}
+
+.form-optional {
+  color: #999;
+  font-size: 24rpx;
+  font-weight: 400;
+}
+
+.form-value-readonly {
+  font-size: 26rpx;
+  color: #888;
+  background: #F4F8FB;
+  padding: 20rpx 24rpx;
+  border-radius: 8rpx;
+  word-break: break-all;
+}
+
+.form-picker {
+  font-size: 28rpx;
+  color: #003060;
+  background: #F4F8FB;
+  padding: 20rpx 24rpx;
+  border-radius: 8rpx;
+}
+
+.form-input {
+  font-size: 28rpx;
+  color: #333;
+  background: #F4F8FB;
+  padding: 20rpx 24rpx;
+  border-radius: 8rpx;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-textarea {
+  font-size: 28rpx;
+  color: #333;
+  background: #F4F8FB;
+  padding: 20rpx 24rpx;
+  border-radius: 8rpx;
+  width: 100%;
+  height: 160rpx;
+  box-sizing: border-box;
+}
+
+.form-submit-wrap {
+  margin-top: 48rpx;
+}
+
+.form-submit-btn {
+  background: #003060;
+  color: #fff;
+  font-size: 30rpx;
+  font-weight: 600;
+  border-radius: 12rpx;
+  border: none;
+}
+
+.form-submit-btn[disabled] {
+  background: #99B8D0;
+  color: rgba(255,255,255,0.7);
+}

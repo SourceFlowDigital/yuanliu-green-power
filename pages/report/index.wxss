@@ -639,3 +639,18 @@ page {
   color: #999;
   text-align: center;
 }
+
+.invoice-entry {
+  margin-bottom: 24rpx;
+}
+
+.invoice-entry-btn {
+  background: #fff;
+  border: 2rpx solid #003060;
+  color: #003060;
+  font-size: 28rpx;
+  font-weight: 600;
+  text-align: center;
+  padding: 24rpx;
+  border-radius: 12rpx;
+}

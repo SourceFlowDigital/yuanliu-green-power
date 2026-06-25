@@ -273,6 +273,10 @@
         <text>📋 一键复制报告内容</text>
       </view>
 
+      <view wx:if="{{aiPaid}}" class="invoice-entry">
+        <view class="invoice-entry-btn" catchtap="onApplyInvoice">🧾 申请发票</view>
+      </view>
+
       <view class="report-ai-card">
         <text class="report-ai-title">🤖 AI深度分析报告</text>
         <text class="report-ai-desc">在基础报告基础上，增加基于688号文的专业政策解读和项目优化建议</text>

@@ -605,7 +605,6 @@ Page({
               fileType: 'pdf',
               showMenu: true,
               success: function () {
-                console.log('PDF打开成功')
               },
               fail: function () {
                 wx.showToast({ title: '无法打开PDF，请稍后重试', icon: 'none' })

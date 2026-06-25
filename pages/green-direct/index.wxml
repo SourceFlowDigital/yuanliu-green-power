@@ -426,13 +426,6 @@
         <text class="p6-sub">请填写计划配套建设的新能源电源</text>
       </view>
 
-      <view class="p6-rooftop-ref" wx:if="{{p6RooftopRef.show}}">
-        <view class="p6-rooftop-ref-text">
-          <text>用户侧已录入屋顶光伏：{{p6RooftopRef.total}} MW / {{p6RooftopRef.totalGen}} 万kWh</text>
-        </view>
-        <view class="p6-rooftop-ref-btn" catchtap="onImportRooftopEnergy">引用</view>
-      </view>
-
       <view class="energy-card {{collapsedEnergyIds[es.id] ? 'energy-card-collapsed' : ''}}" wx:for="{{appState.energySources}}" wx:for-item="es" wx:for-index="eIdx" wx:key="id">
         <view class="user-card-head" catchtap="onToggleEnergyCard" data-id="{{es.id}}">
           <view class="user-card-title-group">
@@ -513,10 +506,11 @@
           </view>
           <text class="user-hint-orange" wx:if="{{es.isExisting === 'existingUngrid' || es.isExisting === 'existingLimited'}}">需在履行相应变更手续后方可开展直连</text>
         </view>
+        <view class="btn-energy-confirm" catchtap="onToggleEnergyCard" data-id="{{es.id}}">确定</view>
         </block>
       </view>
 
-      <view class="btn-add-user" wx:if="{{!importedRooftop}}" catchtap="onAddEnergySource">+ 添加电源</view>
+      <view class="btn-add-user" catchtap="onAddEnergySource">+ 添加电源</view>
     </view>
     <view wx:if="{{currentScreen == 7}}" class="screen screen-p7-balance">
       <view class="p7-balance-title">第七步：源荷平衡分析</view>

@@ -105,7 +105,6 @@ Page({
       totalGen: 0,
       show: false
     },
-    importedRooftop: false,
     collapsedEnergyIds: {},
 
     energyTypeOptions: [
@@ -1091,37 +1090,6 @@ Page({
       collapsed[sourceId] = true
     }
     this.setData({ collapsedEnergyIds: collapsed })
-  },
-
-  onImportRooftopEnergy: function () {
-    var ref = this._calcRooftopFromUsers(this.data.appState.users || [])
-    if (!ref.show || ref.total <= 0) return
-    var newId = Date.now()
-    var sources = (this.data.appState.energySources || []).slice()
-    sources.push({
-      id: newId,
-      type: 'rooftop',
-      capacity: String(ref.total),
-      hours: '',
-      hoursCustom: false,
-      generation: ref.totalGen,
-      isExisting: 'new'
-    })
-    var normalized = sources.map(this._normalizeSource.bind(this))
-    for (var i = 0; i < normalized.length; i++) {
-      if (normalized[i].id === newId) {
-        normalized[i].generation = ref.totalGen
-        break
-      }
-    }
-    var rooftopRef = this._calcRooftopFromUsers(this.data.appState.users || [])
-    this.setData({
-      'appState.energySources': normalized,
-      p6Summary: this._calcP6Summary(normalized),
-      p6RooftopRef: rooftopRef,
-      p6Done: this._validateP6Sources(normalized),
-      importedRooftop: true
-    })
   },
 
   onEnergyInput: function (e) {

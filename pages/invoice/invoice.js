@@ -3,8 +3,6 @@ var config = require('../../utils/config.js')
 Page({
   data: {
     outTradeNo: '',
-    invoiceType: '普通发票',
-    invoiceTypes: ['普通发票', '增值税专用发票'],
     title: '',
     taxNumber: '',
     recipientEmail: '',
@@ -15,13 +13,6 @@ Page({
   onLoad: function (options) {
     this.setData({
       outTradeNo: options.out_trade_no || ''
-    })
-  },
-
-  onSelectType: function (e) {
-    var index = e.detail.value
-    this.setData({
-      invoiceType: this.data.invoiceTypes[index]
     })
   },
 
@@ -50,10 +41,6 @@ Page({
       wx.showToast({ title: '请填写发票抬头', icon: 'none' })
       return
     }
-    if (data.invoiceType === '增值税专用发票' && (!data.taxNumber || !data.taxNumber.trim())) {
-      wx.showToast({ title: '增值税专用发票必须填写纳税人识别号', icon: 'none' })
-      return
-    }
     if (!data.recipientEmail || !data.recipientEmail.trim()) {
       wx.showToast({ title: '请填写接收发票邮箱', icon: 'none' })
       return
@@ -74,7 +61,7 @@ Page({
       },
       data: {
         order_id: data.outTradeNo,
-        invoice_type: data.invoiceType,
+        invoice_type: '增值税普通发票',
         title: data.title.trim(),
         tax_number: data.taxNumber.trim(),
         recipient_email: data.recipientEmail.trim(),

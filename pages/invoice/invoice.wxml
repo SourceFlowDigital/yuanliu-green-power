@@ -7,12 +7,10 @@
       <view class="form-value-readonly">{{outTradeNo}}</view>
     </view>
 
-    <!-- 发票类型 -->
+    <!-- 发票类型（固定值） -->
     <view class="form-item">
       <view class="form-label">发票类型</view>
-      <picker mode="selector" range="{{invoiceTypes}}" value="{{invoiceType === '增值税专用发票' ? 1 : 0}}" bindchange="onSelectType">
-        <view class="form-picker">{{invoiceType}}</view>
-      </picker>
+      <view class="form-value-readonly">增值税普通发票</view>
     </view>
 
     <!-- 发票抬头 -->
@@ -25,8 +23,7 @@
     <view class="form-item">
       <view class="form-label">
         纳税人识别号
-        <text wx:if="{{invoiceType === '增值税专用发票'}}" class="form-required">*</text>
-        <text wx:else class="form-optional">（选填）</text>
+        <text class="form-optional">（选填）</text>
       </view>
       <input class="form-input" placeholder="请输入纳税人识别号" value="{{taxNumber}}" bindinput="onInputTaxNumber" maxlength="30" />
     </view>

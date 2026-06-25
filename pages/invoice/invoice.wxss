@@ -60,6 +60,21 @@ page {
   background: #F4F8FB;
   padding: 20rpx 24rpx;
   border-radius: 8rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form-picker-arrow {
+  font-size: 22rpx;
+  color: #99B8D0;
+}
+
+.form-hint {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 8rpx;
+  padding-left: 4rpx;
 }
 
 .form-input {

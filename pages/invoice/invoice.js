@@ -3,6 +3,11 @@ var config = require('../../utils/config.js')
 Page({
   data: {
     outTradeNo: '',
+    productName: 'AI合规报告服务',
+    productNameIndex: 0,
+    productNames: ['AI合规报告服务', '软件咨询服务', '技术咨询服务', '信息技术服务'],
+    productDisplayFormat: '*信息技术服务*AI合规报告服务',
+    taxRate: '免税',
     title: '',
     taxNumber: '',
     recipientEmail: '',
@@ -13,6 +18,22 @@ Page({
   onLoad: function (options) {
     this.setData({
       outTradeNo: options.out_trade_no || ''
+    })
+  },
+
+  onProductNameChange: function (e) {
+    var index = e.detail.value
+    var name = this.data.productNames[index]
+    var format = ''
+    if (name === '技术咨询服务') {
+      format = '*鉴证咨询服务*技术咨询服务'
+    } else {
+      format = '*信息技术服务*' + name
+    }
+    this.setData({
+      productName: name,
+      productNameIndex: index,
+      productDisplayFormat: format
     })
   },
 
@@ -61,7 +82,7 @@ Page({
       },
       data: {
         order_id: data.outTradeNo,
-        invoice_type: '增值税普通发票',
+        invoice_type: data.productName,
         title: data.title.trim(),
         tax_number: data.taxNumber.trim(),
         recipient_email: data.recipientEmail.trim(),

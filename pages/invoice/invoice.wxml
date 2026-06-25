@@ -13,6 +13,24 @@
       <view class="form-value-readonly">增值税普通发票</view>
     </view>
 
+    <!-- 品名（下拉选择） -->
+    <view class="form-item">
+      <view class="form-label">品名 <text class="form-required">*</text></view>
+      <picker mode="selector" range="{{productNames}}" value="{{productNameIndex}}" bindchange="onProductNameChange">
+        <view class="form-picker">
+          {{productName}}
+          <text class="form-picker-arrow">▼</text>
+        </view>
+      </picker>
+      <view class="form-hint">票面显示格式：{{productDisplayFormat}}</view>
+    </view>
+
+    <!-- 税率（只读） -->
+    <view class="form-item">
+      <view class="form-label">税率</view>
+      <view class="form-value-readonly">{{taxRate}}</view>
+    </view>
+
     <!-- 发票抬头 -->
     <view class="form-item">
       <view class="form-label">发票抬头 <text class="form-required">*</text></view>

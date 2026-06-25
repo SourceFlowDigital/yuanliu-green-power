@@ -212,6 +212,7 @@ Page({
     sampleReportIndex: 0,
     retryFailCount: 0,
     showRefundModal: false,
+    showSwitchingModal: false,
     pendingTradeNo: ''
   },
 
@@ -501,9 +502,13 @@ Page({
     }
     self.setData({ aiLoading: true, aiResult: null, aiResultHtml: '' })
     wx.showLoading({ title: 'AI分析中...' })
+    if (self.data.retryFailCount >= 1) {
+      self.setData({ showSwitchingModal: true })
+    }
     var request = require('../../utils/request.js')
     request.postAnalyze({ report: report, out_trade_no: wx.getStorageSync('yuanliu_pending_order') || '' })
       .then(function (res) {
+        self.setData({ showSwitchingModal: false })
         wx.hideLoading()
         var resultText = (res && res.result) ? String(res.result).replace(/\r\n/g, '\n').replace(/\r/g, '\n') : ''
         var aiContent = resultText || '分析完成，请查看结果'
@@ -514,6 +519,7 @@ Page({
         })
       })
       .catch(function (err) {
+        self.setData({ showSwitchingModal: false })
         wx.hideLoading()
         self.setData({ aiLoading: false })
         wx.showToast({ title: 'AI分析失败，请重试', icon: 'none' })

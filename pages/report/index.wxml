@@ -346,4 +346,12 @@
       </view>
     </view>
   </view>
+
+  <view wx:if="{{showSwitchingModal}}" class="switching-modal-mask">
+    <view class="switching-modal">
+      <view class="switching-spinner"></view>
+      <view class="switching-text">正在切换备用模型，请稍候...</view>
+      <view class="switching-tip">通常需要 10-20 秒</view>
+    </view>
+  </view>
 </view>

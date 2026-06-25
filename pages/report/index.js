@@ -209,7 +209,10 @@ Page({
     aiLoading: false,
     sampleReportImages: SAMPLE_REPORT_IMAGES,
     showSampleReport: false,
-    sampleReportIndex: 0
+    sampleReportIndex: 0,
+    retryFailCount: 0,
+    showRefundModal: false,
+    pendingTradeNo: ''
   },
 
   _loadReport: function () {
@@ -310,6 +313,7 @@ Page({
     } catch (e) {
       var pendingTradeNo = null
     }
+    this.setData({ pendingTradeNo: pendingTradeNo || '' })
     if (pendingTradeNo && !this.data.aiPaid && !this.data.aiResult) {
       payment.confirmOrder(pendingTradeNo, {
         onSuccess: function (result) {
@@ -513,6 +517,11 @@ Page({
         wx.hideLoading()
         self.setData({ aiLoading: false })
         wx.showToast({ title: 'AI分析失败，请重试', icon: 'none' })
+        var count = self.data.retryFailCount + 1
+        self.setData({ retryFailCount: count })
+        if (count >= 2) {
+          self.setData({ showRefundModal: true })
+        }
       })
   },
 
@@ -642,5 +651,19 @@ Page({
         }
       }
     })
+  },
+
+  onCopyTradeNo: function () {
+    var tradeNo = this.data.pendingTradeNo || wx.getStorageSync('yuanliu_pending_order') || '未找到订单号'
+    wx.setClipboardData({
+      data: tradeNo,
+      success: function () {
+        wx.showToast({ title: '订单号已复制', icon: 'success' })
+      }
+    })
+  },
+
+  onCloseRefundModal: function () {
+    this.setData({ showRefundModal: false })
   }
 })

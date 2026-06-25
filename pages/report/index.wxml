@@ -327,4 +327,23 @@
     </swiper>
     <view class="sample-report-page">{{sampleReportIndex + 1}}/{{sampleReportImages.length}}</view>
   </view>
+
+  <view wx:if="{{showRefundModal}}" class="refund-modal-mask">
+    <view class="refund-modal">
+      <view class="refund-modal-title">申请退款</view>
+      <view class="refund-modal-content">
+        由于 AI 服务繁忙，您的报告暂时无法生成。如需申请退款，请将以下信息发送至：
+      </view>
+      <view class="refund-modal-email">contact@sourceflower.com</view>
+      <view class="refund-modal-label">退款原因：AI服务繁忙，报告未生成</view>
+      <view class="refund-modal-tradeno">
+        订单号：{{pendingTradeNo || '加载中...'}}
+      </view>
+      <view class="refund-modal-tip">我们将在 1-3 个工作日内处理您的退款申请。</view>
+      <view class="refund-modal-btns">
+        <button class="refund-btn-copy" bindtap="onCopyTradeNo">复制订单号</button>
+        <button class="refund-btn-close" bindtap="onCloseRefundModal">关闭</button>
+      </view>
+    </view>
+  </view>
 </view>

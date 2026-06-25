@@ -189,6 +189,7 @@ Page({
     }
     var self = this
     var payload = this._buildAnalyzePayload(raw)
+    payload.out_trade_no = wx.getStorageSync('yuanliu_pending_order') || ''
     this.setData({ aiLoading: true, aiError: '', aiContent: '', aiBlocks: [] })
     request.postAnalyze(payload).then(function (res) {
       var content = res.content || ''

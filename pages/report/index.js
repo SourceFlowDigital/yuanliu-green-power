@@ -498,7 +498,7 @@ Page({
     self.setData({ aiLoading: true, aiResult: null, aiResultHtml: '' })
     wx.showLoading({ title: 'AI分析中...' })
     var request = require('../../utils/request.js')
-    request.postAnalyze({ report: report })
+    request.postAnalyze({ report: report, out_trade_no: wx.getStorageSync('yuanliu_pending_order') || '' })
       .then(function (res) {
         wx.hideLoading()
         var resultText = (res && res.result) ? String(res.result).replace(/\r\n/g, '\n').replace(/\r/g, '\n') : ''
@@ -537,7 +537,8 @@ Page({
         projectName: report.projectName || '未命名项目',
         aiContent: aiResult,
         report: this.data.report,
-        baseReportText: this.data.baseReportText || ''
+        baseReportText: this.data.baseReportText || '',
+        out_trade_no: wx.getStorageSync('yuanliu_pending_order') || ''
       },
       success: function (res) {
         wx.hideLoading()

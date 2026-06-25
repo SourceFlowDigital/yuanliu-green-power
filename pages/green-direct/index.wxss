@@ -976,6 +976,17 @@
   margin-bottom: 24rpx;
   box-shadow: 0 2rpx 12rpx rgba(0, 48, 96, 0.06);
 }
+.energy-card-collapsed {
+  padding: 16rpx 24rpx 12rpx;
+}
+.energy-card-collapsed .user-card-head {
+  border-bottom: none;
+}
+.energy-collapsed-summary {
+  font-size: 24rpx;
+  font-weight: 400;
+  color: #6B7280;
+}
 .es-hours-row {
   display: flex;
   flex-direction: row;

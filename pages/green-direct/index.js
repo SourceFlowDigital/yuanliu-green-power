@@ -105,6 +105,8 @@ Page({
       totalGen: 0,
       show: false
     },
+    importedRooftop: false,
+    collapsedEnergyIds: {},
 
     energyTypeOptions: [
       { label: '风电', value: 'wind' },
@@ -1079,6 +1081,18 @@ Page({
     this._setEnergySources(sources)
   },
 
+  onToggleEnergyCard: function (e) {
+    var sourceId = e.currentTarget.dataset.id
+    if (!sourceId) return
+    var collapsed = Object.assign({}, this.data.collapsedEnergyIds)
+    if (collapsed[sourceId]) {
+      delete collapsed[sourceId]
+    } else {
+      collapsed[sourceId] = true
+    }
+    this.setData({ collapsedEnergyIds: collapsed })
+  },
+
   onImportRooftopEnergy: function () {
     var ref = this._calcRooftopFromUsers(this.data.appState.users || [])
     if (!ref.show || ref.total <= 0) return
@@ -1105,7 +1119,8 @@ Page({
       'appState.energySources': normalized,
       p6Summary: this._calcP6Summary(normalized),
       p6RooftopRef: rooftopRef,
-      p6Done: this._validateP6Sources(normalized)
+      p6Done: this._validateP6Sources(normalized),
+      importedRooftop: true
     })
   },
 

@@ -214,7 +214,9 @@ Page({
     showRefundModal: false,
     showSwitchingModal: false,
     pendingTradeNo: '',
-    recoveringPayment: false
+    recoveringPayment: false,
+    pdfFilename: '',
+    pdfDownloadUrl: ''
   },
 
   _loadReport: function () {
@@ -334,6 +336,19 @@ Page({
         }
       })
     }
+
+    // 恢复PDF下载状态
+    try {
+      var report = self.data.report
+      var genTime = report && report.generateTime || ''
+      if (genTime) {
+        var savedFilename = wx.getStorageSync('yuanliu_pdf_filename_' + genTime)
+        var savedUrl = wx.getStorageSync('yuanliu_pdf_downloadurl_' + genTime)
+        if (savedFilename) {
+          self.setData({ pdfFilename: savedFilename, pdfDownloadUrl: savedUrl })
+        }
+      }
+    } catch(e) {}
 
     this._loadReport()
   },
@@ -560,6 +575,11 @@ Page({
       success: function (res) {
         wx.hideLoading()
         if (res.statusCode === 200 && res.data && res.data.success) {
+          var filename = res.data.filename || ''
+          var downloadUrl = res.data.downloadUrl || ''
+          self.setData({ pdfFilename: filename, pdfDownloadUrl: downloadUrl })
+          try { wx.setStorageSync('yuanliu_pdf_filename_' + (self.data.report && self.data.report.generateTime || ''), filename) } catch(e) {}
+          try { wx.setStorageSync('yuanliu_pdf_downloadurl_' + (self.data.report && self.data.report.generateTime || ''), downloadUrl) } catch(e) {}
           var fileUrl = 'https://green.sourceflower.com' + res.data.downloadUrl
           var projectName = report.projectName || '绿电直连合规报告'
 
@@ -590,37 +610,55 @@ Page({
     })
 
     function doDownloadPDF(fileUrl, projectName) {
-      var cleanName = (projectName || '绿电直连合规报告').replace(/\s/g, '')
-      var filePath = wx.env.USER_DATA_PATH + '/' + cleanName + '.pdf'
-
-      wx.showLoading({ title: 'PDF下载中...' })
-      wx.downloadFile({
-        url: fileUrl,
-        filePath: filePath,
-        header: { 'X-Api-Token': config.API_TOKEN },
-        success: function (dlRes) {
-          wx.hideLoading()
-          if (dlRes.statusCode === 200) {
-            wx.openDocument({
-              filePath: dlRes.filePath,
-              fileType: 'pdf',
-              showMenu: true,
-              success: function () {
-              },
-              fail: function () {
-                wx.showToast({ title: '无法打开PDF，请稍后重试', icon: 'none' })
-              }
-            })
-          } else {
-            wx.showToast({ title: 'PDF下载失败', icon: 'none' })
-          }
-        },
-        fail: function () {
-          wx.hideLoading()
-          wx.showToast({ title: 'PDF下载失败，请重试', icon: 'none' })
-        }
-      })
+      self._doDownloadPDF(fileUrl, projectName)
     }
+  },
+
+  _doDownloadPDF: function (fileUrl, projectName) {
+    var cleanName = (projectName || '绿电直连合规报告').replace(/\s/g, '')
+    var filePath = wx.env.USER_DATA_PATH + '/' + cleanName + '.pdf'
+
+    wx.showLoading({ title: 'PDF下载中...' })
+    wx.downloadFile({
+      url: fileUrl,
+      filePath: filePath,
+      header: { 'X-Api-Token': config.API_TOKEN },
+      success: function (dlRes) {
+        wx.hideLoading()
+        if (dlRes.statusCode === 200) {
+          wx.openDocument({
+            filePath: dlRes.filePath,
+            fileType: 'pdf',
+            showMenu: true,
+            success: function () {
+            },
+            fail: function () {
+              wx.showToast({ title: '无法打开PDF，请稍后重试', icon: 'none' })
+            }
+          })
+        } else {
+          wx.showToast({ title: 'PDF下载失败', icon: 'none' })
+        }
+      },
+      fail: function () {
+        wx.hideLoading()
+        wx.showToast({ title: 'PDF下载失败，请重试', icon: 'none' })
+      }
+    })
+  },
+
+  onRedownloadPDF: function () {
+    var self = this
+    var report = this.data.report || {}
+    var downloadUrl = this.data.pdfDownloadUrl
+    if (!downloadUrl) {
+      wx.showToast({ title: '下载链接已失效，请重新生成', icon: 'none' })
+      return
+    }
+    var fileUrl = 'https://green.sourceflower.com' + downloadUrl
+    var projectName = report.projectName || '绿电直连合规报告'
+    wx.showLoading({ title: '准备下载...' })
+    self._doDownloadPDF(fileUrl, projectName)
   },
 
   onContactAI: function () {

@@ -69,13 +69,7 @@ Page({
         })
       },
       fail: function () {
-        wx.showModal({
-          title: '原文链接',
-          content: url,
-          showCancel: false,
-          confirmText: '知道了',
-          success: function () {}
-        })
+        wx.showToast({ title: '复制失败，请稍后重试', icon: 'none' })
       }
     })
   }

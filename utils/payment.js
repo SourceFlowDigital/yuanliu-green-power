@@ -49,7 +49,7 @@ function createOrder(code, params) {
       code: code,
       product_desc: params.productDesc || 'AI深度分析报告',
       amount: params.amount || config.PAYMENT_AMOUNT,
-      report_id: params.reportId || ''
+      report_id: String(params.reportId || '')
     },
     timeout: 15000,
     success: function (res) {

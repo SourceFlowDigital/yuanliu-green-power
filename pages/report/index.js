@@ -554,7 +554,7 @@ Page({
         aiContent: aiResult,
         report: this.data.report,
         baseReportText: this.data.baseReportText || '',
-        out_trade_no: wx.getStorageSync('yuanliu_pending_order') || ''
+        out_trade_no: String(wx.getStorageSync('yuanliu_pending_order') || '')
       },
       success: function (res) {
         wx.hideLoading()
@@ -724,7 +724,7 @@ Page({
               'Content-Type': 'application/json',
               'X-Api-Token': config.API_TOKEN
             },
-            data: { out_trade_no: tradeNo },
+            data: { out_trade_no: String(tradeNo || '') },
             success: function (res) {
               wx.hideLoading()
               if (res.statusCode === 200 && res.data && res.data.success) {

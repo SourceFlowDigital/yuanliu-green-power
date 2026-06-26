@@ -85,6 +85,7 @@ page {
   border-radius: 8rpx;
   width: 100%;
   box-sizing: border-box;
+  height: 88rpx;
 }
 
 .form-textarea {

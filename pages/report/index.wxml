@@ -288,7 +288,7 @@
         <view class="report-ai-pay-row" wx:if="{{pendingTradeNo && !aiPaid && !aiResult && !aiLoading}}">
           <view class="report-ai-btn report-ai-btn-recover {{recoveringPayment ? 'report-ai-btn-disabled' : ''}}" catchtap="onRecoverPayment">已完成支付，点击生成报告</view>
         </view>
-        <view class="report-ai-pay-row" wx:if="{{aiPaid}}">
+        <view class="report-ai-pay-row" wx:if="{{aiPaid && !aiResult && !aiLoading}}">
           <view class="report-ai-btn report-ai-btn-active" catchtap="onDoAIAnalyze">生成 AI 分析报告</view>
         </view>
         <view class="refund-entry" wx:if="{{pendingTradeNo && aiPaid && !aiResult && !aiLoading}}" catchtap="onRefundApply">

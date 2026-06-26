@@ -39,10 +39,7 @@
 
     <!-- 纳税人识别号 -->
     <view class="form-item">
-      <view class="form-label">
-        纳税人识别号
-        <text class="form-optional">（选填）</text>
-      </view>
+      <view class="form-label">纳税人识别号<text class="form-required">*</text></view>
       <input class="form-input" placeholder="请输入纳税人识别号" value="{{taxNumber}}" bindinput="onInputTaxNumber" maxlength="30" />
     </view>
 

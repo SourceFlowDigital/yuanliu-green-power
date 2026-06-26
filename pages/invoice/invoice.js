@@ -62,6 +62,10 @@ Page({
       wx.showToast({ title: '请填写发票抬头', icon: 'none' })
       return
     }
+    if (!data.taxNumber || !data.taxNumber.trim()) {
+      wx.showToast({ title: '请填写纳税人识别号', icon: 'none' })
+      return
+    }
     if (!data.recipientEmail || !data.recipientEmail.trim()) {
       wx.showToast({ title: '请填写接收发票邮箱', icon: 'none' })
       return

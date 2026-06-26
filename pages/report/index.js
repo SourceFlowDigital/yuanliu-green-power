@@ -635,6 +635,7 @@ Page({
           payment.requestPayment({
             productDesc: 'AI深度分析报告',
             amount: config.PAYMENT_AMOUNT,
+            reportId: (self.data.report && self.data.report.generateTime) || '',
             onSuccess: function (result) {
               wx.hideLoading()
               var report = self.data.report || {}

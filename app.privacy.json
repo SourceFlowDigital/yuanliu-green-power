@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "privacyList": [
+    {
+      "permission": "wx.setClipboardData",
+      "label": "剪贴板",
+      "reason": "用于复制原文链接，方便用户在浏览器中打开查看原文"
+    }
+  ]
+}

@@ -554,7 +554,8 @@ Page({
         aiContent: aiResult,
         report: this.data.report,
         baseReportText: this.data.baseReportText || '',
-        out_trade_no: String(wx.getStorageSync('yuanliu_pending_order') || '')
+        out_trade_no: String(wx.getStorageSync('yuanliu_pending_order') || ''),
+        report_id: String((this.data.report && this.data.report.generateTime) || ''),
       },
       success: function (res) {
         wx.hideLoading()

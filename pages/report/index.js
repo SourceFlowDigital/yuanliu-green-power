@@ -742,6 +742,9 @@ Page({
   },
 
   onRefundApply: function () {
+    if (this.data.pdfFilename) {
+      return;
+    }
     var tradeNo = this.data.pendingTradeNo || wx.getStorageSync('yuanliu_pending_order') || ''
     if (!tradeNo) {
       wx.showToast({ title: '未找到订单号', icon: 'none' })

@@ -301,11 +301,17 @@
           <rich-text wx:if="{{aiResultHtml}}" class="report-ai-content" nodes="{{aiResultHtml}}"></rich-text>
           <view wx:if="{{!pdfFilename}}">
             <view class="report-ai-btn report-ai-btn-pdf" catchtap="onDownloadPDF">下载 PDF 分析报告</view>
+            <view class="refund-entry refund-entry-active" catchtap="onRefundApply">
+              <text class="refund-entry-text">已付款但未收到报告？申请退款</text>
+            </view>
           </view>
           <view wx:else>
             <view class="report-ai-btn report-ai-btn-pdf" catchtap="onRedownloadPDF">重新下载报告</view>
             <view class="report-ai-btn report-ai-btn-outline" catchtap="onContactAI" style="margin-top:12rpx;">基于新数据重新生成</view>
             <view style="text-align:center;font-size:22rpx;color:#999;margin-top:8rpx;">重新生成需再次付费 ¥19.9</view>
+            <view class="refund-entry refund-entry-disabled">
+              <text class="refund-entry-text">已生成报告，不支持退款</text>
+            </view>
           </view>
         </view>
       </view>

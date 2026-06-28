@@ -962,6 +962,7 @@ Page({
     var gen
     var label
     var rooftopEntry
+    var newRooftopSources = []
 
     for (i = 0; i < users.length; i++) {
       if (users[i].hasRooftop === true) {
@@ -1006,23 +1007,39 @@ Page({
         sources[foundIdx] = Object.assign({}, sources[foundIdx], rooftopEntry)
       } else {
         rooftopEntry.id = Date.now() + i + 1
-        sources.push(rooftopEntry)
+        newRooftopSources.push(rooftopEntry)
       }
     }
 
-    var hasNonRooftop = false
+    // 拆分已有屋顶光伏和手动添加的电源
+    var existingRooftopSources = []
+    var manualSources = []
     for (i = 0; i < sources.length; i++) {
-      if (!sources[i].fromRooftop) {
-        hasNonRooftop = true
-        break
+      if (sources[i].fromRooftop) {
+        existingRooftopSources.push(sources[i])
+      } else {
+        manualSources.push(sources[i])
       }
     }
+
+    // 传导电源置顶：新屋顶光伏 → 已有屋顶光伏 → 手动添加
+    sources = newRooftopSources.concat(existingRooftopSources).concat(manualSources)
+
+    var hasNonRooftop = manualSources.length > 0
     if (sources.length === 0) {
       sources = [this._createEmptySource()]
     } else if (!hasNonRooftop) {
-      var onlyRooftop = sources.slice()
-      sources = [this._createEmptySource()].concat(onlyRooftop)
+      sources = sources.concat([this._createEmptySource()])
     }
+
+    // 传导电源默认收起
+    var collapsed = Object.assign({}, this.data.collapsedEnergyIds)
+    for (i = 0; i < sources.length; i++) {
+      if (sources[i].fromRooftop) {
+        collapsed[sources[i].id] = true
+      }
+    }
+    this.setData({ collapsedEnergyIds: collapsed })
 
     this._setEnergySources(sources)
     return sources
@@ -1061,23 +1078,6 @@ Page({
         self._setEnergySources(next)
       }
     })
-  },
-
-  onCopyEnergySource: function (e) {
-    var sourceId = e.currentTarget.dataset.id
-    var sources = this.data.appState.energySources || []
-    var src = null
-    for (var i = 0; i < sources.length; i++) {
-      if (sources[i].id === sourceId) {
-        src = sources[i]
-        break
-      }
-    }
-    if (!src) return
-    var copy = Object.assign({}, src, { id: Date.now() + 1 })
-    sources = sources.slice()
-    sources.push(copy)
-    this._setEnergySources(sources)
   },
 
   onToggleEnergyCard: function (e) {

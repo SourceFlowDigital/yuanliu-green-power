@@ -433,7 +433,7 @@
             <text class="energy-collapsed-summary" wx:if="{{collapsedEnergyIds[es.id] && es.type && es.capacity}}"> · {{energyTypeLabels[es.type] || es.type}} · {{es.capacity}}MW</text>
           </view>
           <view class="user-card-actions">
-            <text class="user-action-btn" catchtap="onCopyEnergySource" data-id="{{es.id}}">复制</text>
+
             <text
               class="user-action-btn user-action-del"
               wx:if="{{appState.energySources.length > 1}}"

@@ -301,6 +301,7 @@ page {
   border-radius: 8px;
   font-size: 14px;
   line-height: 1.6;
+  overflow: hidden;
 }
 
 .report-ai-btn {
@@ -312,6 +313,17 @@ page {
   font-size: 28rpx;
   font-weight: 600;
   border-radius: 12rpx;
+}
+
+.report-ai-btn-pdf {
+  margin-top: 16rpx;
+}
+
+.report-ai-btn-outline {
+  background: transparent;
+  color: #D6A84F;
+  border: 2rpx solid #D6A84F;
+  margin-top: 12rpx;
 }
 
 .report-footer {

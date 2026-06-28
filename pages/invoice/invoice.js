@@ -7,7 +7,7 @@ Page({
     productNameIndex: 0,
     productNames: ['AI合规报告服务', '软件咨询服务', '技术咨询服务', '信息技术服务'],
     productDisplayFormat: '*信息技术服务*AI合规报告服务',
-    taxRate: '免税',
+    taxRate: '1%',
     title: '',
     taxNumber: '',
     recipientEmail: '',

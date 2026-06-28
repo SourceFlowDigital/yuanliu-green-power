@@ -291,14 +291,31 @@ Page({
       autoAnalyze = wx.getStorageSync(autoKey) === true
     } catch (e) {}
     var self = this
-    this.setData({ aiPaid: alreadyPaid }, function () {
-      if (alreadyPaid && autoAnalyze && !self.data.aiLoading) {
-        try {
-          wx.removeStorageSync(autoKey)
-        } catch (e) {}
-        self.onDoAIAnalyze()
+    if (alreadyPaid) {
+      var pendingTradeNo = wx.getStorageSync('yuanliu_pending_order') || ''
+      if (pendingTradeNo) {
+        payment.confirmOrder(pendingTradeNo, {
+          onSuccess: function () {
+            self.setData({ aiPaid: true }, function () {
+              if (autoAnalyze && !self.data.aiLoading) {
+                try { wx.removeStorageSync(autoKey) } catch (e) {}
+                self.onDoAIAnalyze()
+              }
+            })
+          },
+          onFail: function () {
+            self.setData({ aiPaid: false })
+            try { wx.removeStorageSync(paidKey) } catch (e) {}
+            try { wx.removeStorageSync('yuanliu_pending_order') } catch (e) {}
+          }
+        })
+      } else {
+        self.setData({ aiPaid: false })
+        try { wx.removeStorageSync(paidKey) } catch (e) {}
       }
-    })
+    } else {
+      self.setData({ aiPaid: false })
+    }
   },
 
   onLoad: function () {
@@ -795,5 +812,6 @@ Page({
     wx.navigateTo({
       url: '/pages/invoice/invoice?out_trade_no=' + tradeNo
     })
-  }
+  },
+
 })

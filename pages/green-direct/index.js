@@ -1587,15 +1587,38 @@ Page({
     }
     try {
       wx.setStorageSync('yuanliu_report_latest', data)
-      if (options && options.aiPaid) {
-        wx.setStorageSync('yuanliu_ai_paid_' + data.generateTime, true)
-      }
-      if (options && options.autoAnalyze) {
-        wx.setStorageSync('yuanliu_ai_auto_analyze_' + data.generateTime, true)
-      }
     } catch (e) {
       wx.showToast({ title: '保存失败', icon: 'none' })
       return
+    }
+    if (options && options.aiPaid) {
+      var self = this
+      var pendingTradeNo = wx.getStorageSync('yuanliu_pending_order') || ''
+      if (pendingTradeNo) {
+        payment.confirmOrder(pendingTradeNo, {
+          onSuccess: function () {
+            try {
+              wx.setStorageSync('yuanliu_ai_paid_' + data.generateTime, true)
+            } catch (e) {}
+            if (options && options.autoAnalyze) {
+              try {
+                wx.setStorageSync('yuanliu_ai_auto_analyze_' + data.generateTime, true)
+              } catch (e) {}
+            }
+          },
+          onFail: function () {
+            wx.showToast({ title: '支付确认中，请稍候', icon: 'none', duration: 2000 })
+          }
+        })
+      } else {
+        wx.showToast({ title: '支付确认中，请稍候', icon: 'none', duration: 2000 })
+      }
+    } else {
+      if (options && options.autoAnalyze) {
+        try {
+          wx.setStorageSync('yuanliu_ai_auto_analyze_' + data.generateTime, true)
+        } catch (e) {}
+      }
     }
     wx.navigateTo({
       url: '/pages/report/index',
@@ -1902,5 +1925,6 @@ Page({
         })
       }
     })
-  }
+  },
+
 })

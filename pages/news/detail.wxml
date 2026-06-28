@@ -61,4 +61,15 @@
   <view class="state-box" wx:if="{{!loading && !article}}">
     <text>{{errorText || '资讯不存在'}}</text>
   </view>
+
+  <view class="oa-follow-card">
+    <text class="oa-follow-title">关注公众号，获取最新绿电政策</text>
+    <image
+      class="oa-follow-qr"
+      src="https://green.sourceflower.com/static/qr_subscription.png"
+      mode="aspectFit"
+      show-menu-by-longpress="{{true}}"
+    />
+    <text class="oa-follow-hint">长按二维码，关注公众号</text>
+  </view>
 </view>

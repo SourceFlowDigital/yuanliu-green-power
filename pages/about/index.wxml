@@ -32,9 +32,9 @@
     </view>
     <image
       class="follow-qr-img"
-      src="/assets/qr_subscription.png"
+      src="https://green.sourceflower.com/static/qr_subscription.png"
       mode="aspectFit"
-      show-menu-by-long-press="{{true}}"
+      show-menu-by-longpress="{{true}}"
     />
     <text class="follow-qr-tip">截图保存，用微信扫一扫关注</text>
   </view>

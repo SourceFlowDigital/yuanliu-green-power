@@ -112,5 +112,20 @@ Page({
     var id = e.currentTarget.dataset.id
     if (!id) return
     wx.navigateTo({ url: '/pages/news/detail?id=' + encodeURIComponent(String(id)) })
+  },
+
+  onShareAppMessage: function () {
+    return {
+      title: '源流绿电直连——政策资讯',
+      path: '/pages/news/index',
+      imageUrl: ''
+    }
+  },
+  onShareTimeline: function () {
+    return {
+      title: '源流绿电直连——政策资讯',
+      imageUrl: '',
+      query: ''
+    }
   }
 })

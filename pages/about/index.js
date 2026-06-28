@@ -36,4 +36,19 @@ Page({
       wx.showToast({ title: '请更新微信基础库后重试', icon: 'none' })
     }
   },
+
+  onShareAppMessage: function () {
+    return {
+      title: '源流绿电直连',
+      path: '/pages/about/index',
+      imageUrl: ''
+    }
+  },
+  onShareTimeline: function () {
+    return {
+      title: '源流绿电直连',
+      imageUrl: '',
+      query: ''
+    }
+  }
 })

@@ -1927,4 +1927,18 @@ Page({
     })
   },
 
+  onShareAppMessage: function () {
+    return {
+      title: '源流绿电直连——合规自测',
+      path: '/pages/green-direct/index',
+      imageUrl: ''
+    }
+  },
+  onShareTimeline: function () {
+    return {
+      title: '源流绿电直连——合规自测',
+      imageUrl: '',
+      query: ''
+    }
+  }
 })

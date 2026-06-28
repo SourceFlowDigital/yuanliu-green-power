@@ -72,5 +72,22 @@ Page({
         wx.showToast({ title: '复制失败，请稍后重试', icon: 'none' })
       }
     })
+  },
+
+  onShareAppMessage: function() {
+    var article = this.data.article || {};
+    return {
+      title: article.title || '源流绿电直连——政策资讯',
+      path: '/pages/news/detail?id=' + (article.id || ''),
+      imageUrl: ''
+    };
+  },
+  onShareTimeline: function() {
+    var article = this.data.article || {};
+    return {
+      title: article.title || '源流绿电直连——政策资讯',
+      imageUrl: '',
+      query: article.id ? ('id=' + article.id) : ''
+    };
   }
 })
